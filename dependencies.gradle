@@ -1,0 +1,43 @@
+apply from: file("${project.rootDir}/libraries.gradle")
+
+
+dependencies {
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    compileOnly 'org.projectlombok:lombok'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:2.2.15'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    //compile libs.javaTools
+
+    compile libs.commonsLang3
+    compile libs.commonsIO
+    compile libs.beanshell
+
+    annotationProcessor libs.lombok
+    compileOnly libs.lombok
+
+    testCompileOnly libs.lombok
+    checkstyle libs.checkstyle
+
+    // drop-in replacement for commons-logging, jul and log4j, so logs will be handled by slf4j
+    compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}@jar"
+    compile "org.slf4j:jul-to-slf4j:${slf4jVersion}@jar"
+}

@@ -1,12 +1,13 @@
 package org.clematis.mt.repository;
 
-import org.clematis.mt.model.Commodity;
+import org.clematis.mt.model.Account;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
 /**
  * @author Anton Troshin
  */
-@RepositoryRestResource(collectionResourceRel = "commodity", path = "commodity")
-public interface CommodityRepository extends PagingAndSortingRepository<Commodity, Long> {
+@RepositoryRestResource(collectionResourceRel = "account", path = "account")
+public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
 
 }

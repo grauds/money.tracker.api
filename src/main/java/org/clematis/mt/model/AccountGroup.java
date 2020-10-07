@@ -8,26 +8,26 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+
 /**
  * For the table
  *
  * {code}
- * create table COMMGROUP
+ * create table ACCOUNTGROUP
  * (
  * 	ID INTEGER not null
- * 		constraint PK_COMMGROUP
+ * 		constraint PK_ACCOUNTGROUP
  * 			primary key,
- * 	NAME VARCHAR(64) not null,
+ * 	NAME VARCHAR(64),
  * 	PARENT INTEGER
- * 		constraint FK_COMMGROUP_PARENT
+ * 		constraint FK_ACCOUNTGROUP_PARENT
  * 			unique
- * 		constraint FK_COMMGROUP_PARENT
- * 			references COMMGROUP
- * 				on update cascade on delete cascade,
+ * 		constraint FK_ACCOUNTGROUP_PARENT
+ * 			references ACCOUNTGROUP
+ * 				on update cascade,
  * 	OBJVERSION INTEGER,
  * 	NAME_MIR VARCHAR(64),
- * 	PARENT_ID NUMERIC(18),
- * 	constraint COMMGROUP_NAME
+ * 	constraint ACCOUNTGROUP_NAME
  * 		unique (NAME_MIR, PARENT)
  * );
  * {code}
@@ -37,11 +37,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "COMMGROUP")
-public class CommodityGroup extends TreeNode<CommodityGroup> {
+@Table(name = "ACCOUNTGROUP")
+public class AccountGroup extends TreeNode<AccountGroup> {
 
     private String name;
 
     @OneToMany(mappedBy = "parent")
-    private Collection<Commodity> commodities;
+    private Collection<Account> accounts;
 }

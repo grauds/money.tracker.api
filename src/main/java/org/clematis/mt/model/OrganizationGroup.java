@@ -12,22 +12,21 @@ import lombok.Setter;
  * For the table
  *
  * {code}
- * create table COMMGROUP
+ * create table ORGANIZATIONGROUP
  * (
  * 	ID INTEGER not null
- * 		constraint PK_COMMGROUP
+ * 		constraint PK_ORGANIZATIONGROUP
  * 			primary key,
  * 	NAME VARCHAR(64) not null,
  * 	PARENT INTEGER
- * 		constraint FK_COMMGROUP_PARENT
+ * 		constraint FK_ORGANIZATIONGROUP_PARENT
  * 			unique
- * 		constraint FK_COMMGROUP_PARENT
- * 			references COMMGROUP
- * 				on update cascade on delete cascade,
+ * 		constraint FK_ORGANIZATIONGROUP_PARENT
+ * 			references ORGANIZATIONGROUP
+ * 				on update cascade,
  * 	OBJVERSION INTEGER,
  * 	NAME_MIR VARCHAR(64),
- * 	PARENT_ID NUMERIC(18),
- * 	constraint COMMGROUP_NAME
+ * 	constraint ORGANIZATIONGROUP_NAME
  * 		unique (NAME_MIR, PARENT)
  * );
  * {code}
@@ -35,13 +34,15 @@ import lombok.Setter;
  * @author Anton Troshin
  */
 @Entity
-@Getter
-@Setter
-@Table(name = "COMMGROUP")
-public class CommodityGroup extends TreeNode<CommodityGroup> {
+@Table(name = "ORGANIZATIONGROUP")
+public class OrganizationGroup extends TreeNode<OrganizationGroup> {
 
+    @Getter
+    @Setter
     private String name;
 
+    @Setter
+    @Getter
     @OneToMany(mappedBy = "parent")
-    private Collection<Commodity> commodities;
+    private Collection<Organization> organizations;
 }
