@@ -67,4 +67,22 @@ public class Commodity extends IdAware {
     @ManyToOne
     @JoinColumn(name = "PARENT")
     private CommodityGroup parent;
+
+    @ManyToOne
+    @JoinColumn(name = "DEFAULTMONEYTYPE")
+    private MoneyType defaultMoneyType;
+
+    @ManyToOne
+    @JoinColumn(name = "DEFAULTTRADEPLACE")
+    private Organization defaultTradeplace;
+
+    @ManyToOne
+    @JoinColumn(name = "UNITTYPE")
+    private UnitType unittype;
+
+    private String remarks;
+
+    private Double defaultPrice;
+
+    private Double defaultQty;
 }
