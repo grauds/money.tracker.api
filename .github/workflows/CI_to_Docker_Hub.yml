@@ -48,9 +48,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: grauds/money-tracker-rest:latest
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }} 
+          tags: grauds/money.tracker.api:latest
           
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
