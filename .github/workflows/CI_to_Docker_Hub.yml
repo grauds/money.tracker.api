@@ -19,6 +19,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
+      - name: Build with Gradle
+        run: ./gradlew build
 
       # Logins to Docker hub
       - name: Login to Docker Hub
