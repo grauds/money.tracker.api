@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Build with Gradle
-        run: ./gradlew build
+        run: chmod +x ./gradlew && chmod +x gradle/wrapper/gradle-wrapper.jar && ./gradlew build
 
       # Logins to Docker hub
       - name: Login to Docker Hub
