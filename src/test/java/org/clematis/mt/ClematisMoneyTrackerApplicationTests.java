@@ -14,7 +14,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import org.testcontainers.utility.MountableFile;
+//import org.testcontainers.utility.MountableFile;
 
 @Testcontainers
 @SpringBootTest
