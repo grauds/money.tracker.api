@@ -16,12 +16,8 @@ ext {
     checkstyleVersion = '7.6'
     findbugsVersion = '3.0.1'
 
-    junitVersion = '4.12'
-    junitParamsVersion = '1.0.4'
-    assertjCoreVersion = '3.6.1'
-    mustacheJavaVersion = '0.9.4'
-    mockitoVersion = '1.6.4'
-    mockitoJunit4Version = '1.6.6'
+    junitJupiterVersion = '5.4.2'
+    testContainersVersion = '1.15.3'
 
     libs = [
 
@@ -49,12 +45,6 @@ ext {
 
 // code quality
             checkstyle            : "com.puppycrawl.tools:checkstyle:$checkstyleVersion",
-            findbugs              : "com.google.code.findbugs:findbugs-annotations:$findbugsVersion",
-
-// tests
-            assertJCore           : "org.assertj:assertj-core:$assertjCoreVersion",
-            mustache              : "com.github.spullara.mustache.java:mustache.java:$mustacheJavaVersion",
-            mockito               : "org.powermock:powermock-mockito-release-full:$mockitoVersion",
-            junit4                : "org.powermock:powermock-module-junit4-rule-agent:$mockitoJunit4Version"
+            findbugs              : "com.google.code.findbugs:findbugs-annotations:$findbugsVersion"
     ]
 }
