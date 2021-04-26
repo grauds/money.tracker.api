@@ -5,29 +5,43 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.clematis.mt.repository.AccountGroupRepository;
+import org.clematis.mt.repository.AccountRepository;
+import org.clematis.mt.repository.CommodityRepository;
 import org.firebirdsql.testcontainers.FirebirdContainer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-//import org.testcontainers.utility.MountableFile;
+import org.testcontainers.utility.MountableFile;
 
 @Testcontainers
 @SpringBootTest
-class ClematisMoneyTrackerApplicationTests {
+public class ClematisMoneyTrackerApplicationTests {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(ClematisMoneyTrackerApplicationTests.class);
 
     private static final DockerImageName IMAGE =
             DockerImageName.parse(FirebirdContainer.IMAGE).withTag("2.5.9-sc");
 
-    @Container
-    private static final FirebirdContainer<?> container = new FirebirdContainer<>(IMAGE)
-            .withUsername("testuser")
-            .withPassword("testpassword");
-            //.withCopyFileToContainer(MountableFile.forClasspathResource("mt.fdb"), "/firebird/data");
+    private static final FirebirdContainer<?> container;
+
+    static {
+        container = new FirebirdContainer<>(IMAGE)
+                .withDatabaseName("mt.fdb")
+                .withUsername("SYSDBA")
+                .withCopyFileToContainer(MountableFile.forClasspathResource("mt.fdb"), "/firebird/data/mt.fdb")
+                .withLogConsumer(new Slf4jLogConsumer(LOGGER));
+        container.start();
+    }
 
     @DynamicPropertySource
     static void init(DynamicPropertyRegistry registry) {
@@ -36,18 +50,14 @@ class ClematisMoneyTrackerApplicationTests {
         registry.add("spring.datasource.username", container::getUsername);
     }
 
+    @Test
     public void canConnectToContainer() throws Exception {
         try (Connection connection = DriverManager
                 .getConnection(container.getJdbcUrl(), container.getUsername(), container.getPassword());
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("select CURRENT_USER from RDB$DATABASE")) {
-            Assertions.assertTrue(rs.next(), "has row");
-            Assertions.assertEquals("TESTUSER", rs.getString(1), "user name");
+                 Assertions.assertTrue(rs.next(), "has row");
+                 Assertions.assertEquals("SYSDBA", rs.getString(1), "user name");
         }
-    }
-
-    @Test
-    void contextLoads() throws Exception {
-        canConnectToContainer();
     }
 }
