@@ -1,10 +1,10 @@
 apply from: file("${project.rootDir}/libraries.gradle")
 
-
 dependencies {
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor libs.lombok
+    checkstyle libs.checkstyle
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -12,34 +12,29 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    implementation 'org.liquibase:liquibase-core'
+
     compileOnly libs.commonsLang3
     compileOnly libs.commonsIO
     compileOnly libs.beanshell
-    annotationProcessor libs.lombok
     compileOnly libs.lombok
-    // drop-in replacement for commons-logging, jul and log4j, so logs will be handled by slf4j
-    compileOnly "org.slf4j:jcl-over-slf4j:${slf4jVersion}@jar"
-    compileOnly "org.slf4j:jul-to-slf4j:${slf4jVersion}@jar"
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.3.java8'
 
-    testCompileOnly "org.junit.jupiter:junit-jupiter:$junitJupiterVersion"
-    testCompileOnly "org.testcontainers:testcontainers:$testContainersVersion"
-    testCompileOnly "org.testcontainers:junit-jupiter:$testContainersVersion"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
+    testCompileOnly libs.jupiter
+    testCompileOnly libs.testContainers
+    testCompileOnly libs.testContainersJupiter
+    testRuntimeOnly libs.jupiterEngine
 
-    testImplementation platform('org.testcontainers:testcontainers-bom:1.15.3')
-    testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.1.0'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    testImplementation (libs.springStarterTest) {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'net.java.dev.jna:jna:4.4.0'
 
-    testCompileOnly libs.lombok
-    checkstyle libs.checkstyle
+    testImplementation platform(libs.testContainersBom)
+    testImplementation libs.testContainerFirebird
 
+    testImplementation libs.sprintMockMvc
+    testImplementation libs.springSecurityTest
 }
