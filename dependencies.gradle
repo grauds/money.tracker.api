@@ -12,20 +12,25 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    implementation platform('org.testcontainers:testcontainers-bom:1.15.3')
-
-    compileOnly 'org.projectlombok:lombok'
+    compileOnly libs.commonsLang3
+    compileOnly libs.commonsIO
+    compileOnly libs.beanshell
+    annotationProcessor libs.lombok
+    compileOnly libs.lombok
+    // drop-in replacement for commons-logging, jul and log4j, so logs will be handled by slf4j
+    compileOnly "org.slf4j:jcl-over-slf4j:${slf4jVersion}@jar"
+    compileOnly "org.slf4j:jul-to-slf4j:${slf4jVersion}@jar"
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.3.java8'
 
-    testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
-    testCompile "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
-    testCompile "org.testcontainers:testcontainers:$testContainersVersion"
-    testCompile "org.testcontainers:junit-jupiter:$testContainersVersion"
+    testCompileOnly "org.junit.jupiter:junit-jupiter:$junitJupiterVersion"
+    testCompileOnly "org.testcontainers:testcontainers:$testContainersVersion"
+    testCompileOnly "org.testcontainers:junit-jupiter:$testContainersVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
 
+    testImplementation platform('org.testcontainers:testcontainers-bom:1.15.3')
     testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.1.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -34,17 +39,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'net.java.dev.jna:jna:4.4.0'
 
-    compile libs.commonsLang3
-    compile libs.commonsIO
-    compile libs.beanshell
-
-    annotationProcessor libs.lombok
-    compileOnly libs.lombok
-
     testCompileOnly libs.lombok
     checkstyle libs.checkstyle
 
-    // drop-in replacement for commons-logging, jul and log4j, so logs will be handled by slf4j
-    compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}@jar"
-    compile "org.slf4j:jul-to-slf4j:${slf4jVersion}@jar"
 }

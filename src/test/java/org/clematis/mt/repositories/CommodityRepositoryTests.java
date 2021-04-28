@@ -12,7 +12,7 @@ public class CommodityRepositoryTests extends ClematisMoneyTrackerApplicationTes
     private CommodityRepository commodityRepository;
 
     @Test
-    void countCommodities() throws Exception {
+    void countCommodities() {
         Assertions.assertEquals(1369, commodityRepository.count());
     }
 }
