@@ -6,25 +6,21 @@ buildscript {
 }
 
 plugins {
+    id 'java'
     id 'org.springframework.boot' version '2.3.4.RELEASE'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-    id 'com.github.spotbugs-base' version '4.7.0'
+    id 'com.github.spotbugs' version '4.7.1'
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
     id 'jacoco'
+    id 'checkstyle'
+    id 'idea'
+    id 'eclipse'
 }
 
 group 'name.troshin.anton.clematis'
 version = '0.0.1-SNAPSHOT'
 
-apply plugin: 'java'
-apply plugin: 'com.github.spotbugs'
-apply plugin: 'checkstyle'
-apply plugin: 'jacoco'
-
 apply from: file("${project.rootDir}/dependencies.gradle")
-
-apply plugin: 'idea'
-apply plugin: 'eclipse'
 
 sourceCompatibility = '11'
 targetCompatibility = '11'
@@ -40,7 +36,7 @@ repositories {
 }
 // ------------ JaCoCo test coverage + ascii doctor as a post processor ---------
 ext {
-    set('snippetsDir', file("build/generated-snippets"))
+    setProperty('snippetsDir', file("build/generated-snippets"))
 }
 
 task codeCoverageReport(type: JacocoReport) {
@@ -77,7 +73,7 @@ asciidoctor {
     dependsOn test
 }
 // ------------ Spotbugs configuration  ---------
-spotbugsMain{
+spotbugsMain {
     reports {
         xml {
             enabled = false

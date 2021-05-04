@@ -1,0 +1,80 @@
+--liquibase formatted sql
+
+--changeset anton:1
+CREATE
+OR ALTER
+VIEW ALL_OPERATIONS_HISTORY (TRANSFERDATE, ACC_ID, AMOUNT, S)
+AS
+SELECT *
+FROM (
+         SELECT inc.TRANSFERDATE AS TRANSFERDATE, inc.ACCOUNT AS acc_id, inc.TOTAL AS AMOUNT, 1 AS S
+         FROM INCOME AS inc
+         UNION ALL
+         SELECT ex.TRANSFERDATE AS TRANSFERDATE, ex.ACCOUNT AS acc_id, ex.TOTAL AS AMOUNT, -1 AS S
+         FROM EXPENSE AS ex
+         UNION ALL
+         SELECT tr.TRANSFERDATE AS TRANSFERDATE, tr.DEST AS acc_id, tr.DESTAMOUNT AS AMOUNT, 1 AS S
+         FROM MONEYTRANSFER AS tr
+         UNION ALL
+         SELECT tr2.TRANSFERDATE AS TRANSFERDATE, tr2."SOURCE" AS acc_id, tr2.AMOUNT AS AMOUNT, -1 AS S
+         FROM MONEYTRANSFER AS tr2
+         UNION ALL
+         SELECT mex.EXCHANGEDATE AS TRANSFERDATE, mex.DEST AS acc_id, mex.DESTAMOUNT AS AMOUNT, 1 AS S
+         FROM MONEYEXCHANGE AS mex
+         UNION ALL
+         SELECT mex2.EXCHANGEDATE AS TRANSFERDATE, mex2."SOURCE" AS acc_id, mex2.SOURCEAMOUNT AS AMOUNT, -1 AS S
+         FROM MONEYEXCHANGE AS mex2
+         UNION ALL
+         SELECT br.CREDITDATE AS TRANSFERDATE, br.ACCOUNT AS acc_id, br.CREDITSUM AS AMOUNT, 1 AS S
+         FROM BORROWING AS br
+         UNION ALL
+         SELECT brp.PAYMENTDATE AS TRANSFERDATE, brp.ACCOUNT AS acc_id, brp.TOTALPAID AS AMOUNT, -1 AS S
+         FROM BORROWINGPAYMENT AS brp
+         WHERE brp.STATUS = 1
+           AND brp.PAYMENTTYPE = 0
+         UNION ALL
+         SELECT brp2.PAYMENTDATE AS TRANSFERDATE, brp2.ACCOUNT AS acc_id, brp2.INCREASE AS AMOUNT, 1 AS S
+         FROM BORROWINGPAYMENT AS brp2
+         WHERE brp2.STATUS = 1
+           AND brp2.PAYMENTTYPE = 1
+         UNION ALL
+         SELECT ld.CREDITDATE AS TRANSFERDATE, ld.ACCOUNT AS acc_id, ld.CREDITSUM AS AMOUNT, -1 AS S
+         FROM LENDING AS ld
+         UNION ALL
+         SELECT ldp.PAYMENTDATE AS TRANSFERDATE, ldp.ACCOUNT AS acc_id, ldp.TOTALPAID AS AMOUNT, 1 AS S
+         FROM LENDINGPAYMENT AS ldp
+         WHERE ldp.STATUS = 1
+           AND ldp.PAYMENTTYPE = 0
+         UNION ALL
+         SELECT ldp2.PAYMENTDATE AS TRANSFERDATE, ldp2.ACCOUNT AS acc_id, ldp2.INCREASE AS AMOUNT, -1 AS S
+         FROM LENDINGPAYMENT AS ldp2
+         WHERE ldp2.STATUS = 1
+           AND ldp2.PAYMENTTYPE = 1
+     )
+ORDER BY TRANSFERDATE;
+
+--rollback drop view ALL_OPERATIONS_HISTORY;
+
+--changeset anton:2
+CREATE
+OR ALTER
+VIEW RECENT_ACCOUNTS_TOTAL (ACC_ID, NAME, BALANCE, TOTAL, CODE)
+AS
+SELECT ACC_ID, acc.NAME, BALANCE, ROUND(TOTAL, 2), CODE
+FROM (SELECT acc_id,
+             SUM
+                 (CASE
+                      WHEN S = 1
+                          THEN AMOUNT
+                      ELSE AMOUNT * (-1) END
+                 ) AS TOTAL
+      FROM (
+               SELECT *
+               FROM ALL_OPERATIONS_HISTORY
+           )
+      GROUP BY acc_id)
+         JOIN ACCOUNT AS acc ON acc.ID = acc_id
+         JOIN MONEYTYPE AS mt ON acc.MONEYTYPE = mt.ID
+ORDER BY TOTAL;
+
+--rollback drop view RECENT_ACCOUNTS_TOTAL;
