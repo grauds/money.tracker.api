@@ -8,6 +8,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * @author Anton Troshin
  */
-@RepositoryRestResource(collectionResourceRel = "totals", path = "totals")
+@RepositoryRestResource(collectionResourceRel = "accountsTotals", path = "accountsTotals")
 public interface AccountTotalRepository extends JpaRepository<AccountTotal, AccountTotalKey> {
 }

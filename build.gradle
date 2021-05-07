@@ -84,6 +84,18 @@ spotbugsMain {
         }
     }
 }
+
+spotbugsTest {
+    reports {
+        xml {
+            enabled = false
+        }
+        html {
+            enabled = true
+            destination = file("$buildDir/reports/spotbugs/test/spotbugs.html")
+        }
+    }
+}
 // ------------ Checkstyle configuration  ---------
 checkstyle {
     configProperties.configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")

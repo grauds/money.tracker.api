@@ -18,6 +18,7 @@ dependencies {
     compileOnly libs.commonsIO
     compileOnly libs.beanshell
     compileOnly libs.lombok
+    compileOnly 'com.google.code.findbugs:annotations:3.0.1'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
@@ -27,6 +28,7 @@ dependencies {
     testCompileOnly libs.testContainers
     testCompileOnly libs.testContainersJupiter
     testRuntimeOnly libs.jupiterEngine
+    testCompileOnly 'com.google.code.findbugs:annotations:3.0.1'
 
     testImplementation (libs.springStarterTest) {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

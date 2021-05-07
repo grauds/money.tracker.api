@@ -3,19 +3,18 @@ package org.clematis.mt.model.views;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-import org.clematis.mt.model.Account;
+import lombok.Getter;
+import lombok.Setter;
 /**
  * @author Anton Troshin
  */
 @Embeddable
+@Getter
+@Setter
 public class AccountTotalKey implements Serializable {
 
-    @ManyToOne
-    @JoinColumn(name = "ACCOUNT")
-    private Account account;
+    private Integer account;
 
     private String name;
 

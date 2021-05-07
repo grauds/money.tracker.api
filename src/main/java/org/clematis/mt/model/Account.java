@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -67,6 +69,7 @@ public class Account extends IdAware {
 
     private Double balance;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date totalInvalidDate;
 
     @ManyToOne
@@ -74,10 +77,10 @@ public class Account extends IdAware {
     private AccountGroup parent;
 
     public Date getTotalInvalidDate() {
-        return (Date) totalInvalidDate.clone();
+        return totalInvalidDate != null ? (Date) totalInvalidDate.clone() : null;
     }
 
     public void setTotalInvalidDate(Date date) {
-        this.totalInvalidDate = (Date) date.clone();
+        this.totalInvalidDate = date != null ? (Date) date.clone() : null;
     }
 }

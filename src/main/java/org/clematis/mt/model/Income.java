@@ -93,10 +93,10 @@ public class Income extends IdAware {
     private Collection<IncomeItem> items;
 
     public Date getTransferDate() {
-        return (Date) transferdate.clone();
+        return transferdate != null ? (Date) transferdate.clone() : null;
     }
 
     public void setTransferDate(Date date) {
-        this.transferdate = (Date) date.clone();
+        this.transferdate = date != null ? (Date) date.clone() : null;
     }
 }

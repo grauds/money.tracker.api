@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * @author Anton Troshin
  */
-@RepositoryRestResource(collectionResourceRel = "expenseItem", path = "expenseItem")
+@RepositoryRestResource(collectionResourceRel = "expenseItems", path = "expenseItems")
 public interface ExpenseItemRepository extends PagingAndSortingRepository<ExpenseItem, Long> {
 
 }
