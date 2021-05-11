@@ -1,6 +1,6 @@
 # Money Tracker Restful API 
   
-[![License](https://img.shields.io/badge/License-GPLv2%202.0-blue.svg)](libs/kiwi/src/main/resources/com/hyperrealm/kiwi/html/gpl.html)
+[![License](https://img.shields.io/badge/License-GPLv2%202.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Build Status](https://api.travis-ci.com/grauds/money.tracker.api.svg?token=TexcHfhzFr21pQNJbxcm&branch=master)](https://travis-ci.com/grauds//money.tracker.api)
 
 ## Introduction
