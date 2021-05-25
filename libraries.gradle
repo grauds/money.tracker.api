@@ -1,6 +1,9 @@
 ext {
+    var springBootVersion = '2.4.5'
+
     var commonsIoVersion = '2.6'
-    var bshVersion = '2.0b6'
+
+    var keycloakVersion = '12.0.4'
 
     var checkstyleVersion = '7.6'
     var spotbugsVersion = '4.7.0'
@@ -25,9 +28,6 @@ ext {
             // command line parser
             args4j               : "args4j:args4j",
 
-            // code interpreter
-            beanshell            : "org.apache-extras.beanshell:bsh:$bshVersion",
-
             // code generation
             lombok               : "org.projectlombok:lombok",
 
@@ -48,6 +48,9 @@ ext {
             // test spring framework
             springStarterTest: 'org.springframework.boot:spring-boot-starter-test',
             sprintMockMvc : 'org.springframework.restdocs:spring-restdocs-mockmvc',
-            springSecurityTest : 'org.springframework.security:spring-security-test'
+            springSecurityTest : 'org.springframework.security:spring-security-test',
+
+            // auth
+            keycloak : "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
     ]
 }

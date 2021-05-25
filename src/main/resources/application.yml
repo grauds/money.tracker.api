@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 25
+      minimum-idle: 1
+    driver-class-name: org.firebirdsql.jdbc.FBDriver
+    initialization-mode: always
+
+  jpa:
+    database-platform: org.hibernate.dialect.FirebirdDialect
+    hibernate.ddl-auto: update
+    show-sql: true
+    properties.hibernate.format_sql: true
+
+  liquibase.change-log: classpath:db/changelog/db.changelog-master.xml
+
+  data:
+    rest:
+      basePath: /api
+
+# old style config
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth/realms/clematis"
+#          jwk-set-uri: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth/realms/clematis/protocol/openid-connect/certs"
+
+keycloak:
+  realm: clematis
+  bearer-only: true
+  auth-server-url: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth"
+  resource: client
+  principal-attribute: preferred_username
+

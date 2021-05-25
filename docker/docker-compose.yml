@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+    money_tracker_api:
+        image: atroshin/clematis.mt.api:latest
+        networks:
+          - clematis
+        ports:
+          - "8084:8080"
+        env_file:
+          # replace money_tracker_api_environment.default.properties with actual file
+          - money_tracker_api_environment.default.properties
+
+#    money_tracker_db:
+#        image: jacobalberty/firebird:2.5.9-sc
+#        networks:
+#          - clematis
+#        env_file:
+#          # replace money_tracker_server_environment.default.properties with actual file
+#          - money_tracker_server_environment.default.properties
+#        volumes:
+#          - /home/firebird:/firebird/data
+
+networks:
+  clematis:
+    driver: bridge
