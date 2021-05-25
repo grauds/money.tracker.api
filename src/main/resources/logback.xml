@@ -26,10 +26,10 @@
 
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
-        <file>/var/log/clematis.mt.api.log</file>
+        <file>var/log/clematis.mt.api.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>/var/log/clematis.mt.api.%d.log</fileNamePattern>
+            <fileNamePattern>var/log/clematis.mt.api.%d.log</fileNamePattern>
             <maxHistory>${LOG_HISTORY}</maxHistory>
         </rollingPolicy>
 
