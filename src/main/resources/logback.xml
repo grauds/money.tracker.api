@@ -22,15 +22,19 @@
     </appender>
 
     <property name="LOG_HISTORY" value="7" />
-    <property name="LOG_LEVEL" value="DEBUG" />
+    <property name="LOG_LEVEL" value="INFO" />
 
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
-        <file>var/log/clematis.mt.api.log</file>
+        <file>${LOG_PATH}/api.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>var/log/clematis.mt.api.%d.log</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/api.%d.%i.log</fileNamePattern>
             <maxHistory>${LOG_HISTORY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
 
         <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
@@ -57,7 +61,6 @@
     </root>
 
     <logger name="org.clematis" level="${LOG_LEVEL}"/>
-
     <logger name="org.apache" additivity="false"/>
     <logger name="httpclient.wire" additivity="false"/>
     <logger name="org.springframework" level="${LOG_LEVEL}"/>

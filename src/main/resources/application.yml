@@ -33,3 +33,7 @@ keycloak:
   resource: client
   principal-attribute: preferred_username
 
+logging:
+  file:
+    path:
+      ${LOGGING_PATH}
