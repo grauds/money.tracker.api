@@ -6,13 +6,6 @@
 ## Introduction
 
 This is a Spring Boot 2 based Restful API service for Money Tracker application (https://dominsoft.ru/). It uses Clematis Auth API to secure its endpoints.
-   
-## License
-
-Money Tracker Restful API is licensed under GNU GENERAL PUBLIC LICENSE, v2.
-
-Independent modules and plugins of jWorkspace will be licensed under the
-[Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0). 
 
 ## Build
 
