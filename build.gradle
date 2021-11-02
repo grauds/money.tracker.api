@@ -16,6 +16,10 @@ plugins {
     id 'checkstyle'
     id 'idea'
     id 'eclipse'
+
+    id 'com.palantir.docker' version '0.30.0'
+    id 'com.palantir.docker-run' version '0.30.0'
+    id 'com.palantir.docker-compose' version '0.30.0'
 }
 
 group 'name.troshin.anton.clematis'
@@ -184,3 +188,20 @@ tasks.withType(Checkstyle) {
     exclude '**/*Test*'
 }
 
+docker {
+    name = "atroshin/${project.name}:${version}"
+    dockerfile = file('Dockerfile')
+    copySpec.from("${buildDir}").into("build")
+    pull true
+    noCache true
+}
+
+dockerCompose {
+    dockerComposeFile file("${project.rootDir}/docker/docker-compose.yml")
+}
+
+dockerRun {
+    name 'clematis.mt.api'
+    image "atroshin/${project.name}:${version}"
+    ports '18085:8080'
+}
