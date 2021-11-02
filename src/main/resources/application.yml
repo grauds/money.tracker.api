@@ -18,14 +18,6 @@ spring:
     rest:
       basePath: /api
 
-# old style config
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth/realms/clematis"
-#          jwk-set-uri: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth/realms/clematis/protocol/openid-connect/certs"
-
 keycloak:
   realm: clematis
   bearer-only: true
