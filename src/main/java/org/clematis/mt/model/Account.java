@@ -2,6 +2,7 @@ package org.clematis.mt.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -70,6 +71,7 @@ public class Account extends IdAware {
     private Double balance;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @Column(name = "TOTALINVALIDDATE")
     private Date totalInvalidDate;
 
     @ManyToOne
