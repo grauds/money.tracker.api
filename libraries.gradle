@@ -1,8 +1,5 @@
 ext {
-    var springBootVersion = '2.4.5'
-
     var commonsIoVersion = '2.6'
-
     var keycloakVersion = '12.0.4'
 
     var checkstyleVersion = '7.6'

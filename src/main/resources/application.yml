@@ -21,11 +21,10 @@ spring:
       basePath: /api
 
 keycloak:
-  realm: clematis
-  bearer-only: true
   auth-server-url: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth"
-  resource: client
-  principal-attribute: preferred_username
+  realm: clematis
+  resource: clematis-money-tracker-api
+  bearer-only: true
 
 logging:
   file:
