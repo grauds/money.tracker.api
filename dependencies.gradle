@@ -4,7 +4,7 @@ dependencies {
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'com.google.auto.service:auto-service:1.0'
-    annotationProcessor libs.lombok
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     checkstyle libs.checkstyle
 
@@ -14,6 +14,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation libs.swagger
+    implementation libs.swaggerUI
 
     implementation libs.keycloak
 

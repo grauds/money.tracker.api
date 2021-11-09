@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-
 /**
  * @author Anton Troshin
  */
@@ -15,7 +14,6 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class ClematisMoneyTrackerApplication {
-
 
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {

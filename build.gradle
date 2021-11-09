@@ -23,7 +23,7 @@ plugins {
 }
 
 group 'name.troshin.anton.clematis'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.3-SNAPSHOT'
 
 apply from: file("${project.rootDir}/dependencies.gradle")
 
@@ -204,4 +204,15 @@ dockerRun {
     name 'clematis.mt.api'
     image "atroshin/${project.name}:${version}"
     ports '18085:8080'
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            artifact = 'clematis-mt-api'
+            version = version
+            group = 'org.clematis.mt'
+            name = 'Clematis Money Tracker API'
+        }
+    }
 }

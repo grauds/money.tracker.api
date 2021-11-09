@@ -1,6 +1,6 @@
 ext {
     var commonsIoVersion = '2.6'
-    var keycloakVersion = '12.0.4'
+    var keycloakVersion = '15.0.2'
 
     var checkstyleVersion = '7.6'
     var spotbugsVersion = '4.7.0'
@@ -28,6 +28,10 @@ ext {
             // code generation
             lombok               : "org.projectlombok:lombok",
 
+            // swagger
+            swagger              : "io.springfox:springfox-boot-starter:3.0.0",
+            swaggerUI            : "io.springfox:springfox-swagger-ui:3.0.0",
+
             // code quality
             checkstyle           : "com.puppycrawl.tools:checkstyle:$checkstyleVersion",
             spotbugs             : "com.github.spotbugs:$spotbugsVersion",
@@ -43,11 +47,11 @@ ext {
             testContainerFirebird: "org.firebirdsql:firebird-testcontainers-java:$firebirdTestContainersVersion",
 
             // test spring framework
-            springStarterTest: 'org.springframework.boot:spring-boot-starter-test',
-            sprintMockMvc : 'org.springframework.restdocs:spring-restdocs-mockmvc',
-            springSecurityTest : 'org.springframework.security:spring-security-test',
+            springStarterTest    : 'org.springframework.boot:spring-boot-starter-test',
+            sprintMockMvc        : 'org.springframework.restdocs:spring-restdocs-mockmvc',
+            springSecurityTest   : 'org.springframework.security:spring-security-test',
 
             // auth
-            keycloak : "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
+            keycloak             : "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
     ]
 }

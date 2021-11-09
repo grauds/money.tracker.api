@@ -1,4 +1,9 @@
 spring:
+
+  auth:
+    authServer: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth/realms/${keycloak.realm}/protocol/openid-connect"
+    clientSecret: ${KEYCLOAK_SECRET}
+
   datasource:
     hikari:
       maximum-pool-size: 25
@@ -23,7 +28,7 @@ spring:
 keycloak:
   auth-server-url: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth"
   realm: clematis
-  resource: clematis-money-tracker-api
+  resource: clematis-mt-swagger-client
   bearer-only: true
 
 logging:
