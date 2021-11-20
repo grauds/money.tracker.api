@@ -17,6 +17,7 @@ import lombok.Setter;
 @Setter
 public class UnitType extends IdAware {
 
+    @Column(name = "SHORTNAME")
     private String shortName;
 
     @Column(name = "RECALCATTR")
