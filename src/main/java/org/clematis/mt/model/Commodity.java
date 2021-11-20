@@ -82,7 +82,9 @@ public class Commodity extends IdAware {
 
     private String remarks;
 
+    @Column(name = "DEFAULTPRICE")
     private Double defaultPrice;
 
+    @Column(name = "DEFAULTQTY")
     private Double defaultQty;
 }
