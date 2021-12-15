@@ -5,7 +5,7 @@
 
 ## Introduction
 
-This is a Spring Boot 2 based Restful API service for Money Tracker application (https://dominsoft.ru/). It uses Clematis Auth API to secure its endpoints.
+This is a Spring Boot 2 based Restful API service for Money Tracker application (https://dominsoft.ru/). It uses Keycloak Auth API to secure its endpoints.
 
 ## Build
 
