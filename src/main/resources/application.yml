@@ -28,7 +28,7 @@ spring:
 keycloak:
   auth-server-url: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth"
   realm: clematis
-  resource: clematis-mt-swagger-client
+  resource: clematis-money-tracker-api
   bearer-only: true
 
 logging:
