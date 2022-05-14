@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * @author Anton Troshin
  */
-@RepositoryRestResource(collectionResourceRel = "commodityGroups", path = "commodityGroups")
+@RepositoryRestResource(path = "commodityGroups")
 public interface CommodityGroupRepository extends PagingAndSortingRepository<CommodityGroup, Long> {
 
 }

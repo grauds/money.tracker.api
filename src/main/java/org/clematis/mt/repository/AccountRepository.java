@@ -10,7 +10,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * @author Anton Troshin
  */
-@RepositoryRestResource(collectionResourceRel = "accounts", path = "accounts")
+@RepositoryRestResource(path = "accounts")
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
     List<Account> findByNameContains(@Param("name") String name);

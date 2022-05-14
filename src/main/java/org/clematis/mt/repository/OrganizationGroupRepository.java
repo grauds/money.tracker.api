@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * @author Anton Troshin
  */
-@RepositoryRestResource(collectionResourceRel = "organizationGroups", path = "organizationGroups")
+@RepositoryRestResource(path = "organizationGroups")
 public interface OrganizationGroupRepository extends PagingAndSortingRepository<OrganizationGroup, Long> {
 
 }

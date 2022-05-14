@@ -8,6 +8,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * @author Anton Troshin
  */
-@RepositoryRestResource(collectionResourceRel = "operations", path = "operations")
+@RepositoryRestResource(path = "operations")
 public interface OperationEntryRepository extends JpaRepository<OperationEntry, OperationEntryKey> {
 }
