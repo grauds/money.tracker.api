@@ -14,6 +14,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author Anton Troshin
+ */
 @Slf4j
 @Component
 public class LogFilter extends OncePerRequestFilter {

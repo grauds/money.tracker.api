@@ -39,7 +39,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, ALL_REGEXP)
                 .permitAll()
-                .antMatchers("/api/**")
+                .antMatchers("/api" + ALL_REGEXP)
                 .authenticated()
                 .antMatchers(ALL_REGEXP)
                 .permitAll();
@@ -53,7 +53,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS", "HEAD"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration(ALL_REGEXP, configuration);
         return source;
     }
 }
