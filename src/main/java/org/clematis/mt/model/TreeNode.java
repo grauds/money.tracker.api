@@ -17,7 +17,7 @@ import lombok.Setter;
  * @param <T>
  */
 @MappedSuperclass
-public class TreeNode<T extends IdAware> extends IdAware {
+public class TreeNode<T extends IdAware> extends VersionedEntity {
 
     @Setter
     @Getter

@@ -15,7 +15,7 @@ import lombok.Setter;
 @Table(name = "UNITTYPE")
 @Getter
 @Setter
-public class UnitType extends IdAware {
+public class UnitType extends VersionedEntity {
 
     @Column(name = "SHORTNAME")
     private String shortName;

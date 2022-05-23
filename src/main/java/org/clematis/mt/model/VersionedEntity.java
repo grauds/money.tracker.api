@@ -1,12 +1,10 @@
 package org.clematis.mt.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.MappedSuperclass;
+
 /**
  * Base class for entities with identifier and version
  *
@@ -15,8 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-public class IdAware implements Serializable {
+public class VersionedEntity extends IdAware {
 
-    @Id
-    private Long id;
+    private Integer objversion;
 }

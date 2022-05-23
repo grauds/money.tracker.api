@@ -44,7 +44,7 @@ import lombok.Setter;
 @Table(name = "ORGANIZATION")
 @Getter
 @Setter
-public class Organization extends IdAware {
+public class Organization extends VersionedEntity {
 
     private String name;
 

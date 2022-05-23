@@ -61,7 +61,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "COMMODITY")
-public class Commodity extends IdAware {
+public class Commodity extends VersionedEntity {
 
     private String name;
 
