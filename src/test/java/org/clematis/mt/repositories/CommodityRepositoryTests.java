@@ -1,6 +1,9 @@
 package org.clematis.mt.repositories;
 
+import java.util.List;
+
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
+import org.clematis.mt.model.Commodity;
 import org.clematis.mt.repository.CommodityRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,5 +17,11 @@ public class CommodityRepositoryTests extends ClematisMoneyTrackerApplicationTes
     @Test
     void countCommodities() {
         Assertions.assertEquals(1369, commodityRepository.count());
+    }
+
+    @Test
+    public void findCommodities() {
+        List<Commodity> commodityList = commodityRepository.findByNameContains("ек");
+        Assertions.assertEquals(39, commodityList.size());
     }
 }

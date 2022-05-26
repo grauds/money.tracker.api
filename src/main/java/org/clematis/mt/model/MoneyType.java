@@ -32,9 +32,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "MONEYTYPE")
-public class MoneyType extends VersionedEntity {
-
-    private String name;
+public class MoneyType extends NamedEntity {
 
     private String code;
 

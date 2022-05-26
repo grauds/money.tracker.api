@@ -62,9 +62,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "ACCOUNT")
-public class Account extends VersionedEntity {
-
-    private String name;
+public class Account extends NamedEntity {
 
     private String notes;
 

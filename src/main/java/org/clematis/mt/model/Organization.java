@@ -44,9 +44,7 @@ import lombok.Setter;
 @Table(name = "ORGANIZATION")
 @Getter
 @Setter
-public class Organization extends VersionedEntity {
-
-    private String name;
+public class Organization extends NamedEntity {
 
     private String address;
 

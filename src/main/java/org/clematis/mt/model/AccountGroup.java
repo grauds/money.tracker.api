@@ -40,8 +40,6 @@ import lombok.Setter;
 @Table(name = "ACCOUNTGROUP")
 public class AccountGroup extends TreeNode<AccountGroup> {
 
-    private String name;
-
     @OneToMany(mappedBy = "parent")
     private Collection<Account> accounts;
 }

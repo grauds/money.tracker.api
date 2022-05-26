@@ -37,10 +37,6 @@ import lombok.Setter;
 @Table(name = "ORGANIZATIONGROUP")
 public class OrganizationGroup extends TreeNode<OrganizationGroup> {
 
-    @Getter
-    @Setter
-    private String name;
-
     @Setter
     @Getter
     @OneToMany(mappedBy = "parent")

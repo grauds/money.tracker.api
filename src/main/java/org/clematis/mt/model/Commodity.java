@@ -61,9 +61,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "COMMODITY")
-public class Commodity extends VersionedEntity {
-
-    private String name;
+public class Commodity extends NamedEntity {
 
     @ManyToOne
     @JoinColumn(name = "PARENT")

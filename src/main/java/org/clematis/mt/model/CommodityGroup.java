@@ -40,8 +40,6 @@ import lombok.Setter;
 @Table(name = "COMMGROUP")
 public class CommodityGroup extends TreeNode<CommodityGroup> {
 
-    private String name;
-
     @OneToMany(mappedBy = "parent")
     private Collection<Commodity> commodities;
 }
