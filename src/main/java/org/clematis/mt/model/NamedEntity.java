@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-public class NamedEntity extends VersionedEntity {
+public class NamedEntity extends IdAware {
 
     private String name;
 }
