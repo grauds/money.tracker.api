@@ -23,7 +23,7 @@ public interface CommodityGroupRepository extends PagingAndSortingAndFilteringBy
               + "\tSELECT c2.id, c2.parent, c2.name\n"
               + "\tFROM w1 JOIN COMMGROUP as c2 ON c2.parent=w1.id\n"
               + ")\n"
-              + "SELECT * FROM w1",
+              + "SELECT * FROM w1 ORDER BY name",
         nativeQuery = true
     )
     @RestResource(path = "recursiveByParentId")
