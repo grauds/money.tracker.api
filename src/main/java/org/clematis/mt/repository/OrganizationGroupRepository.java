@@ -8,6 +8,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  */
 @RepositoryRestResource(path = "organizationGroups")
 public interface OrganizationGroupRepository
-        extends PagingAndSortingAndFilteringByNameRepository<OrganizationGroup, Long> {
+        extends PagingAndSortingAndFilteringByNameRepository<OrganizationGroup, Integer> {
 
 }

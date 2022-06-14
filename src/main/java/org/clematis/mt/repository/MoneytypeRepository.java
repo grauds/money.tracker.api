@@ -8,6 +8,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author Anton Troshin
  */
 @RepositoryRestResource(path = "moneytypes")
-public interface MoneytypeRepository extends PagingAndSortingRepository<MoneyType, Long> {
+public interface MoneytypeRepository extends PagingAndSortingRepository<MoneyType, Integer> {
 
 }

@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author Anton Troshin
  */
 @RepositoryRestResource(path = "accounts")
-public interface AccountRepository extends PagingAndSortingAndFilteringByNameRepository<Account, Long> {
+public interface AccountRepository extends PagingAndSortingAndFilteringByNameRepository<Account, Integer> {
 
 
 }

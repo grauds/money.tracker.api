@@ -18,5 +18,5 @@ import lombok.Setter;
 public class IdAware implements Serializable {
 
     @Id
-    private Long id;
+    private int id;
 }

@@ -70,7 +70,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "EXPENSE")
-public class Expense extends VersionedEntity {
+public class Expense extends IdAware {
 
     private Date transferdate;
 

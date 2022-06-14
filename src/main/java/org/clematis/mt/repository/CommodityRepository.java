@@ -12,7 +12,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
  * @author Anton Troshin
  */
 @RepositoryRestResource(path = "commodities")
-public interface CommodityRepository extends PagingAndSortingAndFilteringByNameRepository<Commodity, Long> {
+public interface CommodityRepository extends PagingAndSortingAndFilteringByNameRepository<Commodity, Integer> {
 
     @Query(value = "WITH recursive w1(id, parent, name) AS\n"
             + "(SELECT c.id, c.parent, c.name\n"
