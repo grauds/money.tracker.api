@@ -17,9 +17,9 @@ public interface ExpenseItemRepository extends PagingAndSortingRepository<Expens
 
     List<ExpenseItem> findByCommodityId(@Param(value = "commodityId") int commodityId);
 
-    @Query(value = "SELECT SUM(ei.total) " +
-            "FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id WHERE ei.commodity.id=:commodityId" +
-            " AND e.moneyType.code LIKE :moneyCode")
+    @Query(value = "SELECT SUM(ei.total) "
+            + "FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id WHERE ei.commodity.id=:commodityId "
+            + "AND e.moneyType.code LIKE :moneyCode")
     @RestResource(path = "sumCommodityExpenses")
     Long sumCommodityExpenses(@Param(value = "commodityId") int commodityId,
                               @Param(value = "moneyCode") String moneyCode);

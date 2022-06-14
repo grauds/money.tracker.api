@@ -5,10 +5,11 @@ import java.util.List;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.model.Expense;
-import org.clematis.mt.model.MoneyTypeCode;
 import org.clematis.mt.repository.ExpenseRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
 public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -16,8 +17,8 @@ public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests
 
     @Test
     public void countTotalsForCommodity() {
-        List<Expense> result = expenseRepository
-                .findByIdAndMoneyTypeCode(258, String.valueOf(MoneyTypeCode.RUB));
+        Iterable<Expense> result = expenseRepository.findAll();
+        Assertions.assertEquals(681, result.spliterator().estimateSize());
     }
 
 }
