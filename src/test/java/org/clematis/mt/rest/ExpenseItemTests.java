@@ -73,7 +73,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
         ResponseEntity<Long> sum
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/expenses/search/sumCommodityGroupExpenses?commodityId=258&moneyCode=RUB",
+                .exchange("/api/expenses/search/sumCommodityGroupExpenses?commodityId=287&moneyCode=RUB",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {});
