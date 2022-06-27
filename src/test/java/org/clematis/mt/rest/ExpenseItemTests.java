@@ -51,6 +51,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
     @Test
     public void testCommodityTotalSum() {
+
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer "
                 + mock.getAccessToken(aTokenConfig().build()));
@@ -67,6 +68,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
     @Test
     public void testCommodityGroupTotalSum() {
+
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer "
                 + mock.getAccessToken(aTokenConfig().build()));

@@ -10,7 +10,18 @@ services:
       env_file:
         - money_tracker_api.env
       volumes:
-        - ../logs:/var/log/clematis
+        - ../log:/var/log/clematis
+
+  money_tracker_db:
+       image: jacobalberty/firebird:2.5.9-sc
+       networks:
+         - clematis
+       env_file:
+         - money_tracker_api.local.env
+       volumes:
+         - ../src/test/resources:/firebird/data
+       ports:
+         - "3050:3050"
 
 networks:
   clematis:

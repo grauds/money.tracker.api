@@ -20,7 +20,7 @@ dependencies {
 
     implementation libs.keycloak
 
-    runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.4.java8'
+    runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.6.java8'
 
     // to use regexp in logback.xml
     implementation 'org.codehaus.janino:janino:3.1.6'

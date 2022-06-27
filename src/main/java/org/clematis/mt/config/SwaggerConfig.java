@@ -14,6 +14,7 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 import lombok.Getter;
@@ -41,6 +42,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @EnableSwagger2
 @Configuration
+@Conditional(NotLocalEnvironment.class)
 public class SwaggerConfig {
 
     private static final String API_DESCRIPTION = "Swagger API";

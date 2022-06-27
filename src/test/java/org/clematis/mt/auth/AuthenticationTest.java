@@ -1,7 +1,5 @@
 package org.clematis.mt.auth;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +13,7 @@ import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 import com.tngtech.keycloakmock.junit5.KeycloakMockExtension;
 
 import io.restassured.RestAssured;
+import org.springframework.test.context.ActiveProfiles;
 
 @SuppressFBWarnings
 class AuthenticationTest extends ClematisMoneyTrackerApplicationTests {
@@ -34,7 +33,9 @@ class AuthenticationTest extends ClematisMoneyTrackerApplicationTests {
 
     @Test
     void no_authentication_fails() {
-        RestAssured.given().when().get("/api/hello").then().statusCode(401);
+        // if auth is on RestAssured.given().when().get("/api/hello").then().statusCode(401);
+        // if auth is off
+        RestAssured.given().when().get("/api/hello").then().statusCode(404);
     }
 
     @Test
