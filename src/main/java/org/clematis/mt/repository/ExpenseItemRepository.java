@@ -23,4 +23,11 @@ public interface ExpenseItemRepository extends PagingAndSortingRepository<Expens
     @RestResource(path = "sumCommodityExpenses")
     Long sumCommodityExpenses(@Param(value = "commodityId") int commodityId,
                               @Param(value = "moneyCode") String moneyCode);
+
+
+    @Query(value = "SELECT SUM(ei.qty) "
+            + "FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id WHERE ei.commodity.id=:commodityId")
+    @RestResource(path = "sumCommodityQuantity")
+    Long sumCommodityQuantity(@Param(value = "commodityId") int commodityId);
+
 }
