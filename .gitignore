@@ -32,7 +32,14 @@ out/
 
 ### VS Code ###
 .vscode/
+bin/
+bin
 
 .jpb
 build
 log
+
+LOG_PATH_IS_INDEFINED/
+LOG_PATH_IS_UNDEFINED/api.log
+.DS_Store
+docker/.devcontainer/

@@ -1,8 +1,6 @@
 package org.clematis.mt.repositories;
 
 
-import java.util.List;
-
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.model.Expense;
 import org.clematis.mt.model.MoneyTypeCode;

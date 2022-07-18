@@ -13,7 +13,6 @@ import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 import com.tngtech.keycloakmock.junit5.KeycloakMockExtension;
 
 import io.restassured.RestAssured;
-import org.springframework.test.context.ActiveProfiles;
 
 @SuppressFBWarnings
 class AuthenticationTest extends ClematisMoneyTrackerApplicationTests {
