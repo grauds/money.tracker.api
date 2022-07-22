@@ -1,11 +1,13 @@
 package org.clematis.mt.model.views;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.clematis.mt.model.NamedEntity;
+
 import lombok.Getter;
 import lombok.Setter;
+
 /**
  * @author Anton Troshin
  */
@@ -13,7 +15,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class AccountTotal {
+public class AccountTotal extends NamedEntity {
 
-    @EmbeddedId AccountTotalKey key;
+    private Double balance;
+
+    private Double total;
+
+    private String code;
 }
