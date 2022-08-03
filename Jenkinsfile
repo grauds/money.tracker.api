@@ -13,7 +13,7 @@ pipeline {
 
      //   stage('Gradle build') {
      //       steps {
-              // sh './gradlew clean build'
+             // sh './gradlew clean build'
      //       }
      //   }
 
@@ -30,7 +30,7 @@ pipeline {
      //       }
      //   }
 
-        stage("verify tooling") {
+        stage("Verify tooling") {
           steps {
             sh '''
               cd jenkins
@@ -41,6 +41,20 @@ pipeline {
               jq --version
               docker compose ps
             '''
+          }
+        }
+
+        stage("Build docker compose services") {
+          environment {
+                KEYCLOAK_SECRET = credentials('KEYCLOAK_SECRET')
+                SPRING_DATASOURCE_USERNAME = credentials('SPRING_DATASOURCE_USERNAME')
+                SPRING_DATASOURCE_PASSWORD = credentials('SPRING_DATASOURCE_PASSWORD')
+            }
+          steps {
+              sh '''
+                 pwd
+                 docker compose build --build-arg KEYCLOAK_SECRET='$KEYCLOAK_SECRET' SPRING_DATASOURCE_PASSWORD='$SPRING_DATASOURCE_PASSWORD' --detach --verbose 
+              '''
           }
         }
     }
