@@ -47,7 +47,6 @@ pipeline {
         stage("Build docker compose services") {
           environment {
                 KEYCLOAK_SECRET = credentials('KEYCLOAK_SECRET')
-                SPRING_DATASOURCE_USERNAME = credentials('SPRING_DATASOURCE_USERNAME')
                 SPRING_DATASOURCE_PASSWORD = credentials('SPRING_DATASOURCE_PASSWORD')
             }
           steps {
