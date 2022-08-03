@@ -33,7 +33,7 @@ pipeline {
         stage("verify tooling") {
           steps {
             sh '''
-              cd docker
+              cd jenkins
               docker version
               docker info
               docker compose version
