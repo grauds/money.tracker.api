@@ -1,4 +1,5 @@
 pipeline {
+
     agent any
 
     stages {
@@ -11,24 +12,23 @@ pipeline {
             }
         }
 
-     //   stage('Gradle build') {
-     //       steps {
-             // sh './gradlew clean build'
-     //       }
-     //   }
+        stage('Gradle build') {
+            steps {
+              sh './gradlew clean build'
+            }
+        }
 
-       // stage('Build docker image') {
-        //    steps {
-             //   sh 'docker build -t clematis.mt.api .'
-        //    }
+        stage('Build docker image') {
+            steps {
+                sh 'docker build -t clematis.mt.api .'
+            }
+        }
 
-      //  }
-
-     //   stage('Update database from the cloud') {
-      //      steps {
-             //   sh 'wget "https://onedrive.live.com/download?cid=5EFC5BD533A5D0E5&resid=5EFC5BD533A5D0E5%21113569&authkey=AC8hUo3cfK4ayvw" -O /home/firebird/db/mt.fdb'
-     //       }
-     //   }
+        stage('Update database from the cloud') {
+            steps {
+                sh 'wget "https://onedrive.live.com/download?cid=5EFC5BD533A5D0E5&resid=5EFC5BD533A5D0E5%21113569&authkey=AC8hUo3cfK4ayvw" -O /home/firebird/db/mt.fdb'
+            }
+        }
 
         stage("Verify tooling") {
           steps {
@@ -44,7 +44,17 @@ pipeline {
           }
         }
 
-        stage("Build docker compose services") {
+        stage("Stop and remove old infrastructure, volumes and containers") {
+            steps {
+                sh '''
+                cd jenkins
+                docker compose ps
+                docker compose down -v 
+                '''
+            }
+        }
+
+        stage("Build and start docker compose services") {
           environment {
                 KEYCLOAK_SECRET = credentials('KEYCLOAK_SECRET')
                 SPRING_DATASOURCE_PASSWORD = credentials('SPRING_DATASOURCE_PASSWORD')
