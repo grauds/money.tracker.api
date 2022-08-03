@@ -51,7 +51,7 @@ pipeline {
             }
           steps {
               sh '''
-                 pwd
+                 cd jenkins
                  docker compose build --build-arg KEYCLOAK_SECRET='$KEYCLOAK_SECRET' SPRING_DATASOURCE_PASSWORD='$SPRING_DATASOURCE_PASSWORD' 
               '''
           }
