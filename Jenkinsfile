@@ -4,6 +4,20 @@ pipeline {
 
     stages {
 
+        stage("Verify tooling") {
+            steps {
+                sh '''
+              cd jenkins
+              docker version
+              docker info
+              docker compose version
+              curl --version
+              jq --version
+              docker compose ps
+            '''
+            }
+        }
+
         stage('Get code') {
             steps {
                // Get some code from a GitHub repository
@@ -28,20 +42,6 @@ pipeline {
             steps {
                 sh 'wget "https://onedrive.live.com/download?cid=5EFC5BD533A5D0E5&resid=5EFC5BD533A5D0E5%21113569&authkey=AC8hUo3cfK4ayvw" -O /home/firebird/db/mt.fdb'
             }
-        }
-
-        stage("Verify tooling") {
-          steps {
-            sh '''
-              cd jenkins
-              docker version
-              docker info
-              docker compose version
-              curl --version
-              jq --version
-              docker compose ps
-            '''
-          }
         }
 
         stage("Stop and remove old infrastructure, volumes and containers") {
