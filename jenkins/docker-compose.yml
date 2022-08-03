@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  money_tracker_api:
+    image: clematis.mt.api:latest
+    networks:
+      - clematis
+    ports:
+      - "18085:8080"
+    env_file:
+      - money_tracker_api.env
+    volumes:
+      - /home/firebird/logs:/var/log/clematis
+
+  money_tracker_db:
+    image: jacobalberty/firebird:2.5.9-sc
+    networks:
+      - clematis
+    ports:
+      - "3050:3050"
+    env_file:
+      - money_tracker_server.env
+    volumes:
+      - /home/firebird/db:/firebird/data
+
+networks:
+  clematis:
+    driver: bridge
