@@ -11,6 +11,7 @@ services:
       - money_tracker_api.env
     volumes:
       - /home/firebird/logs:/var/log/clematis
+    restart: unless-stopped
 
   money_tracker_db:
     image: jacobalberty/firebird:2.5.9-sc
@@ -22,6 +23,7 @@ services:
       - money_tracker_server.env
     volumes:
       - /home/firebird/db:/firebird/data
+    restart: unless-stopped
 
 networks:
   clematis:
