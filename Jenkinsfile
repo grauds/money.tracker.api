@@ -44,16 +44,6 @@ pipeline {
             }
         }
 
-        stage("Stop and remove old infrastructure, volumes and containers") {
-            steps {
-                sh '''
-                cd jenkins
-                docker compose ps
-                docker compose down -v 
-                '''
-            }
-        }
-
         stage("Build and start docker compose services") {
           environment {
                 KEYCLOAK_SECRET = credentials('KEYCLOAK_SECRET')
