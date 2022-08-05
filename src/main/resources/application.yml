@@ -35,4 +35,4 @@ keycloak:
 logging:
   file:
     path:
-      ${LOGGING_PATH}
+      ${LOG_PATH}
