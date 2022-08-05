@@ -33,5 +33,6 @@ keycloak:
   cors: true
 
 logging:
-  path:
-    ${LOGGING_PATH}
+  file:
+    path:
+      ${LOGGING_PATH}
