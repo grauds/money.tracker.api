@@ -2,13 +2,13 @@ version: '3.7'
 
 services:
   money_tracker_api:
-      image: atroshin/clematis.mt.api:latest
+      image: clematis.mt.api:latest
       networks:
         - clematis
       ports:
         - "18085:8080"
       env_file:
-        - money_tracker_api.env
+        - money_tracker_api.local.env
       volumes:
         - ../log:/var/log/clematis
 
@@ -17,7 +17,7 @@ services:
        networks:
          - clematis
        env_file:
-         - money_tracker_api.env
+         - money_tracker_api.local.env
        volumes:
          - ../src/test/resources:/firebird/data
        ports:
