@@ -7,6 +7,7 @@ import org.springframework.jmx.support.ConnectorServerFactoryBean;
 
 /**
  * JMXMP configuration in the Spring Boot app
+ * @author Anton Troshin
  */
 @Configuration
 public class ConnectorServiceFactoryBeanProvider {
