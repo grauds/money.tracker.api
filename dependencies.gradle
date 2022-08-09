@@ -15,6 +15,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    implementation 'org.glassfish.main.external:jmxremote_optional-repackaged:5.0'
+
     implementation libs.swagger
     implementation libs.swaggerUI
 

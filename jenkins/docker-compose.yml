@@ -7,7 +7,8 @@ services:
       - clematis_mt
     ports:
       - "18085:8080"
-      - "15085:15085"
+      - "15085:5000"
+      - "15086:5001"
     env_file:
       - money_tracker_api.env
     volumes:

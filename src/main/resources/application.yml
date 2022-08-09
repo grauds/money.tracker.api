@@ -28,6 +28,7 @@ spring:
 
   jmx:
     enabled: true
+    url: service:jmx:jmxmp://${JMXMP_HOST}:${JMXMP_PORT}/
 
 keycloak:
   auth-server-url: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth"
