@@ -25,6 +25,10 @@ spring:
     rest:
       basePath: /api
 
+
+  jmx:
+    enabled: true
+
 keycloak:
   auth-server-url: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth"
   realm: clematis
