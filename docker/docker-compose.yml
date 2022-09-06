@@ -9,6 +9,8 @@ services:
         - "18085:8080"
       env_file:
         - money_tracker_api.local.env
+      depends_on:
+        - "money_tracker_db"
       volumes:
         - ../log:/var/log/clematis
 
