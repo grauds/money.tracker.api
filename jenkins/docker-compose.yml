@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   money_tracker_api:
     image: clematis.mt.api:latest
@@ -14,6 +12,9 @@ services:
     volumes:
       - /home/firebird/logs:/var/log/clematis
     restart: unless-stopped
+    depends_on:
+      money_tracker_db:
+        condition: service_healthy
 
   money_tracker_db:
     image: jacobalberty/firebird:2.5.9-sc

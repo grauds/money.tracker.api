@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   money_tracker_api:
       image: clematis.mt.api:latest
@@ -10,7 +8,8 @@ services:
       env_file:
         - money_tracker_api.local.env
       depends_on:
-        - "money_tracker_db"
+        money_tracker_db:
+          condition: service_healthy
       volumes:
         - ../log:/var/log/clematis
 
