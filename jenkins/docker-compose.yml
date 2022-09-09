@@ -1,5 +1,6 @@
 services:
-  money_tracker_api:
+  money-tracker-api:
+    container_name: clematis-money-tracker-api
     image: clematis.mt.api:latest
     networks:
       - clematis_mt
@@ -16,7 +17,8 @@ services:
       money_tracker_db:
         condition: service_healthy
 
-  money_tracker_db:
+  money-tracker-db:
+    container_name: clematis-money-tracker-db
     image: jacobalberty/firebird:2.5.9-sc
     networks:
       - clematis_mt
