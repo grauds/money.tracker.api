@@ -14,7 +14,7 @@ services:
       - /home/firebird/logs:/var/log/clematis
     restart: unless-stopped
     depends_on:
-      money_tracker_db:
+      money-tracker-db:
         condition: service_healthy
 
   money-tracker-db:

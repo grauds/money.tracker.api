@@ -1,5 +1,5 @@
 services:
-  money_tracker_api:
+  money-tracker-api:
       image: clematis.mt.api:latest
       networks:
         - clematis
@@ -8,12 +8,12 @@ services:
       env_file:
         - money_tracker_api.local.env
       depends_on:
-        money_tracker_db:
+        money-tracker-db:
           condition: service_healthy
       volumes:
         - ../log:/var/log/clematis
 
-  money_tracker_db:
+  money-tracker-db:
        image: jacobalberty/firebird:2.5.9-sc
        networks:
          - clematis
