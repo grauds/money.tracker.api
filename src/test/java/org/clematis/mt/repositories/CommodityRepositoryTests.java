@@ -1,13 +1,13 @@
 package org.clematis.mt.repositories;
 
-import java.util.List;
-
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.model.Commodity;
 import org.clematis.mt.repository.CommodityRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 public class CommodityRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
@@ -26,7 +26,8 @@ public class CommodityRepositoryTests extends ClematisMoneyTrackerApplicationTes
 
     @Test
     public void findCommodities() {
-        List<Commodity> commodityList = commodityRepository.findByNameContains("ек");
-        Assertions.assertEquals(39, commodityList.size());
+        Page<Commodity> commodityList
+                = commodityRepository.findByNameContainingIgnoreCase("ек", PageRequest.of(0, 50));
+        Assertions.assertEquals(40, commodityList.getTotalElements());
     }
 }

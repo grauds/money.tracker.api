@@ -38,6 +38,7 @@ public class ClematisMoneyTrackerApplicationTests {
                 .withDatabaseName("mt.fdb")
                 .withUsername("SYSDBA")
                 .withCopyFileToContainer(MountableFile.forClasspathResource("mt.fdb"), "/firebird/data/mt.fdb")
+                .withUrlParam("encoding", "win1251")
                 .withLogConsumer(new Slf4jLogConsumer(LOGGER));
         container.start();
     }
