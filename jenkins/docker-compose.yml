@@ -28,7 +28,7 @@ services:
       - money_tracker_server.env
     volumes:
       - /home/firebird/db:/firebird/data
-      - docker-healthcheck.conf:/firebird/etc/docker-healthcheck.conf
+      - ./docker-healthcheck.conf:/firebird/etc/docker-healthcheck.conf
     restart: unless-stopped
 
 networks:
