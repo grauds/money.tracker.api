@@ -29,4 +29,19 @@ public interface CommodityGroupRepository
     )
     @RestResource(path = "recursiveByParentId")
     List<CommodityGroup> findRecursiveByParentId(@Param("id") Integer id);
+
+    @Query(
+            value = "WITH RECURSIVE w1(id, parent, name) AS\n"
+                    + "(SELECT c.id, c.parent, c.name\n"
+                    + "    FROM COMMGROUP as c\n"
+                    + "    WHERE c.id = :id\n"
+                    + "UNION ALL\n"
+                    + "SELECT c2.id, c2.parent, c2.name\n"
+                    + "FROM w1 JOIN COMMGROUP as c2 ON c2.id=w1.parent\n"
+                    + ")\n"
+                    + "SELECT * FROM w1 WHERE w1.id <> :id ORDER BY name",
+            nativeQuery = true
+    )
+    @RestResource(path = "pathById")
+    List<CommodityGroup> findPathById(@Param("id") Integer id);
 }

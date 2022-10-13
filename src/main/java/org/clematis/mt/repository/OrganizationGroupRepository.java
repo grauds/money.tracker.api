@@ -14,6 +14,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @RepositoryRestResource(path = "organizationGroups")
 public interface OrganizationGroupRepository
         extends PagingAndSortingAndFilteringByNameRepository<OrganizationGroup, Integer> {
+
     @Query(
             value = "WITH RECURSIVE w1(id, parent, name) AS\n"
                     + "(SELECT c.id, c.parent, c.name\n"
@@ -28,4 +29,19 @@ public interface OrganizationGroupRepository
     )
     @RestResource(path = "recursiveByParentId")
     List<OrganizationGroup> findRecursiveByParentId(@Param("id") Integer id);
+
+    @Query(
+            value = "WITH RECURSIVE w1(id, parent, name) AS\n"
+                    + "(SELECT c.id, c.parent, c.name\n"
+                    + "    FROM ORGANIZATIONGROUP as c\n"
+                    + "    WHERE c.id = :id\n"
+                    + "UNION ALL\n"
+                    + "SELECT c2.id, c2.parent, c2.name\n"
+                    + "FROM w1 JOIN ORGANIZATIONGROUP as c2 ON c2.id=w1.parent\n"
+                    + ")\n"
+                    + "SELECT * FROM w1 WHERE w1.id <> :id ORDER BY name",
+            nativeQuery = true
+    )
+    @RestResource(path = "pathById")
+    List<OrganizationGroup> findPathById(@Param("id") Integer id);
 }

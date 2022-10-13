@@ -21,7 +21,7 @@ public class CommodityRepositoryTests extends ClematisMoneyTrackerApplicationTes
 
     @Test
     void countRecursiveCommodities() {
-        Assertions.assertEquals(5, commodityRepository.findRecursiveByGroupId(303).size());
+        Assertions.assertEquals(5, commodityRepository.findRecursiveByParentGroupId(303).size());
     }
 
     @Test

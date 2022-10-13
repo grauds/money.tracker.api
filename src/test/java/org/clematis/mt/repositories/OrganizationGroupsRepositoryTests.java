@@ -16,4 +16,10 @@ public class OrganizationGroupsRepositoryTests extends ClematisMoneyTrackerAppli
         // all groups minus one - the same group
         Assertions.assertEquals(0, organizationGroupRepository.findRecursiveByParentId(264).size());
     }
+
+    @Test
+    void countPath() {
+        // all groups minus one - the same group
+        Assertions.assertEquals(1, organizationGroupRepository.findPathById(264).size());
+    }
 }

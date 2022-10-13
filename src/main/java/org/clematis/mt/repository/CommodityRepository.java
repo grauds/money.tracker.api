@@ -25,6 +25,6 @@ public interface CommodityRepository extends PagingAndSortingAndFilteringByNameR
             + "\n"
             + "SELECT * FROM COMMODITY WHERE PARENT IN (SELECT w1.id FROM w1) ORDER BY NAME",
         nativeQuery = true)
-    @RestResource(path = "recursiveByParentId")
-    List<Commodity> findRecursiveByGroupId(@Param("id") Integer id);
+    @RestResource(path = "recursiveByParentGroupId")
+    List<Commodity> findRecursiveByParentGroupId(@Param("id") Integer id);
 }
