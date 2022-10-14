@@ -37,5 +37,12 @@ public class CommodityTests extends HateoasApiTests {
                         new ParameterizedTypeReference<>() {});
 
         Assertions.assertEquals(HttpStatus.OK, commodities.getStatusCode());
+
+        ResponseEntity<PagedModel<CommodityGroup>> path
+                = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/commodityGroups/search/pathById?id=303", HttpMethod.GET,  new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {});
+
+        Assertions.assertEquals(HttpStatus.OK, path.getStatusCode());
     }
 }

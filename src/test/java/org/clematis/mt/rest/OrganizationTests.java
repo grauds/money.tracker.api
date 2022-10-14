@@ -1,5 +1,6 @@
 package org.clematis.mt.rest;
 
+import org.clematis.mt.model.CommodityGroup;
 import org.clematis.mt.model.Organization;
 import org.clematis.mt.model.OrganizationGroup;
 import org.junit.jupiter.api.Assertions;
@@ -39,5 +40,13 @@ public class OrganizationTests extends HateoasApiTests {
                         new ParameterizedTypeReference<>() {});
 
         Assertions.assertEquals(HttpStatus.OK, organizations.getStatusCode());
+
+
+        ResponseEntity<PagedModel<OrganizationGroup>> path
+                = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/organizationGroups/search/pathById?id=303", HttpMethod.GET,  new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {});
+
+        Assertions.assertEquals(HttpStatus.OK, path.getStatusCode());
     }
 }
