@@ -1,6 +1,7 @@
 package org.clematis.mt.model.views;
 
 import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 
 import lombok.Getter;
