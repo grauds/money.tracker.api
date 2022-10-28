@@ -1,7 +1,5 @@
 package org.clematis.mt.repository;
 
-import java.util.List;
-
 import org.clematis.mt.model.Expense;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -14,8 +12,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
  */
 @RepositoryRestResource(path = "expenses")
 public interface ExpenseRepository extends PagingAndSortingRepository<Expense, Integer> {
-
-    List<Expense> findByIdAndMoneyTypeCode(int id, String moneyTypeCode);
 
     @Query(value = "WITH RECURSIVE w1(id, parent, name) AS\n"
             + "(SELECT c.id, c.parent, c.name\n"
