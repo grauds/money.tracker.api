@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface MonthlyDeltaRepository extends JpaRepository<MonthlyDelta, Integer> {
 
     @Query(value =
-            "SELECT ROUND(SUM(MD.DELTA), 2) FROM MONTHLY_DELTA as MD where MD.AN <= :an " +
-                    "AND MD.MOIS <= :mois AND MD.CODE = :code", nativeQuery = true)
+            "SELECT ROUND(SUM(MD.DELTA), 2) FROM MONTHLY_DELTA as MD where MD.AN <= :an "
+                    + "AND MD.MOIS <= :mois AND MD.CODE = :code", nativeQuery = true)
     @RestResource(path = "balance")
     Long getBalanceForCurrency(@RequestParam(value = "an", defaultValue = "0") int an,
                                @RequestParam(value = "mois", defaultValue = "0") int mois,
