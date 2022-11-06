@@ -15,6 +15,7 @@ import lombok.Setter;
 
 /**
  * A record about one of the expenses, for logging purposes
+ * @author Anton Troshin
  */
 @Table(name = "LAST_EXPENSEITEMS")
 @Entity
@@ -33,9 +34,18 @@ public class LastExpenseItem extends IdAware {
     Double qty;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private Date transaction_date;
+    Date transactionDate;
 
-    private String org;
+    String org;
 
     int daysAgo;
+
+    public Date getTransactionDate() {
+        return transactionDate != null ? (Date) transactionDate.clone() : null;
+    }
+
+    public void setTransactionDate(Date date) {
+        this.transactionDate = date != null ? (Date) date.clone() : null;
+    }
+
 }
