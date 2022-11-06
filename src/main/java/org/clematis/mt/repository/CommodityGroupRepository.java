@@ -39,7 +39,7 @@ public interface CommodityGroupRepository
                     + "SELECT c2.id, c2.parent, c2.name\n"
                     + "FROM w1 JOIN COMMGROUP as c2 ON c2.id=w1.parent\n"
                     + ")\n"
-                    + "SELECT * FROM w1 WHERE w1.id <> :id ORDER BY name",
+                    + "SELECT * FROM w1 WHERE w1.id <> :id",
             nativeQuery = true
     )
     @RestResource(path = "pathById")
