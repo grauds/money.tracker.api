@@ -92,8 +92,9 @@ ORDER BY TRANSFERDATE;
 
 ----------------------------------------------------------
 
-CREATE OR ALTER VIEW LAST_COMMODITIES_VIEW (ID, NAME, PRICE, CURRENCY, QTY, TRANSACTION_DATE, ORG, DAYS_AGO) AS
-SELECT c.ID                                                 AS ID,
+CREATE OR ALTER VIEW LAST_EXPENSEITEMS (ID, COMM_ID, NAME, PRICE, CURRENCY, QTY, TRANSACTION_DATE, ORG, DAYS_AGO) AS
+SELECT item.ID                                              AS ID,
+       c.ID                                                 AS COMM_ID,
        c.NAME                                               AS NAME,
        item.PRICE                                           AS PRICE,
        m.CODE                                               AS CURRENCY,
@@ -118,7 +119,7 @@ FROM EXPENSEITEM AS item
          JOIN COMMODITY c ON c.ID = item.COMM
          JOIN EXPENSE ex ON ex.ID = item.EXPENSE
          JOIN MONEYTYPE m ON ex.MONEYTYPE = m.ID
-ORDER BY DAYS_AGO DESC;
+ORDER BY DAYS_AGO;
 
 ----------------------------------------------------------
 
@@ -133,14 +134,14 @@ GROUP BY "AN", "MOIS";
 
 ----------------------------------------------------------
 
-CREATE OR ALTER VIEW LAST_COMMODITIES_PER_MONTH ("AN", "MOIS", COMMODITIES)
+CREATE OR ALTER VIEW LAST_EXPENSEITEMS_PER_MONTH ("AN", "MOIS", COMMODITIES)
 AS
 SELECT
-    EXTRACT(YEAR FROM LAST_COMMODITIES_VIEW.TRANSACTION_DATE) as "AN",
-    EXTRACT(MONTH FROM LAST_COMMODITIES_VIEW.TRANSACTION_DATE) as "MOIS",
+    EXTRACT(YEAR FROM LAST_EXPENSEITEMS.TRANSACTION_DATE) as "AN",
+    EXTRACT(MONTH FROM LAST_EXPENSEITEMS.TRANSACTION_DATE) as "MOIS",
     COUNT(*) AS COMMODITIES
 
-FROM LAST_COMMODITIES_VIEW
+FROM LAST_EXPENSEITEMS
 GROUP BY "AN", "MOIS";
 
 ----------------------------------------------------------
@@ -185,8 +186,5 @@ FROM (SELECT EXTRACT(MONTH FROM TRANSFERDATE) AS "MOIS",
 ORDER BY "AN", "MOIS";
 
 ----------------------------------------------------------
-
-
-
 
 
