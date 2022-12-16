@@ -2,6 +2,7 @@ package org.clematis.mt.model.views;
 
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -48,4 +49,27 @@ public class LastExpenseItem extends IdAware {
         this.transactionDate = date != null ? (Date) date.clone() : null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        LastExpenseItem that = (LastExpenseItem) o;
+        return commId == that.commId
+                && daysAgo == that.daysAgo
+                && Objects.equals(name, that.name)
+                && Objects.equals(price, that.price)
+                && Objects.equals(currency, that.currency)
+                && Objects.equals(qty, that.qty)
+                && Objects.equals(transactionDate, that.transactionDate)
+                && Objects.equals(org, that.org);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(commId, name, price, currency, qty, transactionDate, org, daysAgo);
+    }
 }

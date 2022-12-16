@@ -30,4 +30,6 @@ public class ClematisMoneyTrackerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ClematisMoneyTrackerApplication.class, args);
     }
+
+
 }

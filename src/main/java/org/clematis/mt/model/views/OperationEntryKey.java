@@ -7,24 +7,26 @@ import javax.persistence.Embeddable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Anton Troshin
  */
 @Embeddable
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class OperationEntryKey implements Serializable {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date transferdate;
 
     private Integer account;
 
-    private Double amount;
-
-    private Integer moneySign;
+    public OperationEntryKey(Date transferdate, Integer account) {
+        this.setTransferDate(transferdate);
+        this.setAccount(account);
+    }
 
     public Date getTransferDate() {
         return transferdate != null ? (Date) transferdate.clone() : null;
