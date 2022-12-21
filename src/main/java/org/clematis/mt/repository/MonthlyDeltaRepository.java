@@ -18,7 +18,7 @@ public interface MonthlyDeltaRepository extends PagingAndSortingRepository<Month
 
     @Query(value =
             "SELECT ROUND(SUM(MD.DELTA), 2) FROM MONTHLY_DELTA as MD where (MD.AN < :an OR (MD.AN = :an "
-                    + "AND MD.MOIS <= :mois)) AND MD.CODE = :code", nativeQuery = true)
+                    + "AND MD.MOIS < :mois)) AND MD.CODE = :code", nativeQuery = true)
     @RestResource(path = "balance")
     Long getBalanceForCurrency(@RequestParam(value = "an", defaultValue = "2002") int an,
                                @RequestParam(value = "mois", defaultValue = "1") int mois,
