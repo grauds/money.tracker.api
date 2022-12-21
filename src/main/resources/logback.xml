@@ -31,10 +31,6 @@
             <!-- daily rollover -->
             <fileNamePattern>${LOG_PATH}/api.%d.log</fileNamePattern>
             <maxHistory>${LOG_HISTORY}</maxHistory>
-<!--            <timeBasedFileNamingAndTriggeringPolicy-->
-<!--                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
-<!--                <maxFileSize>10MB</maxFileSize>-->
-<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
         </rollingPolicy>
 
         <filter class="ch.qos.logback.core.filter.EvaluatorFilter">

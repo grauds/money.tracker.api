@@ -20,6 +20,12 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     public static final String ALL_REGEXP = "/**";
 
+    private static final String[] SWAGGER_WHITELIST = {
+        "/v3/api-docs/**",
+        "/swagger-ui/**",
+        "/swagger-ui.html",
+    };
+
     @Autowired
     private CorsConfigurationSource corsConfigurationSource;
 
@@ -41,6 +47,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, ALL_REGEXP)
+                .permitAll()
+                .antMatchers(SWAGGER_WHITELIST)
                 .permitAll()
                 .antMatchers("/api" + ALL_REGEXP)
                 .authenticated()
