@@ -25,7 +25,7 @@ public class MonthlyDeltaRepositoryTests extends ClematisMoneyTrackerApplication
 
     @Test
     void countBalances() {
-        Assertions.assertEquals(484031,
+        Assertions.assertEquals(474100,
                 monthlyDeltaRepository.getBalanceForCurrency(2018, 2, "RUB"));
     }
 
