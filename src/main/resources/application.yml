@@ -28,12 +28,9 @@ spring:
     hibernate:
       ddl-auto: none
 
-  liquibase.change-log: classpath:db/changelog/db.changelog-master.xml
-
   data:
     rest:
       basePath: /api
-
 
   jmx:
     enabled: true
