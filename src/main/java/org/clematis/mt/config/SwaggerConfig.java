@@ -1,6 +1,7 @@
 package org.clematis.mt.config;
 
-import io.swagger.v3.oas.models.info.Info;
+import static org.springdoc.core.Constants.ALL_PATTERN;
+
 import org.springdoc.core.GroupedOpenApi;
 import org.springdoc.core.SwaggerUiConfigProperties;
 import org.springdoc.core.customizers.OpenApiCustomiser;
@@ -12,8 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
-
-import static org.springdoc.core.Constants.ALL_PATTERN;
+import io.swagger.v3.oas.models.info.Info;
 
 /**
  *
