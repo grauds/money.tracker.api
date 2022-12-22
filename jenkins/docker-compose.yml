@@ -55,6 +55,8 @@ services:
       - clematis_mt
     ports:
       - "3051:3050"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=local"
     env_file:
       - money_tracker_server.env
     volumes:
