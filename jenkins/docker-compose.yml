@@ -26,6 +26,8 @@ services:
       - "18086:8080"
       - "15087:5000"
       - "15088:5001"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=local"
     env_file:
       - money_tracker_api.env
     volumes:
@@ -55,8 +57,6 @@ services:
       - clematis_mt
     ports:
       - "3051:3050"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=local"
     env_file:
       - money_tracker_server.env
     volumes:
