@@ -29,7 +29,7 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=local"
     env_file:
-      - money_tracker_api.env
+      - money_tracker_api_demo.env
     volumes:
       - /home/firebird/demo/logs:/var/log/clematis
     restart: unless-stopped
