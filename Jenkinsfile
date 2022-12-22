@@ -44,6 +44,12 @@ pipeline {
             }
         }
 
+        stage('Update demo database from GitHub') {
+            steps {
+                sh 'wget "https://github.com/grauds/money.tracker.api/raw/master/src/test/resources/mt.fdb" -O /home/firebird/demo/db/mt.fdb'
+            }
+        }
+
         stage("Build and start docker compose services") {
           environment {
                 KEYCLOAK_SECRET = credentials('KEYCLOAK_SECRET')
@@ -54,6 +60,7 @@ pipeline {
                  cd jenkins
                  docker compose stop
                  docker stop clematis-money-tracker-api || true && docker rm clematis-money-tracker-api || true
+                 docker stop clematis-money-tracker-api-demo || true && docker rm clematis-money-tracker-api-demo || true
                  docker compose build --build-arg KEYCLOAK_SECRET='$KEYCLOAK_SECRET' --build-arg SPRING_DATASOURCE_PASSWORD='$SPRING_DATASOURCE_PASSWORD'
                  docker compose up -d 
               '''
