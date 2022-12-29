@@ -24,7 +24,6 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.FirebirdDialect
     show-sql: true
-    properties.hibernate.format_sql: true
     hibernate:
       ddl-auto: none
 
@@ -49,7 +48,6 @@ logging:
       ${LOG_PATH}
 
 springdoc:
-  version: '@springdoc.version@'
   swagger-ui:
     display-request-duration: true
     groups-order: ASC

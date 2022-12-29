@@ -1,7 +1,10 @@
 buildscript {
     repositories {
-        mavenLocal()
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        google()
     }
 }
 
@@ -25,8 +28,6 @@ plugins {
 group 'name.troshin.anton.clematis'
 version = '0.0.6 - SNAPSHOT'
 
-apply from: file("${project.rootDir}/dependencies.gradle")
-
 sourceCompatibility = '11'
 targetCompatibility = '11'
 
@@ -37,6 +38,9 @@ configurations {
 repositories {
     mavenCentral()
 }
+
+apply from: file("${project.rootDir}/dependencies.gradle")
+
 // ------------ JaCoCo test coverage + ascii doctor as a post processor
 
 ext {

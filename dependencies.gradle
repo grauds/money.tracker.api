@@ -37,8 +37,7 @@ dependencies {
     testCompileOnly libs.jupiter
     testCompileOnly libs.testContainers
     testCompileOnly libs.lombok
-    testCompileOnly libs.testContainersJupiter
-    testCompileOnly 'com.google.code.findbugs:annotations:3.0.1u2'
+    testCompileOnly libs.spotbugs
 
     testImplementation ('com.tngtech.keycloakmock:mock-junit5:0.7.0') {
         exclude group: 'io.netty'
@@ -53,5 +52,5 @@ dependencies {
     testImplementation libs.sprintMockMvc
     testImplementation 'org.springframework.security:spring-security-test:5.5.1'
 
-    testRuntimeOnly libs.jupiterEngine
+    testRuntimeOnly libs.jupiter
 }
