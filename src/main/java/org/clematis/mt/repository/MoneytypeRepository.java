@@ -10,4 +10,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(path = "moneytypes")
 public interface MoneytypeRepository extends PagingAndSortingRepository<MoneyType, Integer> {
 
+
 }
