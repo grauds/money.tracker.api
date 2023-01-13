@@ -111,6 +111,14 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi exchangeApi() {
+        return GroupedOpenApi.builder()
+                .group("Money Exchange")
+                .pathsToMatch("/api/exchange")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi organizationsApi() {
         return GroupedOpenApi.builder()
                 .group("Organizations")
