@@ -40,7 +40,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
         ResponseEntity<PagedModel<ExpenseItem>> items
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/expenseItems/search/findByCommodityId?commodityId=258",
+                .exchange("/api/expenseItems/search/commodity?commodityId=258",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {});
