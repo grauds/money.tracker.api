@@ -11,5 +11,4 @@ import javax.persistence.Table;
 @Table(name = "USERMT")
 public class User extends VersionedEntity {
 
-    private String name;
 }

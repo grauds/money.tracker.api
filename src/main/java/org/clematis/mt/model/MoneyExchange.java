@@ -21,20 +21,17 @@ public class MoneyExchange extends IdAware {
 
     private Date exchangedate;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "SOURCE")
     private Account source;
 
-
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "DEST")
     private Account dest;
 
-
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "USERMT")
     private User usermt;
-
 
     @ManyToOne
     @JoinColumn(name = "TRADEPLACE")
@@ -48,11 +45,11 @@ public class MoneyExchange extends IdAware {
 
     private Double destamount;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "SOURCEMONEYTYPE")
     private MoneyType sourcemoneytype;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "DESTMONEYTYPE")
     private MoneyType destmoneytype;
 

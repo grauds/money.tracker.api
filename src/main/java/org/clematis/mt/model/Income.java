@@ -65,7 +65,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "INCOME")
-public class Income extends VersionedEntity {
+public class Income extends IdAware {
 
     private Date transferdate;
 
