@@ -1,5 +1,8 @@
 package org.clematis.mt.rest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.clematis.mt.model.views.AccountTotal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,5 +28,33 @@ public class AccountsTotalsTests extends HateoasApiTests {
         ResponseEntity<PagedModel<AccountTotal>> accountsTotals = getRestTemplateWithHalMessageConverter()
                 .exchange("/api/accountsTotals", HttpMethod.GET,  new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
         Assertions.assertEquals(HttpStatus.OK, accountsTotals.getStatusCode());
+    }
+
+    @Test
+    public void testTotalsBalanceInCode() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + mock.getAccessToken(aTokenConfig().build()));
+
+        Map<String, String> uriParam = new HashMap<>();
+        uriParam.put("code", "RUB");
+
+        ResponseEntity<PagedModel<AccountTotal>> accountsTotals = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/accountsTotals/search/code", HttpMethod.GET,
+                        new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}, uriParam);
+        Assertions.assertEquals(HttpStatus.OK, accountsTotals.getStatusCode());
+    }
+
+    @Test
+    public void testBalanceInCode() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + mock.getAccessToken(aTokenConfig().build()));
+
+        Map<String, String> uriParam = new HashMap<>();
+        uriParam.put("code", "RUB");
+
+        ResponseEntity<Long> total = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/accountsTotals/search/balance", HttpMethod.GET,
+                        new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}, uriParam);
+        Assertions.assertEquals(HttpStatus.OK, total.getStatusCode());
     }
 }
