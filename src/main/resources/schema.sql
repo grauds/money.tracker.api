@@ -47,7 +47,7 @@ SELECT TRANSFERDATE, ACCOUNT, AMOUNT, MONEY_SIGN, MONEYTYPE FROM (
      WHERE ldp2.STATUS = 1
        AND ldp2.PAYMENTTYPE = 1
        AND ld2parent.ID = ldp2.CREDIT
-    )#
+    ) ^
 
 
 ----------------------------------------------------------
@@ -68,7 +68,7 @@ FROM (SELECT ACCOUNT,
       GROUP BY ACCOUNT)
          JOIN ACCOUNT AS acc ON acc.ID = ACCOUNT
          JOIN MONEYTYPE AS mt ON acc.MONEYTYPE = mt.ID
-ORDER BY TOTAL#
+ORDER BY TOTAL ^
 
 ----------------------------------------------------------
 
@@ -88,7 +88,7 @@ FROM ALL_OPERATIONS_HISTORY
                 where RATEDATE <= TRANSFERDATE ORDER BY RATEDATE DESC) = mtr.RATEDATE
                  AND acc.MONEYTYPE = mtr.SELLMONEYTYPE AND mtr.BUYMONEYTYPE = 1
          LEFT JOIN MONEYTYPE AS mt2 ON mtr.BUYMONEYTYPE = mt2.ID
-ORDER BY TRANSFERDATE#
+ORDER BY TRANSFERDATE ^
 
 ----------------------------------------------------------
 
@@ -119,7 +119,7 @@ FROM EXPENSEITEM AS item
          JOIN COMMODITY c ON c.ID = item.COMM
          JOIN EXPENSE ex ON ex.ID = item.EXPENSE
          JOIN MONEYTYPE m ON ex.MONEYTYPE = m.ID
-ORDER BY DAYS_AGO#
+ORDER BY DAYS_AGO ^
 
 ----------------------------------------------------------
 
@@ -130,7 +130,7 @@ SELECT
     COUNT(DISTINCT(EXPENSEITEM.COMM)) AS COMMODITIES
 
 FROM EXPENSEITEM
-GROUP BY "AN", "MOIS"#
+GROUP BY "AN", "MOIS" ^
 
 ----------------------------------------------------------
 
@@ -142,7 +142,7 @@ SELECT
     COUNT(*) AS COMMODITIES
 
 FROM LAST_EXPENSEITEMS
-GROUP BY "AN", "MOIS"#
+GROUP BY "AN", "MOIS" ^
 
 ----------------------------------------------------------
 
@@ -162,7 +162,7 @@ FROM (SELECT TRANSFERDATE,
            )
       GROUP BY TRANSFERDATE, MONEYTYPE)
          JOIN MONEYTYPE AS mt ON MONEYTYPE = mt.ID
-ORDER BY TRANSFERDATE#
+ORDER BY TRANSFERDATE ^
 
 ----------------------------------------------------------
 
@@ -183,7 +183,7 @@ FROM (SELECT EXTRACT(MONTH FROM TRANSFERDATE) AS "MOIS",
            )
       GROUP BY EXTRACT(MONTH FROM TRANSFERDATE), EXTRACT(YEAR FROM TRANSFERDATE), MONEYTYPE)
          JOIN MONEYTYPE AS mt ON MONEYTYPE = mt.ID
-ORDER BY "AN", "MOIS"#
+ORDER BY "AN", "MOIS" ^
 
 ----------------------------------------------------------
 
