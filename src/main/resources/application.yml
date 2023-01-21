@@ -20,6 +20,7 @@ spring:
     driver-class-name: org.firebirdsql.jdbc.FBDriver
     initialization-mode: always
     continue-on-error: true
+    separator: #
 
   jpa:
     database-platform: org.hibernate.dialect.FirebirdDialect
