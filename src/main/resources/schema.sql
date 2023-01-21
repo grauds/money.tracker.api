@@ -187,4 +187,53 @@ ORDER BY "AN", "MOIS";
 
 ----------------------------------------------------------
 
+CREATE OR ALTER PROCEDURE CROSS_RATE (SRC VARCHAR(16) NOT NULL, DEST VARCHAR(16) NOT NULL)
+    RETURNS (
+    RATE DOUBLE PRECISION
+    )
+    AS
+BEGIN
+    RATE = 1;
 
+    IF (:DEST = 'RUB' AND :SRC <> 'RUB') THEN
+    BEGIN
+        FOR
+            SELECT FIRST 1 * FROM(
+                SELECT ROUND(mtr.RATE, 15) as RATE FROM MONEYTYPERATE as mtr
+                WHERE (mtr.BUYMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:DEST)
+                AND mtr.SELLMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:SRC))
+                ORDER BY mtr.RATEDATE DESC
+                )
+            INTO :RATE
+            DO
+                SUSPEND;
+    END
+    ELSE IF (:SRC = 'RUB' AND :DEST <> 'RUB') THEN
+    BEGIN
+        FOR
+            SELECT FIRST 1 * FROM(
+                SELECT ROUND(1 / mtr.RATE, 15) as RATE FROM MONEYTYPERATE as mtr
+                WHERE (mtr.BUYMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:SRC)
+                AND mtr.SELLMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:DEST))
+                ORDER BY mtr.RATEDATE DESC
+                )
+            INTO :RATE
+            DO
+                SUSPEND;
+        END
+    ELSE
+    BEGIN
+        FOR
+            SELECT FIRST 1 * FROM (SELECT ROUND(mtr1.RATE/mtr2.RATE, 15) as RATE FROM MONEYTYPERATE as mtr1
+                LEFT JOIN MONEYTYPERATE as mtr2
+                ON mtr1.RATEDATE = mtr2.RATEDATE
+                AND mtr1.SELLMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:SRC)
+                AND mtr2.SELLMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:DEST)
+                WHERE (mtr1.RATE IS NOT NULL AND mtr2.RATE IS NOT NULL)
+                ORDER BY mtr1.RATEDATE DESC
+                )
+            INTO :RATE
+            DO
+                SUSPEND;
+    END
+END
