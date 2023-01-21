@@ -187,11 +187,11 @@ ORDER BY "AN", "MOIS" ^
 
 ----------------------------------------------------------
 
-CREATE OR ALTER PROCEDURE CROSS_RATE (SRC VARCHAR(16) NOT NULL, DEST VARCHAR(16) NOT NULL)
+CREATE OR ALTER PROCEDURE CROSS_RATE (SRC VARCHAR(16), DEST VARCHAR(16))
     RETURNS (RATE DOUBLE PRECISION)
 AS
 BEGIN
-    RATE = 1;
+    RATE = 1; -- default for roubles and roubles
 
     IF (:DEST = 'RUB' AND :SRC <> 'RUB') THEN
     BEGIN
@@ -219,7 +219,7 @@ BEGIN
             DO
                 SUSPEND;
         END
-    ELSE
+    ELSE IF (:SRC <> 'RUB' AND :DEST <> 'RUB') THEN
     BEGIN
         FOR
             SELECT FIRST 1 * FROM (SELECT ROUND(mtr1.RATE/mtr2.RATE, 15) as RATE FROM MONEYTYPERATE as mtr1
@@ -230,6 +230,14 @@ BEGIN
                 WHERE (mtr1.RATE IS NOT NULL AND mtr2.RATE IS NOT NULL)
                 ORDER BY mtr1.RATEDATE DESC
                 )
+            INTO :RATE
+            DO
+                SUSPEND;
+    END
+    ELSE
+    BEGIN
+        FOR
+            SELECT FIRST 1 * FROM (SELECT 1 as RATE FROM MONEYTYPERATE)
             INTO :RATE
             DO
                 SUSPEND;
