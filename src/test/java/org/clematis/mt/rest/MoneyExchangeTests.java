@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
 public class MoneyExchangeTests extends HateoasApiTests {
+
     @Test
     public void testAverageExhangeRate() {
         HttpHeaders headers = new HttpHeaders();
@@ -47,5 +48,24 @@ public class MoneyExchangeTests extends HateoasApiTests {
                         new ParameterizedTypeReference<>() {});
         Assertions.assertEquals(HttpStatus.OK, exchange.getStatusCode());
 
+    }
+
+    @Test
+    public void testExchangeReport() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + mock.getAccessToken(aTokenConfig().build()));
+
+        Map<String, String> uriParam = new HashMap<>();
+        uriParam.put("source", "USD");
+        uriParam.put("dest", "RUB");
+
+        // do not put DTO interface here, it will fail to be constructed
+        ResponseEntity<?> exchange = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/exchange/search/report",
+                        HttpMethod.GET,
+                        new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {}, uriParam);
+        Assertions.assertEquals(HttpStatus.OK, exchange.getStatusCode());
     }
 }

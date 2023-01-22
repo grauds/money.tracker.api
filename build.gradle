@@ -148,6 +148,7 @@ asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
+
 // ------------ Spotbugs configuration  ---------
 spotbugsMain {
     reports {
@@ -172,6 +173,7 @@ spotbugsTest {
         }
     }
 }
+
 // ------------ Checkstyle configuration  ---------
 checkstyle {
     configProperties.configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")

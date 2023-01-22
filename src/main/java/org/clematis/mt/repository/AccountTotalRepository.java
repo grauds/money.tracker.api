@@ -17,7 +17,8 @@ public interface AccountTotalRepository extends JpaRepository<AccountTotal, Inte
 
     @Query(value = "select atl.ID, atl.NAME, atl.CODE, atl.TOTAL, "
             + "ROUND(atl.TOTAL / (SELECT * FROM CROSS_RATE(mt.CODE, :code)), 2) as BALANCE "
-            + "FROM ACCOUNTS_TOTAL_LAST as atl LEFT JOIN MONEYTYPE as mt on atl.CODE = mt.CODE", nativeQuery = true)
+            + "FROM ACCOUNTS_TOTAL_LAST as atl LEFT JOIN MONEYTYPE as mt on atl.CODE = mt.CODE "
+            + "ORDER BY BALANCE", nativeQuery = true)
     @RestResource(path = "code")
     List<AccountTotal> getAccountTotals(@Param(value = "code") String code);
 
