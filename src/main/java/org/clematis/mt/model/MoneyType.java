@@ -1,5 +1,6 @@
 package org.clematis.mt.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -34,7 +35,9 @@ import lombok.Setter;
 @Table(name = "MONEYTYPE")
 public class MoneyType extends VersionedEntity {
 
+    @Column(name = "CODE")
     private String code;
 
+    @Column(name = "SIGN")
     private String sign;
 }

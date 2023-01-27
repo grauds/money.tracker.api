@@ -34,6 +34,8 @@ public class LastExpenseItem extends IdAware {
 
     Double qty;
 
+    String unit;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     Date transactionDate;
 
@@ -64,12 +66,13 @@ public class LastExpenseItem extends IdAware {
                 && Objects.equals(price, that.price)
                 && Objects.equals(currency, that.currency)
                 && Objects.equals(qty, that.qty)
+                && Objects.equals(unit, that.unit)
                 && Objects.equals(transactionDate, that.transactionDate)
                 && Objects.equals(org, that.org);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(commId, name, price, currency, qty, transactionDate, org, daysAgo);
+        return Objects.hash(commId, name, price, currency, qty, unit, transactionDate, org, daysAgo);
     }
 }
