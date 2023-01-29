@@ -13,6 +13,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(path = "lastExpenseItems")
 public interface LastExpenseItemRepository extends PagingAndSortingRepository<LastExpenseItem, Integer> {
 
-    List<LastExpenseItem> findByCommId(@Param(value = "commodityId") long commodityId);
+    List<LastExpenseItem> findByCommodityId(@Param(value = "commodityId") int commodityId);
 
 }

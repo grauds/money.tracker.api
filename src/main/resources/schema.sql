@@ -92,16 +92,15 @@ ORDER BY TRANSFERDATE ^
 
 ----------------------------------------------------------
 
-CREATE OR ALTER VIEW LAST_EXPENSEITEMS (ID, COMM_ID, NAME, PRICE, CURRENCY, QTY, UNIT, TRANSACTION_DATE, ORG, DAYS_AGO) AS
+CREATE OR ALTER VIEW LAST_EXPENSEITEMS (ID, COMM_ID, PRICE, CURRENCY, QTY, UNIT, TRANSACTION_DATE, ORG_ID, DAYS_AGO) AS
 SELECT item.ID                                              AS ID,
        c.ID                                                 AS COMM_ID,
-       c.NAME                                               AS NAME,
        item.PRICE                                           AS PRICE,
        m.CODE                                               AS CURRENCY,
        item.QTY                                             AS QTY,
        u.SHORTNAME                                          AS UNIT,
        item.TRANSFERDATE                                    AS TRANSACTION_DATE,
-       o.NAME                                               AS ORG,
+       o.ID                                                 AS ORG_ID,
        datediff(DAY FROM item.TRANSFERDATE TO current_date) AS DAYS_AGO
 FROM EXPENSEITEM AS item
 

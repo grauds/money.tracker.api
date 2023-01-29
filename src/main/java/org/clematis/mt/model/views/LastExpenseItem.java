@@ -5,9 +5,13 @@ import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.clematis.mt.model.Commodity;
 import org.clematis.mt.model.IdAware;
+import org.clematis.mt.model.Organization;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -24,9 +28,9 @@ import lombok.Setter;
 @Setter
 public class LastExpenseItem extends IdAware {
 
-    long commId;
-
-    String name;
+    @ManyToOne
+    @JoinColumn(name = "COMM_ID")
+    Commodity commodity;
 
     Double price;
 
@@ -39,7 +43,9 @@ public class LastExpenseItem extends IdAware {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     Date transactionDate;
 
-    String org;
+    @ManyToOne
+    @JoinColumn(name = "ORG_ID")
+    Organization organization;
 
     int daysAgo;
 
@@ -60,19 +66,18 @@ public class LastExpenseItem extends IdAware {
             return false;
         }
         LastExpenseItem that = (LastExpenseItem) o;
-        return commId == that.commId
+        return Objects.equals(commodity, that.commodity)
                 && daysAgo == that.daysAgo
-                && Objects.equals(name, that.name)
                 && Objects.equals(price, that.price)
                 && Objects.equals(currency, that.currency)
                 && Objects.equals(qty, that.qty)
                 && Objects.equals(unit, that.unit)
                 && Objects.equals(transactionDate, that.transactionDate)
-                && Objects.equals(org, that.org);
+                && Objects.equals(organization, that.organization);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(commId, name, price, currency, qty, unit, transactionDate, org, daysAgo);
+        return Objects.hash(commodity, price, currency, qty, unit, transactionDate, organization, daysAgo);
     }
 }

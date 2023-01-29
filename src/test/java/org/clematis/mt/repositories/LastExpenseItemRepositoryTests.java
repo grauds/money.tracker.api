@@ -17,7 +17,7 @@ public class LastExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicat
 
     @Test
     public void testLastCommodityExpenses() {
-        List<LastExpenseItem> result = lastExpenseItemRepository.findByCommId(258);
+        List<LastExpenseItem> result = lastExpenseItemRepository.findByCommodityId(258);
         Assertions.assertEquals(1, result.size());
     }
 }
