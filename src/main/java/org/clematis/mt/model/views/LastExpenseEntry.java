@@ -3,12 +3,12 @@ package org.clematis.mt.model.views;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.clematis.mt.model.CommodityLink;
 import org.clematis.mt.model.OrganizationLink;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  *
  * @author Anton Troshin
