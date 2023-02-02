@@ -3,7 +3,7 @@ package org.clematis.mt.repositories;
 import java.util.List;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
-import org.clematis.mt.model.views.LastExpenseItem;
+import org.clematis.mt.model.views.LastExpenseEntry;
 import org.clematis.mt.repository.LastExpenseItemRepository;
 
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +17,7 @@ public class LastExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicat
 
     @Test
     public void testLastCommodityExpenses() {
-        List<LastExpenseItem> result = lastExpenseItemRepository.findByCommodityId(258);
+        List<LastExpenseEntry> result = lastExpenseItemRepository.findByCommodityId(258);
         Assertions.assertEquals(1, result.size());
     }
 }
