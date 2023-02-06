@@ -40,7 +40,7 @@ public class LastExpenseItem extends IdAware {
 
     String unit;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     Date transactionDate;
 
     @ManyToOne

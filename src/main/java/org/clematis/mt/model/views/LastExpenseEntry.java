@@ -10,10 +10,9 @@ import org.springframework.data.rest.core.config.Projection;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 /**
- *
  * @author Anton Troshin
  */
-@Projection(name = "entry", types = LastExpenseItem.class)
+@Projection(name = "lastExpenseEntry", types = LastExpenseItem.class)
 public interface LastExpenseEntry {
 
     @Value("#{target.id}")
@@ -27,7 +26,7 @@ public interface LastExpenseEntry {
 
     OrganizationLink getOrganization();
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     Date getTransactionDate();
 
     CommodityLink getCommodity();

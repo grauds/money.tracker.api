@@ -9,7 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * This is a trivial extension of the basic Spring repository to add search by the common fields
+ * This is a trivial extension of the basic Spring repository to add search by name
+ *
  * @param <T>
  * @param <ID>
  * @author Anton Troshin

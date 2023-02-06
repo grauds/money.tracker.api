@@ -68,7 +68,7 @@ public class Account extends NamedEntity {
 
     private Double balance;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "TOTALINVALIDDATE")
     private Date totalInvalidDate;
 

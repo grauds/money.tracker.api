@@ -6,14 +6,11 @@ import org.springframework.data.rest.core.config.Projection;
 /**
  * @author Anton Troshin
  */
-@Projection(name = "commodityLink", types = Commodity.class)
-public interface CommodityLink {
+@Projection(name = "accountLink", types = Account.class)
+public interface AccountLink {
 
     @Value("#{target.id}")
     long getId();
 
     String getName();
-
-    UnitTypeLink getUnittype();
-
 }
