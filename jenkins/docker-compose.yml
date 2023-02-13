@@ -64,5 +64,5 @@ services:
     restart: unless-stopped
 
 networks:
-  clematis_mt:
+  clematis:
     driver: bridge
