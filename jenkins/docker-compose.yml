@@ -1,3 +1,5 @@
+version: '3.7'
+
 services:
   money-tracker-api:
     container_name: clematis-money-tracker-api
