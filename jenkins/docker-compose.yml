@@ -3,7 +3,7 @@ services:
     container_name: clematis-money-tracker-api
     image: clematis.mt.api:latest
     networks:
-      - clematis_mt
+      - clematis
     ports:
       - "18085:8080"
       - "15085:5000"
@@ -11,7 +11,7 @@ services:
     env_file:
       - money_tracker_api.env
     volumes:
-      - /home/firebird/logs:/var/log/clematis
+      - /home/clematis/mt/logs:/var/log/clematis
     restart: unless-stopped
     depends_on:
       money-tracker-db:
@@ -21,7 +21,7 @@ services:
     container_name: clematis-money-tracker-api-demo
     image: clematis.mt.api:latest
     networks:
-      - clematis_mt
+      - clematis
     ports:
       - "18086:8080"
       - "15087:5000"
@@ -31,7 +31,7 @@ services:
     env_file:
       - money_tracker_api_demo.env
     volumes:
-      - /home/firebird/demo/logs:/var/log/clematis
+      - /home/clematis/mt-demo/logs:/var/log/clematis
     restart: unless-stopped
     depends_on:
       money-tracker-db:
@@ -41,7 +41,7 @@ services:
     container_name: clematis-money-tracker-db
     image: jacobalberty/firebird:2.5.9-sc
     networks:
-      - clematis_mt
+      - clematis
     ports:
       - "3050:3050"
     env_file:
@@ -54,7 +54,7 @@ services:
     container_name: clematis-money-tracker-db-demo
     image: jacobalberty/firebird:2.5.9-sc
     networks:
-      - clematis_mt
+      - clematis
     ports:
       - "3051:3050"
     env_file:
