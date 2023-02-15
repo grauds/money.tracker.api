@@ -7,7 +7,7 @@ services:
     networks:
       - clematis
     env_file:
-      - money_tracker_api.env
+      - .env
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15085:5000"
@@ -25,7 +25,7 @@ services:
     networks:
       - clematis
     env_file:
-      - money_tracker_api_demo.env
+      - .env.demo
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15087:5000"

@@ -11,7 +11,7 @@
       <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
       <ENTRIES>
         <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
-        <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="jenkins/money_tracker_api_local.env" />
+        <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="config/money_tracker_api_local.env" />
       </ENTRIES>
     </extension>
     <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
