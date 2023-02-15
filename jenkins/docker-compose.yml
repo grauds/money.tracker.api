@@ -25,6 +25,7 @@ services:
     networks:
       - clematis
     env_file:
+      - .env
       - .env.demo
     ports:
       - ${SPRING_LOCAL_DEMO_PORT}:${SPRING_DOCKER_PORT}
