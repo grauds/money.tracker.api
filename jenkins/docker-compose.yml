@@ -5,7 +5,7 @@ services:
     networks:
       - clematis
     ports:
-      - "18085:8080"
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15085:5000"
       - "15086:5001"
     env_file:
@@ -23,7 +23,7 @@ services:
     networks:
       - clematis
     ports:
-      - "18086:8080"
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15087:5000"
       - "15088:5001"
     environment:

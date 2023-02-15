@@ -39,8 +39,11 @@ pipeline {
         }
 
         stage('Update database from the cloud') {
+            environment {
+                DB_CLOUD_ADDRESS = credentials('DB_CLOUD_ADDRESS')
+            }
             steps {
-                sh 'wget "https://onedrive.live.com/download?cid=5EFC5BD533A5D0E5&resid=5EFC5BD533A5D0E5%21113569&authkey=AC8hUo3cfK4ayvw" -O /home/firebird/db/mt.fdb'
+                sh 'wget "$DB_CLOUD_ADDRESS" -O /home/firebird/db/mt.fdb'
             }
         }
 
@@ -54,7 +57,7 @@ pipeline {
           environment {
                 KEYCLOAK_SECRET = credentials('KEYCLOAK_SECRET')
                 SPRING_DATASOURCE_PASSWORD = credentials('SPRING_DATASOURCE_PASSWORD')
-            }
+          }
           steps {
               sh '''
                  cd jenkins
