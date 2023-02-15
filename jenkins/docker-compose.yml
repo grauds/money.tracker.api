@@ -27,7 +27,7 @@ services:
     env_file:
       - .env.demo
     ports:
-      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+      - ${SPRING_LOCAL_DEMO_PORT}:${SPRING_DOCKER_PORT}
       - "15087:5000"
       - "15088:5001"
     environment:
