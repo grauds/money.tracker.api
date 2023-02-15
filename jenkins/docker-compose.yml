@@ -4,12 +4,12 @@ services:
     image: clematis.mt.api:latest
     networks:
       - clematis
+    env_file:
+      - money_tracker_api.env
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15085:5000"
       - "15086:5001"
-    env_file:
-      - money_tracker_api.env
     volumes:
       - /home/clematis/mt/logs:/var/log/clematis
     restart: unless-stopped
@@ -22,14 +22,14 @@ services:
     image: clematis.mt.api:latest
     networks:
       - clematis
+    env_file:
+      - money_tracker_api_demo.env
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15087:5000"
       - "15088:5001"
     environment:
       - "SPRING_PROFILES_ACTIVE=local"
-    env_file:
-      - money_tracker_api_demo.env
     volumes:
       - /home/clematis/mt-demo/logs:/var/log/clematis
     restart: unless-stopped
