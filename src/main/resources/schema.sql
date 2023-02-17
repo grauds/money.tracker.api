@@ -244,3 +244,34 @@ BEGIN
                 SUSPEND;
     END
 END
+
+----------------------------------------------------------
+CREATE OR ALTER VIEW IN_OUT_DELTA ("NAME", "ETOTAL", "ITOTAL", DELTA, CODE) AS
+select b.NAME, ROUND(b.etotal, 2), ROUND(b.itotal, 2), ROUND((b.itotal - b.etotal), 2) as delta, b.ecode from (
+  select * from
+      (select expense.ecomm, c.name,
+              expense.etotal, me.CODE as ecode,
+              income.itotal, mi.CODE as icode
+       from
+           (select e.COMM as ecomm, ex.MONEYTYPE as emoney, SUM(e.TOTAL) as etotal
+            FROM EXPENSEITEM as e
+                     LEFT JOIN EXPENSE as ex ON ex.ID = e.EXPENSE
+            group by e.COMM, ex.MONEYTYPE) as expense
+
+               LEFT JOIN
+
+           (select i.COMM as icomm, ix.MONEYTYPE as imoney, SUM(i.TOTAL) as itotal
+            FROM INCOMEITEM as i
+                     LEFT JOIN INCOME as ix ON ix.ID = i.INCOME
+            group by i.COMM, ix.MONEYTYPE) as income
+
+           ON expense.ecomm = income.icomm AND expense.emoney = income.imoney
+
+               LEFT JOIN COMMODITY as c ON income.icomm = c.ID
+               LEFT JOIN MONEYTYPE as mi ON income.imoney = mi.ID
+               LEFT JOIN MONEYTYPE as me ON expense.emoney = me.ID
+
+       WHERE expense.ecomm is not null AND income.icomm is not null
+      ) as a
+
+) as b ORDER BY delta desc
