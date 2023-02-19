@@ -5,11 +5,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.Getter;
 import lombok.Setter;
 /**
  * For the table
- *
  * {code}
  * create table ORGANIZATION
  * (
@@ -62,5 +64,8 @@ public class Organization extends NamedEntity {
 
     @ManyToOne
     @JoinColumn(name = "PARENT")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     private OrganizationGroup parent;
 }

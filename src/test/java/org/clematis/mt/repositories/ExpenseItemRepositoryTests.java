@@ -1,8 +1,6 @@
 package org.clematis.mt.repositories;
 
 
-import java.util.List;
-
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.model.ExpenseItem;
 import org.clematis.mt.model.MoneyTypeCode;
@@ -35,7 +33,7 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
 
     @Test
     public void testCommodityTotalSum() {
-        Long result = expenseItemRepository.sumCommodityExpenses(258, String.valueOf(MoneyTypeCode.RUB));
+        Double result = expenseItemRepository.sumCommodityExpenses(258, String.valueOf(MoneyTypeCode.RUB));
         Assertions.assertEquals(6026, result);
     }
 
@@ -43,5 +41,25 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
     public void testCommodityTotalQty() {
         Long result = expenseItemRepository.sumCommodityQuantity(258);
         Assertions.assertEquals(729, result);
+    }
+
+    @Test
+    public void testOrganizationExpenses() {
+        Page<ExpenseItem> result = expenseItemRepository
+                .findByTradeplaceId(316, PageRequest.of(0, 400));
+        Assertions.assertEquals(11, result.getTotalElements());
+        Assertions.assertEquals(1, result.getTotalPages());
+
+        double sum = expenseItemRepository.sumOrganizationExpenses(316,
+                String.valueOf(MoneyTypeCode.RUB));
+
+        Assertions.assertEquals(result.get().mapToDouble(ExpenseItem::getTotal).sum(), sum);
+    }
+
+    @Test
+    public void testOrganizationTotalSum() {
+        Double result = expenseItemRepository.sumOrganizationExpenses(316,
+                String.valueOf(MoneyTypeCode.RUB));
+        Assertions.assertEquals(661, result);
     }
 }

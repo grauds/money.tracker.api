@@ -246,12 +246,12 @@ BEGIN
 END ^
 
 ----------------------------------------------------------
-CREATE OR ALTER VIEW IN_OUT_DELTA ("NAME", "ETOTAL", "ITOTAL", DELTA, CODE) AS
-select b.NAME, ROUND(b.etotal, 2), ROUND(b.itotal, 2), ROUND((b.itotal - b.etotal), 2) as delta, b.ecode from (
+CREATE OR ALTER VIEW IN_OUT_DELTA ("COMM_ID", "COMM_NAME", "ETOTAL", "ITOTAL", DELTA, MID, MCODE) AS
+select b.ID as COMM_ID, b.NAME as COMM_NAME, ROUND(b.etotal, 2), ROUND(b.itotal, 2), ROUND((b.itotal - b.etotal), 2) as delta, b.MID, b.ecode as MCODE from (
   select * from
-      (select expense.ecomm, c.name,
+      (select c.ID, c.name,
               expense.etotal, me.CODE as ecode,
-              income.itotal, mi.CODE as icode
+              income.itotal, mi.CODE as icode, mi.ID as MID
        from
            (select e.COMM as ecomm, ex.MONEYTYPE as emoney, SUM(e.TOTAL) as etotal
             FROM EXPENSEITEM as e
