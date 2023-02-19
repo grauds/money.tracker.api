@@ -3,6 +3,7 @@ package org.clematis.mt.repository;
 import java.util.List;
 
 import org.clematis.mt.model.InOutDelta;
+import org.clematis.mt.model.InOutDeltaEntry;
 import org.clematis.mt.model.InOutDeltaKey;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -13,7 +14,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 /**
  * @author Anton Troshin
  */
-@RepositoryRestResource(path = "inOutDeltas")
+@RepositoryRestResource(path = "inOutDeltas", excerptProjection = InOutDeltaEntry.class)
 public interface InOutDeltaRepository extends PagingAndSortingRepository<InOutDelta, InOutDeltaKey> {
 
     @Query(value = "SELECT COMM_ID, SUM(ETOTAL) AS ETOTAL, SUM(ITOTAL) AS ITOTAL, ROUND(SUM(DELTA), 2) AS DELTA,"
