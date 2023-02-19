@@ -47,8 +47,10 @@ public class MonthlyDeltaTests extends HateoasApiTests {
 
         ResponseEntity<Long> balance = getRestTemplateWithHalMessageConverter()
                 .exchange("/api/monthlyDeltas/search/balance?an={an}&mois={mois}&code={code}",
-                        HttpMethod.GET,  new HttpEntity<>(headers),
-                        new ParameterizedTypeReference<>() {}, uriParam);
+                        HttpMethod.GET,
+                        new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {},
+                        uriParam);
         Assertions.assertEquals(HttpStatus.OK, balance.getStatusCode());
     }
 

@@ -39,7 +39,7 @@ public class AccountsTotalsTests extends HateoasApiTests {
         uriParam.put("code", "RUB");
 
         ResponseEntity<PagedModel<AccountTotal>> accountsTotals = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/accountsTotals/search/code", HttpMethod.GET,
+                .exchange("/api/accountsTotals/search/code?code={code}", HttpMethod.GET,
                         new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}, uriParam);
         Assertions.assertEquals(HttpStatus.OK, accountsTotals.getStatusCode());
     }
@@ -53,7 +53,7 @@ public class AccountsTotalsTests extends HateoasApiTests {
         uriParam.put("code", "RUB");
 
         ResponseEntity<Long> total = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/accountsTotals/search/balance", HttpMethod.GET,
+                .exchange("/api/accountsTotals/search/balance?code={code}", HttpMethod.GET,
                         new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}, uriParam);
         Assertions.assertEquals(HttpStatus.OK, total.getStatusCode());
     }

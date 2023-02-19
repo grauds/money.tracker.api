@@ -62,7 +62,7 @@ public class MoneyExchangeTests extends HateoasApiTests {
 
         // do not put DTO interface here, it will fail to be constructed
         ResponseEntity<?> exchange = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/exchange/search/report",
+                .exchange("/api/exchange/search/report?source={source}&dest={dest}",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {}, uriParam);

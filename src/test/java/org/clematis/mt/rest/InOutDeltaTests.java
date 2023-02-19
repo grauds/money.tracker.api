@@ -1,5 +1,9 @@
 package org.clematis.mt.rest;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.clematis.mt.model.InOutDelta;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +21,7 @@ import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 public class InOutDeltaTests extends HateoasApiTests {
 
     @Test
-    public void testAccountsTotals() {
+    public void testInOutDeltas() {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION,
                 "Bearer " + mock.getAccessToken(aTokenConfig().build()));
@@ -25,6 +29,21 @@ public class InOutDeltaTests extends HateoasApiTests {
         ResponseEntity<PagedModel<?>> inOutDeltas = getRestTemplateWithHalMessageConverter()
                 .exchange("/api/inOutDeltas", HttpMethod.GET,  new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {});
+        Assertions.assertEquals(HttpStatus.OK, inOutDeltas.getStatusCode());
+    }
+
+    @Test
+    public void testDeltasInCode() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + mock.getAccessToken(aTokenConfig().build()));
+
+        Map<String, String> uriParam = new HashMap<>();
+        uriParam.put("code", "RUB");
+
+        ResponseEntity<PagedModel<InOutDelta>> inOutDeltas = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/inOutDeltas/search/code?code={code}", HttpMethod.GET,  new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {}, uriParam);
         Assertions.assertEquals(HttpStatus.OK, inOutDeltas.getStatusCode());
     }
 }

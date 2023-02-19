@@ -1,5 +1,7 @@
 package org.clematis.mt.repositories;
 
+import java.util.List;
+
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.model.InOutDelta;
 import org.clematis.mt.repository.InOutDeltaRepository;
@@ -25,5 +27,12 @@ public class InOutDeltaRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Page<InOutDelta> entries = deltaRepository.findAll(PageRequest.of(0, 10));
         Assertions.assertEquals(1, entries.getTotalPages());
         Assertions.assertEquals(2, entries.getTotalElements());
+    }
+
+
+    @Test
+    void testDeltas() {
+        List<InOutDelta> entries = deltaRepository.getDeltas("RUB");
+        Assertions.assertEquals(2, entries.size());
     }
 }
