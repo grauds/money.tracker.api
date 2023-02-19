@@ -1,4 +1,4 @@
-package org.clematis.mt.model.views;
+package org.clematis.mt.model;
 
 import java.io.Serializable;
 import java.util.Objects;

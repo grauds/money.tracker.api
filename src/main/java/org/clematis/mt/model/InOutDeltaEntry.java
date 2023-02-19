@@ -1,7 +1,5 @@
-package org.clematis.mt.model.views;
+package org.clematis.mt.model;
 
-import org.clematis.mt.model.CommodityLink;
-import org.clematis.mt.model.MoneyTypeEntry;
 import org.springframework.data.rest.core.config.Projection;
 
 /**

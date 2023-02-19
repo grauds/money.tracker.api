@@ -1,6 +1,6 @@
 package org.clematis.mt.rest;
 
-import org.clematis.mt.model.views.LastExpenseItem;
+import org.clematis.mt.model.LastExpenseItem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

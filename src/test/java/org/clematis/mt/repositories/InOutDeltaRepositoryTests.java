@@ -1,7 +1,7 @@
 package org.clematis.mt.repositories;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
-import org.clematis.mt.model.views.InOutDelta;
+import org.clematis.mt.model.InOutDelta;
 import org.clematis.mt.repository.InOutDeltaRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

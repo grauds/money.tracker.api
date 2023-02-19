@@ -2,14 +2,14 @@ package org.clematis.mt.web;
 
 import java.io.Serializable;
 
-import org.clematis.mt.model.views.MonthlyDelta;
-import org.clematis.mt.model.views.MonthlyDeltaKey;
+import org.clematis.mt.model.MonthlyDelta;
+import org.clematis.mt.model.MonthlyDeltaKey;
 import org.springframework.data.rest.webmvc.spi.BackendIdConverter;
 import org.springframework.stereotype.Component;
 
 /**
  * Class to convert a composite id to a string and back
- * Tailored for <code>org.clematis.mt.model.views.MonthlyDelta</code> to make it hunan readable
+ * Tailored for <code>org.clematis.mt.model.MonthlyDelta</code> to make it hunan readable
  *
  * @author Anton Troshin
  */

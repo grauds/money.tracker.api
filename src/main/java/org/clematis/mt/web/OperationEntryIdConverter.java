@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.clematis.mt.model.views.OperationEntryKey;
+import org.clematis.mt.model.OperationEntryKey;
 import org.springframework.data.rest.webmvc.spi.BackendIdConverter;
 import org.springframework.stereotype.Component;
 /**
  * Class to convert a composite id to a string and back
- * Tailored for <code>org.clematis.mt.model.views.OperationEntry</code> to make it hunan readable
+ * Tailored for <code>org.clematis.mt.model.OperationEntry</code> to make it hunan readable
  *
  * @author Anton Troshin
  */
@@ -50,7 +50,7 @@ public class OperationEntryIdConverter implements BackendIdConverter {
      *
      * @param id         the entity's id, will never be {@literal null}.
      * @param entityType the type of the entity to expose.
-     * @return
+     * @return the id to be used in the URI
      */
     @Override
     public String toRequestId(Serializable id, Class<?> entityType) {

@@ -3,7 +3,7 @@ package org.clematis.mt.repositories;
 import java.util.List;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
-import org.clematis.mt.model.views.LastExpenseEntry;
+import org.clematis.mt.model.LastExpenseEntry;
 import org.clematis.mt.repository.LastExpenseItemRepository;
 
 import org.junit.jupiter.api.Assertions;

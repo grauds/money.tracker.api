@@ -2,7 +2,7 @@ package org.clematis.mt.repository;
 
 import java.util.List;
 
-import org.clematis.mt.model.views.AccountTotal;
+import org.clematis.mt.model.AccountTotal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

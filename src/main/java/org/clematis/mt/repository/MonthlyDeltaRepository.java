@@ -1,7 +1,7 @@
 package org.clematis.mt.repository;
 
-import org.clematis.mt.model.views.MonthlyDelta;
-import org.clematis.mt.model.views.MonthlyDeltaKey;
+import org.clematis.mt.model.MonthlyDelta;
+import org.clematis.mt.model.MonthlyDeltaKey;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

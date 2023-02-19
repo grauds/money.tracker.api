@@ -1,11 +1,9 @@
-package org.clematis.mt.model.views;
+package org.clematis.mt.model;
 
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.clematis.mt.model.NamedEntity;
 
 import lombok.Getter;
 import lombok.Setter;

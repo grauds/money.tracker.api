@@ -1,7 +1,7 @@
 package org.clematis.mt.repository;
 
-import org.clematis.mt.model.views.OperationEntry;
-import org.clematis.mt.model.views.OperationEntryKey;
+import org.clematis.mt.model.OperationEntry;
+import org.clematis.mt.model.OperationEntryKey;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

@@ -1,8 +1,8 @@
 package org.clematis.mt.repository;
 
-import org.clematis.mt.model.views.InOutDelta;
-import org.clematis.mt.model.views.InOutDeltaEntry;
-import org.clematis.mt.model.views.InOutDeltaKey;
+import org.clematis.mt.model.InOutDelta;
+import org.clematis.mt.model.InOutDeltaEntry;
+import org.clematis.mt.model.InOutDeltaKey;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

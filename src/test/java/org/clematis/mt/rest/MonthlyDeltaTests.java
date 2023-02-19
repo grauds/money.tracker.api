@@ -3,7 +3,7 @@ package org.clematis.mt.rest;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.clematis.mt.model.views.MonthlyDelta;
+import org.clematis.mt.model.MonthlyDelta;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

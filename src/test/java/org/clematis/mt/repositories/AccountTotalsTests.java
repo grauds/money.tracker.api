@@ -3,7 +3,7 @@ package org.clematis.mt.repositories;
 import java.util.List;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
-import org.clematis.mt.model.views.AccountTotal;
+import org.clematis.mt.model.AccountTotal;
 import org.clematis.mt.repository.AccountTotalRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

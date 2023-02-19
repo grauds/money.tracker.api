@@ -1,4 +1,4 @@
-package org.clematis.mt.model.views;
+package org.clematis.mt.model;
 
 import java.io.Serializable;
 
@@ -7,9 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.clematis.mt.model.Commodity;
-import org.clematis.mt.model.MoneyType;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

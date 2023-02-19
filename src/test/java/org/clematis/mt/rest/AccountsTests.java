@@ -5,7 +5,7 @@ import java.util.Collection;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.clematis.mt.model.Account;
 import org.clematis.mt.model.AccountGroup;
-import org.clematis.mt.model.views.AccountTotal;
+import org.clematis.mt.model.AccountTotal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
