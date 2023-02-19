@@ -243,7 +243,7 @@ BEGIN
             DO
                 SUSPEND;
     END
-END
+END ^
 
 ----------------------------------------------------------
 CREATE OR ALTER VIEW IN_OUT_DELTA ("NAME", "ETOTAL", "ITOTAL", DELTA, CODE) AS
@@ -274,4 +274,4 @@ select b.NAME, ROUND(b.etotal, 2), ROUND(b.itotal, 2), ROUND((b.itotal - b.etota
        WHERE expense.ecomm is not null AND income.icomm is not null
       ) as a
 
-) as b ORDER BY delta desc
+) as b ORDER BY delta desc ^
