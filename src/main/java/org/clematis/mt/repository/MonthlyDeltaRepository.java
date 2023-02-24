@@ -17,7 +17,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 public interface MonthlyDeltaRepository extends PagingAndSortingRepository<MonthlyDelta, MonthlyDeltaKey> {
 
     @Query(value =
-            "SELECT ROUND(SUM(MD.DELTA), 2) FROM MONTHLY_DELTA as MD where (MD.AN < :an OR (MD.AN = :an "
+            "SELECT ROUND(COALESCE(SUM(MD.DELTA), 0), 2) FROM MONTHLY_DELTA as MD where (MD.AN < :an OR (MD.AN = :an "
                     + "AND MD.MOIS < :mois)) AND MD.CODE = :code", nativeQuery = true)
     @RestResource(path = "balance")
     Long getBalanceForCurrency(@Param(value = "an") int an,

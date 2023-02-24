@@ -30,6 +30,12 @@ public class MonthlyDeltaRepositoryTests extends ClematisMoneyTrackerApplication
     }
 
     @Test
+    void countEdgeCaseBalances() {
+        Assertions.assertEquals(0,
+                monthlyDeltaRepository.getBalanceForCurrency(2017, 6, "RUB"));
+    }
+
+    @Test
     void sortByYear() {
         Page<MonthlyDelta> page
                 = monthlyDeltaRepository.findAll(PageRequest.of(0, 30,

@@ -54,6 +54,26 @@ public class MonthlyDeltaTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, balance.getStatusCode());
     }
 
+    // http://192.168.1.2:18081/api/monthlyDeltas/search/balance?an=1997&mois=3&code=RUB
+
+    @Test
+    public void testEdgeCaseBalances() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + mock.getAccessToken(aTokenConfig().build()));
+
+        Map<String, String> uriParam = new HashMap<>();
+        uriParam.put("an", "2017");
+        uriParam.put("mois", "6");
+        uriParam.put("code", "RUB");
+
+        ResponseEntity<Long> balance = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/monthlyDeltas/search/balance?an={an}&mois={mois}&code={code}",
+                        HttpMethod.GET,  new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {}, uriParam);
+        Assertions.assertEquals(HttpStatus.OK, balance.getStatusCode());
+    }
+
     @Test
     public void testSorting() {
 
