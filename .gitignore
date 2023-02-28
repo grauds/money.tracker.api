@@ -44,3 +44,5 @@ LOG_PATH_IS_UNDEFINED/api.log
 .DS_Store
 docker/.devcontainer/
 /LOG_PATH_IS_UNDEFINED/
+/jacoco/
+/jacocoHtml/
