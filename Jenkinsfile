@@ -30,6 +30,13 @@ pipeline {
             steps {
               sh './gradlew clean build'
             }
+
+        }
+
+        stage('Publish tests') {
+            steps {
+                publishCoverage adapters: [jacocoAdapter('jacoco')], sourceFileResolver: sourceFiles('NEVER_STORE')
+            }
         }
 
         stage('Build docker image') {
