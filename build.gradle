@@ -64,7 +64,8 @@ jacocoTestReport {
     reports {
         xml.required = true
         csv.required = false
-        html.outputLocation = file('jacocoHtml')
+        html.outputLocation = file('jacoco/html')
+        xml.outputLocation = file('jacoco/jacoco.xml')
     }
 }
 
