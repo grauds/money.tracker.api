@@ -47,6 +47,7 @@ ext {
     setProperty('snippetsDir', file("build/generated-snippets"))
 }
 
+// ------------ JaCoCo configuration  ---------
 test {
     outputs.dir snippetsDir
     useJUnitPlatform()
@@ -58,7 +59,6 @@ test {
     }
 }
 
-// Do not generate reports for individual projects
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
     reports {
@@ -67,6 +67,10 @@ jacocoTestReport {
         html.outputLocation = file('jacoco/html')
         xml.outputLocation = file('jacoco/jacoco.xml')
     }
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+    executionData fileTree(project.rootDir.absolutePath).include("jacoco/*.exec")
 }
 
 asciidoctor {
