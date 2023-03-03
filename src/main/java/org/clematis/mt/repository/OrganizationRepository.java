@@ -8,10 +8,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 /**
  * @author Anton Troshin
  */
 @RepositoryRestResource(path = "organizations")
+@SecurityRequirement(name = "bearer")
 public interface OrganizationRepository extends PagingAndSortingAndFilteringByNameRepository<Organization, Integer> {
 
     @Query(value = "WITH recursive w1(id, parent, name) AS\n"
@@ -25,6 +29,7 @@ public interface OrganizationRepository extends PagingAndSortingAndFilteringByNa
             + "\n"
             + "SELECT * FROM ORGANIZATION WHERE PARENT IN (SELECT w1.id FROM w1) ORDER BY NAME",
             nativeQuery = true)
+    @Operation(summary = "Find organizations recursively by parent group id")
     @RestResource(path = "recursiveByParentGroupId")
     List<Organization> findRecursiveByParentGroupId(@Param("id") Integer id);
 }

@@ -3,17 +3,15 @@ package org.clematis.mt.repository;
 import java.util.List;
 
 import org.clematis.mt.model.AccountTotal;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
-
 /**
  * @author Anton Troshin
  */
 @RepositoryRestResource(path = "accountsTotals")
-public interface AccountTotalRepository extends JpaRepository<AccountTotal, Integer> {
+public interface AccountTotalRepository extends ReadOnlyRepository<AccountTotal, Integer> {
 
     @Query(value = "select atl.ID, atl.NAME, atl.CODE, atl.TOTAL, "
             + "ROUND(atl.TOTAL / (SELECT * FROM CROSS_RATE(mt.CODE, :code)), 2) as BALANCE "
