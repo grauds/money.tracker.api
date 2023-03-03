@@ -47,7 +47,7 @@ pipeline {
 
         stage('Update database from the cloud') {
             environment {
-                DB_CLOUD_ADDRESS = credentials('DB_CLOUD_ADDRESS')
+                DB_CLOUD_ADDRESS = credentials('MT_FIREBIRD_DB_CLOUD_ADDRESS')
             }
             steps {
                 sh 'wget "$DB_CLOUD_ADDRESS" -O /home/firebird/db/mt.fdb'
@@ -62,8 +62,8 @@ pipeline {
 
         stage("Build and start docker compose services") {
           environment {
-                KEYCLOAK_SECRET = credentials('KEYCLOAK_SECRET')
-                SPRING_DATASOURCE_PASSWORD = credentials('SPRING_DATASOURCE_PASSWORD')
+                KEYCLOAK_SECRET = credentials('MT_API_KEYCLOAK_SECRET')
+                SPRING_DATASOURCE_PASSWORD = credentials('MT_FIREBIRD_PASSWORD')
           }
           steps {
               sh '''
