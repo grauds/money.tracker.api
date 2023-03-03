@@ -33,13 +33,13 @@ pipeline {
 
         }
 
-        stage ('OWASP Dependency-Check Vulnerabilities') {
+        stage ('Dependency-Check') {
             steps {
                 dependencyCheck additionalArguments: ''' 
                     -o "./" 
                     -s "./"
                     -f "ALL" 
-                    --prettyPrint''', odcInstallation: 'OWASP-DC'
+                    --prettyPrint''', odcInstallation: 'Dependency Checker'
 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
