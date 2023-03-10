@@ -20,8 +20,16 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
     @Test
     public void testExpenses() {
         Iterable<ExpenseItem> result
-                = expenseItemRepository.findAll(Sort.by("transferdate").ascending());
+                = expenseItemRepository.findAll(Sort.by("transferdate").descending());
         Assertions.assertEquals(2291, result.spliterator().estimateSize());
+    }
+
+    @Test
+    public void testSorting() {
+        Page<ExpenseItem> result = expenseItemRepository
+                .findByCommodityId(258, PageRequest.of(0, 400,
+                        Sort.by("transferdate").descending()));
+        Assertions.assertEquals(323, result.getTotalElements());
     }
 
     @Test

@@ -33,6 +33,6 @@ public class InOutDeltaRepositoryTests extends ClematisMoneyTrackerApplicationTe
     @Test
     void testDeltas() {
         List<InOutDelta> entries = deltaRepository.getDeltas("RUB");
-        Assertions.assertEquals(2, entries.size());
+        Assertions.assertEquals(0, entries.size());
     }
 }

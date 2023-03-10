@@ -1,6 +1,7 @@
 package org.clematis.mt.rest;
 
 import org.clematis.mt.model.ExpenseItem;
+import org.clematis.mt.model.OperationEntry;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -10,6 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
@@ -22,10 +26,17 @@ public class ExpenseItemTests extends HateoasApiTests {
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer "
                 + mock.getAccessToken(aTokenConfig().build()));
 
+        Map<String, String> uriParam = new HashMap<>();
+        uriParam.put("page", "1");
+        uriParam.put("size", "12");
+        uriParam.put("sort", "transferdate,DESC");
+
         ResponseEntity<PagedModel<ExpenseItem>> items
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/expenseItems/search", HttpMethod.GET,  new HttpEntity<>(headers),
-                        new ParameterizedTypeReference<>() {});
+                .exchange("/api/expenseItems?page={page}&size={size}&sort={sort}", HttpMethod.GET,
+                        new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {},
+                        uriParam);
 
         Assertions.assertEquals(HttpStatus.OK, items.getStatusCode());
 
