@@ -33,6 +33,14 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
     }
 
     @Test
+    public void testNameSorting() {
+        Page<ExpenseItem> result = expenseItemRepository
+                .findByCommodityId(258, PageRequest.of(0, 400,
+                        Sort.by("commodity.name").descending()));
+        Assertions.assertEquals(323, result.getTotalElements());
+    }
+
+    @Test
     public void testCommodityExpenses() {
         Page<ExpenseItem> result = expenseItemRepository
                 .findByCommodityId(258, PageRequest.of(0, 400));

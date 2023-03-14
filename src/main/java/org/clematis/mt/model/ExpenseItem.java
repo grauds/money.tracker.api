@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -74,7 +76,7 @@ public class ExpenseItem extends IdAware {
     @JoinColumn(name = "EXPENSE")
     private Expense expense;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "COMM")
     private Commodity commodity;
 
@@ -86,6 +88,7 @@ public class ExpenseItem extends IdAware {
 
     private Double disc;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Date transferdate;
 
     private Integer idx;

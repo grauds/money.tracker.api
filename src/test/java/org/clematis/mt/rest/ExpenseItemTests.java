@@ -1,7 +1,9 @@
 package org.clematis.mt.rest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.clematis.mt.model.ExpenseItem;
-import org.clematis.mt.model.OperationEntry;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -11,9 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
@@ -29,7 +28,7 @@ public class ExpenseItemTests extends HateoasApiTests {
         Map<String, String> uriParam = new HashMap<>();
         uriParam.put("page", "1");
         uriParam.put("size", "12");
-        uriParam.put("sort", "transferdate,DESC");
+        uriParam.put("sort", "name,DESC");
 
         ResponseEntity<PagedModel<ExpenseItem>> items
                 = getRestTemplateWithHalMessageConverter()

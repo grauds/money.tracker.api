@@ -1,10 +1,13 @@
 package org.clematis.mt.model;
+
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +22,7 @@ import lombok.Setter;
 @Table(name = "MONEYEXCHANGE")
 public class MoneyExchange extends IdAware {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Date exchangedate;
 
     @ManyToOne(optional = false)
