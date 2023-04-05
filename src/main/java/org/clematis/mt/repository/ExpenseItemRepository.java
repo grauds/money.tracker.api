@@ -9,6 +9,10 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Date;
 
 /**
  * @author Anton Troshin
@@ -21,6 +25,15 @@ public interface ExpenseItemRepository extends PagingAndSortingRepository<Expens
 
     @RestResource(path = "tradeplace")
     Page<ExpenseItem> findByTradeplaceId(@Param(value = "tradeplaceId") int tradeplaceId, Pageable pageable);
+
+    @RestResource(path = "filtered")
+    Page<ExpenseItem> findByTransferdateGreaterThanAndTransferdateLessThan(
+            @RequestParam(value = "startDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam(value = "endDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            Pageable pageable
+    );
 
     @Query(value = "SELECT SUM(ei.total) "
             + "FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id "
