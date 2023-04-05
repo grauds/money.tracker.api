@@ -1,5 +1,7 @@
 package org.clematis.mt.repository;
 
+import java.util.Date;
+
 import org.clematis.mt.model.ExpenseItem;
 import org.clematis.mt.model.ExpenseItemEntry;
 import org.springframework.data.domain.Page;
@@ -11,8 +13,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Date;
 
 /**
  * @author Anton Troshin
