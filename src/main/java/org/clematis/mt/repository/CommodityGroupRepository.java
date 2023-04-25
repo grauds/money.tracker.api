@@ -2,8 +2,8 @@ package org.clematis.mt.repository;
 
 import java.util.List;
 
+import org.clematis.mt.dto.NamedEntityLink;
 import org.clematis.mt.model.CommodityGroup;
-import org.clematis.mt.model.TreeNodeLink;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -20,14 +20,23 @@ public interface CommodityGroupRepository
 
     @Query(
         value = "SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS\n"
-              + "(SELECT c.id, c.parent, c.name\n"
-              + "    FROM COMMGROUP as c\n"
-              + "    WHERE c.id = :id\n"
-              + "UNION ALL\n"
-              + "SELECT c2.id, c2.parent, c2.name\n"
-              + "FROM w1 JOIN COMMGROUP as c2 ON c2.parent=w1.id\n"
-              + ")\n"
-              + "SELECT * FROM w1 WHERE w1.id <> :id ORDER BY name)",
+                + "(SELECT c.id, c.parent, c.name\n"
+                + "    FROM COMMGROUP as c\n"
+                + "    WHERE c.id = :id\n"
+                + "UNION ALL\n"
+                + "SELECT c2.id, c2.parent, c2.name\n"
+                + "FROM w1 JOIN COMMGROUP as c2 ON c2.parent=w1.id\n"
+                + ")\n"
+                + "SELECT * FROM w1 WHERE w1.id <> :id ORDER BY name)",
+        countQuery = "SELECT COUNT(*) FROM (WITH RECURSIVE w1(id, parent, name) AS\n"
+            + "(SELECT c.id, c.parent, c.name\n"
+            + "    FROM COMMGROUP as c\n"
+            + "    WHERE c.id = :id\n"
+            + "UNION ALL\n"
+            + "SELECT c2.id, c2.parent, c2.name\n"
+            + "FROM w1 JOIN COMMGROUP as c2 ON c2.parent=w1.id\n"
+            + ")\n"
+            + "SELECT * FROM w1 WHERE w1.id <> :id ORDER BY name)",
         nativeQuery = true
     )
     @RestResource(path = "recursiveByParentId")
@@ -62,8 +71,9 @@ public interface CommodityGroupRepository
             + "SELECT * FROM w1)",
         nativeQuery = true
     )
+    @Deprecated(since = "This won't work: https://github.com/spring-projects/spring-data-rest/issues/1213")
     @RestResource(path = "recursiveWithCommoditiesByParentId")
-    Page<TreeNodeLink> findRecursiveWithCommoditiesByParentId(@Param("id") Integer id, Pageable pageable);
+    Page<NamedEntityLink> getCommodityGroupChildren(@Param("id") Integer id, Pageable pageable);
 
     @Query(
             value = "SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS\n"
@@ -80,3 +90,4 @@ public interface CommodityGroupRepository
     @RestResource(path = "pathById")
     List<CommodityGroup> findPathById(@Param("id") Integer id);
 }
+

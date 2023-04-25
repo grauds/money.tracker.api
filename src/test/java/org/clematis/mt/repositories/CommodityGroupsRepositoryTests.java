@@ -26,9 +26,10 @@ public class CommodityGroupsRepositoryTests extends ClematisMoneyTrackerApplicat
     void countGroupsWithCommodities() {
         // all groups minus one - the same group
         Assertions.assertEquals(6,
-            commodityGroupRepository.findRecursiveWithCommoditiesByParentId(303,
+            commodityGroupRepository.getCommodityGroupChildren(303,
                 Pageable.ofSize(200)).getTotalElements());
     }
+
 
     @Test
     void countPath() {

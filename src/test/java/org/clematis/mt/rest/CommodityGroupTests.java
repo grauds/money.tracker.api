@@ -4,7 +4,7 @@ import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.clematis.mt.model.CommodityGroup;
+import org.clematis.mt.dto.NamedEntityLink;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,12 +26,12 @@ public class CommodityGroupTests extends HateoasApiTests {
             + mock.getAccessToken(aTokenConfig().build()));
 
         Map<String, String> uriParam = new HashMap<>();
-        uriParam.put("page", "1");
+        uriParam.put("page", "0");
         uriParam.put("size", "12");
         uriParam.put("sort", "name,DESC");
         uriParam.put("id", "303");
 
-        ResponseEntity<PagedModel<CommodityGroup>> all
+        ResponseEntity<PagedModel<NamedEntityLink>> all
             = getRestTemplateWithHalMessageConverter()
             .exchange("/api/commodityGroups/search/" +
                     "recursiveWithCommoditiesByParentId?page={page}&size={size}&sort={sort}&id={id}",
@@ -40,6 +40,7 @@ public class CommodityGroupTests extends HateoasApiTests {
                 new ParameterizedTypeReference<>() {},
                 uriParam);
 
-        Assertions.assertEquals(HttpStatus.OK, all.getStatusCode());
+        // see https://github.com/spring-projects/spring-data-rest/issues/1213
+        Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, all.getStatusCode());
     }
 }

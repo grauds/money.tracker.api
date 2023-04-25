@@ -21,7 +21,8 @@ public class OrganizationRepositoryTests extends ClematisMoneyTrackerApplication
 
     @Test
     void countRecursiveOrganizations() {
-        Assertions.assertEquals(7, organizationRepository.findRecursiveByParentGroupId(264).size());
+        Assertions.assertEquals(7, organizationRepository.findRecursiveByParentGroupId(264,
+            PageRequest.of(0, 50)).getTotalElements());
     }
 
     @Test

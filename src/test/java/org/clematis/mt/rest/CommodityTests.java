@@ -33,7 +33,7 @@ public class CommodityTests extends HateoasApiTests {
 
         ResponseEntity<PagedModel<Commodity>> commodities
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/commodities/search/recursiveByParentGroupId?id=303", HttpMethod.GET,  new HttpEntity<>(headers),
+                .exchange("/api/commodities/search/recursiveCommoditiesByGroupId?id=303", HttpMethod.GET,  new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {});
 
         Assertions.assertEquals(HttpStatus.OK, commodities.getStatusCode());
