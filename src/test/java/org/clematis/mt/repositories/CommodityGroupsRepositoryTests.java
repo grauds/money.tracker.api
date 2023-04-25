@@ -33,7 +33,6 @@ public class CommodityGroupsRepositoryTests extends ClematisMoneyTrackerApplicat
     @Test
     void countPath() {
         // all groups minus one - the same group
-        Assertions.assertEquals(0,
-            commodityGroupRepository.findPathById(303,  Pageable.ofSize(20)).getTotalElements());
+        Assertions.assertEquals(0, commodityGroupRepository.findPathById(303).size());
     }
 }

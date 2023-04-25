@@ -1,8 +1,9 @@
 package org.clematis.mt.rest;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.clematis.mt.model.Commodity;
 import org.clematis.mt.model.CommodityGroup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,10 +25,20 @@ public class CommodityGroupTests extends HateoasApiTests {
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer "
             + mock.getAccessToken(aTokenConfig().build()));
 
+        Map<String, String> uriParam = new HashMap<>();
+        uriParam.put("page", "1");
+        uriParam.put("size", "12");
+        uriParam.put("sort", "name,DESC");
+        uriParam.put("id", "303");
+
         ResponseEntity<PagedModel<CommodityGroup>> all
             = getRestTemplateWithHalMessageConverter()
-            .exchange("/api/commodityGroups/search/recursiveWithCommoditiesByParentId?id=303", HttpMethod.GET,  new HttpEntity<>(headers),
-                new ParameterizedTypeReference<>() {});
+            .exchange("/api/commodityGroups/search/" +
+                    "recursiveWithCommoditiesByParentId?page={page}&size={size}&sort={sort}&id={id}",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<>() {},
+                uriParam);
 
         Assertions.assertEquals(HttpStatus.OK, all.getStatusCode());
     }

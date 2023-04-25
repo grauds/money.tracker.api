@@ -1,6 +1,9 @@
 package org.clematis.mt.repository;
 
+import java.util.List;
+
 import org.clematis.mt.model.CommodityGroup;
+import org.clematis.mt.model.TreeNodeLink;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -43,11 +46,24 @@ public interface CommodityGroupRepository
             + " SELECT c3.id, 1 as type, c3.parent, c3.name\n"
             + "     FROM w1 JOIN COMMODITY as c3 ON c3.PARENT=w1.id\n"
             + ")\n"
-            + "SELECT * FROM w1 ORDER BY name)",
+            + "SELECT * FROM w1)",
+        countQuery = "SELECT count(*) FROM (WITH RECURSIVE w1(id, type, parent, name) AS\n"
+            + " (SELECT c.id, 0 as type, c.parent, CAST(c.name as VARCHAR(128))\n"
+            + "     FROM COMMGROUP as c\n"
+            + "     WHERE c.id = :id\n"
+            + " UNION ALL\n"
+            + " SELECT c2.id, 0 as type, c2.parent, CAST(c2.name as VARCHAR(128))\n"
+            + "     FROM w1 JOIN COMMGROUP as c2 ON c2.PARENT=w1.id\n"
+            + "     WHERE c2.id <> :id"
+            + " UNION ALL\n"
+            + " SELECT c3.id, 1 as type, c3.parent, c3.name\n"
+            + "     FROM w1 JOIN COMMODITY as c3 ON c3.PARENT=w1.id\n"
+            + ")\n"
+            + "SELECT * FROM w1)",
         nativeQuery = true
     )
     @RestResource(path = "recursiveWithCommoditiesByParentId")
-    Page<CommodityGroup> findRecursiveWithCommoditiesByParentId(@Param("id") Integer id, Pageable pageable);
+    Page<TreeNodeLink> findRecursiveWithCommoditiesByParentId(@Param("id") Integer id, Pageable pageable);
 
     @Query(
             value = "SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS\n"
@@ -62,5 +78,5 @@ public interface CommodityGroupRepository
             nativeQuery = true
     )
     @RestResource(path = "pathById")
-    Page<CommodityGroup> findPathById(@Param("id") Integer id, Pageable pageable);
+    List<CommodityGroup> findPathById(@Param("id") Integer id);
 }
