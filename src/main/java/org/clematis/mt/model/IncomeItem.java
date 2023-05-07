@@ -85,8 +85,6 @@ public class IncomeItem extends IdAware {
     @JoinColumn(name = "TRADEPLACE")
     private Organization tradeplace;
 
-    private Double disc;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Date transferdate;
 
