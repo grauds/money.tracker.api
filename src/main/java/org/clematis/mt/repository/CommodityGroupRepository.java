@@ -56,7 +56,7 @@ public interface CommodityGroupRepository
             + "     FROM w1 JOIN COMMODITY as c3 ON c3.PARENT=w1.id\n"
             + ")\n"
             + "SELECT * FROM w1)",
-        countQuery = "SELECT count(*) FROM (WITH RECURSIVE w1(id, type, parent, name) AS\n"
+        countQuery = "SELECT COUNT(*) FROM (WITH RECURSIVE w1(id, type, parent, name) AS\n"
             + " (SELECT c.id, 0 as type, c.parent, CAST(c.name as VARCHAR(128))\n"
             + "     FROM COMMGROUP as c\n"
             + "     WHERE c.id = :id\n"

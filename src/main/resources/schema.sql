@@ -188,7 +188,7 @@ ORDER BY "AN", "MOIS" ^
 
 ----------------------------------------------------------
 
-CREATE OR ALTER PROCEDURE CROSS_RATE (SRC VARCHAR(16), DEST VARCHAR(16))
+CREATE OR ALTER PROCEDURE CROSS_RATE (SRC VARCHAR(16), DEST VARCHAR(16), RATE_DATE DATE = CURRENT_DATE)
     RETURNS (RATE DOUBLE PRECISION)
 AS
 BEGIN
@@ -201,6 +201,7 @@ BEGIN
                 SELECT ROUND(mtr.RATE, 15) as RATE FROM MONEYTYPERATE as mtr
                 WHERE (mtr.BUYMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:DEST)
                 AND mtr.SELLMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:SRC))
+                AND mtr.RATEDATE < :RATE_DATE
                 ORDER BY mtr.RATEDATE DESC
                 )
             INTO :RATE
@@ -214,6 +215,7 @@ BEGIN
                 SELECT ROUND(1 / mtr.RATE, 15) as RATE FROM MONEYTYPERATE as mtr
                 WHERE (mtr.BUYMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:SRC)
                 AND mtr.SELLMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:DEST))
+                AND mtr.RATEDATE < :RATE_DATE
                 ORDER BY mtr.RATEDATE DESC
                 )
             INTO :RATE
@@ -228,6 +230,8 @@ BEGIN
                 ON mtr1.RATEDATE = mtr2.RATEDATE
                 AND mtr1.SELLMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:SRC)
                 AND mtr2.SELLMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:DEST)
+                AND mtr1.RATEDATE < :RATE_DATE
+                AND mtr2.RATEDATE < :RATE_DATE
                 WHERE (mtr1.RATE IS NOT NULL AND mtr2.RATE IS NOT NULL)
                 ORDER BY mtr1.RATEDATE DESC
                 )

@@ -2,6 +2,7 @@ package org.clematis.mt.repository;
 
 import java.util.Date;
 
+import org.clematis.mt.dto.IncomeMonthlyReport;
 import org.clematis.mt.model.IncomeItem;
 import org.clematis.mt.model.IncomeItemEntry;
 import org.springframework.data.domain.Page;
@@ -55,5 +56,32 @@ public interface IncomeItemRepository extends PagingAndSortingRepository<IncomeI
         + "FROM IncomeItem as ei LEFT JOIN Income as e ON e.id=ei.income.id WHERE ei.commodity.id=:commodityId")
     @RestResource(path = "sumCommodityQuantity")
     Long sumCommodityQuantity(@Param(value = "commodityId") int commodityId);
+    
+    @Query(value =
+        "SELECT * FROM (SELECT ROUND(SUM(INCOMEITEM.TOTAL *"
+            + " (SELECT * FROM CROSS_RATE('EUR', M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,"
+            + "    EXTRACT(YEAR FROM INCOMEITEM.TRANSFERDATE) as AN,"
+            + "    EXTRACT(MONTH FROM INCOMEITEM.TRANSFERDATE) as MOIS,"
+            + "    C.NAME AS COMMODITY "
+            + " FROM INCOMEITEM"
+            + "         LEFT JOIN INCOME I on INCOMEITEM.INCOME = I.ID"
+            + "         LEFT JOIN COMMODITY C on INCOMEITEM.COMM = C.ID"
+            + "         LEFT JOIN ACCOUNT A on I.ACCOUNT = A.ID"
+            + "         LEFT JOIN MONEYTYPE M on I.MONEYTYPE = M.ID"
+            + " GROUP BY AN, MOIS, COMMODITY)",
+        countQuery = "SELECT COUNT(*) FROM (SELECT ROUND(SUM(INCOMEITEM.TOTAL *"
+            + " (SELECT * FROM CROSS_RATE('EUR', M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,"
+            + "    EXTRACT(YEAR FROM INCOMEITEM.TRANSFERDATE) as AN,"
+            + "    EXTRACT(MONTH FROM INCOMEITEM.TRANSFERDATE) as MOIS,"
+            + "    C.NAME AS COMMODITY "
+            + " FROM INCOMEITEM"
+            + "         LEFT JOIN INCOME I on INCOMEITEM.INCOME = I.ID"
+            + "         LEFT JOIN COMMODITY C on INCOMEITEM.COMM = C.ID"
+            + "         LEFT JOIN ACCOUNT A on I.ACCOUNT = A.ID"
+            + "         LEFT JOIN MONEYTYPE M on I.MONEYTYPE = M.ID"
+            + " GROUP BY AN, MOIS, COMMODITY)",
+        nativeQuery = true)
+    @RestResource(path = "report")
+    Page<IncomeMonthlyReport> getIncomeItemReports(Pageable pageable);
 
 }
