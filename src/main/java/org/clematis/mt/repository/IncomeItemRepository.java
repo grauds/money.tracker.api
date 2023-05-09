@@ -59,7 +59,7 @@ public interface IncomeItemRepository extends PagingAndSortingRepository<IncomeI
     
     @Query(value =
         "SELECT * FROM (SELECT ROUND(SUM(INCOMEITEM.TOTAL *"
-            + " (SELECT * FROM CROSS_RATE('EUR', M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,"
+            + " (SELECT * FROM CROSS_RATE(:code, M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,"
             + "    EXTRACT(YEAR FROM INCOMEITEM.TRANSFERDATE) as AN,"
             + "    EXTRACT(MONTH FROM INCOMEITEM.TRANSFERDATE) as MOIS,"
             + "    C.NAME AS COMMODITY "
@@ -70,7 +70,7 @@ public interface IncomeItemRepository extends PagingAndSortingRepository<IncomeI
             + "         LEFT JOIN MONEYTYPE M on I.MONEYTYPE = M.ID"
             + " GROUP BY AN, MOIS, COMMODITY)",
         countQuery = "SELECT COUNT(*) FROM (SELECT ROUND(SUM(INCOMEITEM.TOTAL *"
-            + " (SELECT * FROM CROSS_RATE('EUR', M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,"
+            + " (SELECT * FROM CROSS_RATE(:code, M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,"
             + "    EXTRACT(YEAR FROM INCOMEITEM.TRANSFERDATE) as AN,"
             + "    EXTRACT(MONTH FROM INCOMEITEM.TRANSFERDATE) as MOIS,"
             + "    C.NAME AS COMMODITY "
@@ -82,6 +82,6 @@ public interface IncomeItemRepository extends PagingAndSortingRepository<IncomeI
             + " GROUP BY AN, MOIS, COMMODITY)",
         nativeQuery = true)
     @RestResource(path = "report")
-    Page<IncomeMonthlyReport> getIncomeItemReports(Pageable pageable);
+    Page<IncomeMonthlyReport> getIncomeItemReports(@Param("code") String code, Pageable pageable);
 
 }

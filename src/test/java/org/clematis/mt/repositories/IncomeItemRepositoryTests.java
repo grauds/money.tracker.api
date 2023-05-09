@@ -88,7 +88,7 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
     @Test
     public void testIncomeReports() {
         Page<IncomeMonthlyReport> reports
-            = incomeItemRepository.getIncomeItemReports(Pageable.ofSize(400));
+            = incomeItemRepository.getIncomeItemReports("EUR", Pageable.ofSize(400));
 
         Assertions.assertEquals(61, reports.getTotalElements());
         Assertions.assertEquals(1, reports.getTotalPages());
