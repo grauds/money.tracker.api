@@ -81,6 +81,7 @@ public interface IncomeItemRepository extends PagingAndSortingRepository<IncomeI
             + "         LEFT JOIN MONEYTYPE M on I.MONEYTYPE = M.ID"
             + " GROUP BY AN, MOIS, COMMODITY)",
         nativeQuery = true)
+    @Deprecated(since = "This won't work: https://github.com/spring-projects/spring-data-rest/issues/1213")
     @RestResource(path = "report")
     Page<IncomeMonthlyReport> getIncomeItemReports(@Param("code") String code, Pageable pageable);
 

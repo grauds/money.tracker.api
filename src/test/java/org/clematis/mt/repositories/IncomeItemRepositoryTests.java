@@ -3,8 +3,10 @@ package org.clematis.mt.repositories;
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.dto.IncomeMonthlyReport;
 import org.clematis.mt.model.IncomeItem;
+import org.clematis.mt.model.IncomeMonthly;
 import org.clematis.mt.model.MoneyTypeCode;
 import org.clematis.mt.repository.IncomeItemRepository;
+import org.clematis.mt.repository.IncomeMonthlyRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
+
 public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
     private IncomeItemRepository incomeItemRepository;
+
+    @Autowired
+    private IncomeMonthlyRepository incomeMonthlyRepository;
 
     @Test
     public void testIncome() {
@@ -97,5 +104,19 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals("2017", reports.getContent().get(0).getAn());
         Assertions.assertEquals("6", reports.getContent().get(0).getMois());
         Assertions.assertEquals(9.19, reports.getContent().get(0).getTotal());
+    }
+
+    @Test
+    public void testIncomeReportsTwo() {
+        List<IncomeMonthly> reports
+                = incomeMonthlyRepository.getIncomeItemReports("USD", 1, 2010, 1, 2022);
+
+        Assertions.assertEquals(71, reports.size());
+
+        Assertions.assertEquals("CNY", reports.get(0).getCode());
+        Assertions.assertEquals(2017, reports.get(0).getAn());
+        Assertions.assertEquals(6, reports.get(0).getMois());
+        Assertions.assertEquals(14.06, reports.get(0).getTotalConverted());
+        Assertions.assertEquals(100, reports.get(0).getTotal());
     }
 }

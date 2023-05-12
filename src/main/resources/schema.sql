@@ -291,3 +291,28 @@ from (
              ) as a
 
      ) as b ORDER BY delta desc ^
+----------------------------------------------------------
+
+CREATE OR ALTER VIEW MONTHLY_INCOME ("MOIS", "AN", TOTAL, COMM_ID, COMMODITY, CODE) AS
+SELECT "MOIS", "AN", ROUND(TOTAL, 2) AS TOTAL, COMM_ID, COMMODITY, CODE
+FROM (SELECT EXTRACT(MONTH FROM INCOMEITEM.TRANSFERDATE) AS "MOIS",
+             EXTRACT(YEAR FROM INCOMEITEM.TRANSFERDATE) AS "AN",
+             SUM(INCOMEITEM.TOTAL) as TOTAL,
+             C.ID AS COMM_ID,
+             C.NAME AS COMMODITY,
+             M.CODE AS CODE
+      FROM INCOMEITEM
+               LEFT JOIN INCOME I on INCOMEITEM.INCOME = I.ID
+               LEFT JOIN COMMODITY C on INCOMEITEM.COMM = C.ID
+               LEFT JOIN ACCOUNT A on I.ACCOUNT = A.ID
+               LEFT JOIN MONEYTYPE M on I.MONEYTYPE = M.ID
+      GROUP BY EXTRACT(MONTH FROM INCOMEITEM.TRANSFERDATE),
+               EXTRACT(YEAR FROM INCOMEITEM.TRANSFERDATE),
+               COMM_ID,
+               COMMODITY,
+               CODE
+      )
+ORDER BY "AN", "MOIS" ^
+
+----------------------------------------------------------
+
