@@ -24,6 +24,8 @@ public class IncomeMonthly implements Serializable {
 
     private Double total;
 
+    private String commodity;
+
     public IncomeMonthlyKey getKey() {
         return key;
     }
@@ -49,6 +51,15 @@ public class IncomeMonthly implements Serializable {
         return code;
     }
 
+    public int getCommId() {
+        return key.getCommId();
+    }
+
+    @JsonProperty("name")
+    public String getCommodity() {
+        return this.commodity;
+    }
+
     @JsonProperty("month")
     public void setMois(int mois) {
         key.setMois(mois);
@@ -68,6 +79,14 @@ public class IncomeMonthly implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public void setCommId(int commId) {
+        this.key.setCommId(commId);
+    }
+
+    public void setCommodity(String commodity) {
+        this.commodity = commodity;
     }
 
 }
