@@ -113,7 +113,6 @@ FROM EXPENSEITEM AS item
                    JOIN EXPENSEITEM item ON item.COMM = c.ID
           GROUP BY c.ID
           ORDER BY LATEST DESC)
-    WHERE LATEST > DATEADD(YEAR, -15, CURRENT_DATE)
 ) e ON e.ID = item.COMM AND e.LATEST = item.TRANSFERDATE
          JOIN ORGANIZATION o ON o.ID = item.TRADEPLACE
          JOIN COMMODITY c ON c.ID = item.COMM

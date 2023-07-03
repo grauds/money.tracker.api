@@ -18,7 +18,7 @@ public interface LastExpenseEntry {
 
     int getDaysAgo();
 
-    double getPrice();
+    Double getPrice();
 
     String getCurrency();
 
