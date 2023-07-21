@@ -62,7 +62,7 @@ pipeline {
                 DB_CLOUD_ADDRESS = credentials('MT_FIREBIRD_DB_CLOUD_ADDRESS')
             }
             steps {
-                sh 'cp $DB_CLOUD_ADDRESS /home/firebird/db/mt.fdb'
+                sh 'cp $DB_CLOUD_ADDRESS /home/firebird/db/'
             }
         }
 
