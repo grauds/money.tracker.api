@@ -26,4 +26,27 @@ public interface AccountTotalRepository extends ReadOnlyRepository<AccountTotal,
     @RestResource(path = "balance")
     Long getBalanceForCurrency(@Param(value = "code") String code);
 
+
+    @Query(value = "SELECT ROUND(sum(atl.TOTAL / (SELECT * FROM CROSS_RATE(mt.CODE, :code))), 2) as BALANCE "
+            + "FROM ("
+            + "       SELECT ACCOUNT as ID, acc.NAME, BALANCE, ROUND(TOTAL, 2) as TOTAL, CODE"
+            + "       FROM (SELECT ACCOUNT, SUM (CASE WHEN MONEY_SIGN = 1"
+            + "                                 THEN AMOUNT"
+            + "                             ELSE AMOUNT * (-1) END"
+            + "                        ) AS TOTAL"
+            + "             FROM ("
+            + "                      SELECT *"
+            + "                      FROM ALL_OPERATIONS_HISTORY"
+            + "                      WHERE ALL_OPERATIONS_HISTORY.TRANSFERDATE "
+            + "< dateadd (cast(:days as integer) * (-1) day to current_date)"
+            //https://github.com/FirebirdSQL/firebird/issues/5668
+            + "                  )"
+            + "             GROUP BY ACCOUNT)"
+            + "                JOIN ACCOUNT AS acc ON acc.ID = ACCOUNT"
+            + "                JOIN MONEYTYPE AS mt ON acc.MONEYTYPE = mt.ID"
+            + "       ORDER BY TOTAL"
+            + "   ) as atl LEFT JOIN MONEYTYPE as mt on atl.CODE = mt.CODE", nativeQuery = true)
+    @RestResource(path = "balanceHistory")
+    Long getBalanceForCurrency(@Param(value = "code") String code, @Param(value = "days") int days);
+
 }

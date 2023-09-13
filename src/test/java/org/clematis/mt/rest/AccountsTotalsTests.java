@@ -57,4 +57,19 @@ public class AccountsTotalsTests extends HateoasApiTests {
                         new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}, uriParam);
         Assertions.assertEquals(HttpStatus.OK, total.getStatusCode());
     }
+
+    @Test
+    public void testBalanceHistoryInCode() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + mock.getAccessToken(aTokenConfig().build()));
+
+        Map<String, String> uriParam = new HashMap<>();
+        uriParam.put("code", "RUB");
+        uriParam.put("days", "14");
+
+        ResponseEntity<Long> total = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/accountsTotals/search/balanceHistory?code={code}&days={days}", HttpMethod.GET,
+                        new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}, uriParam);
+        Assertions.assertEquals(HttpStatus.OK, total.getStatusCode());
+    }
 }

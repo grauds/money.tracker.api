@@ -75,4 +75,9 @@ public class AccountTotalsTests extends ClematisMoneyTrackerApplicationTests {
     public void getTotalBalanceInCode() {
         Assertions.assertEquals(586635, accountTotalRepository.getBalanceForCurrency("RUB"));
     }
+
+    @Test
+    public void getTotalBalanceInCodeDaysAgo() {
+        Assertions.assertEquals(586635, accountTotalRepository.getBalanceForCurrency("RUB", 7));
+    }
 }
