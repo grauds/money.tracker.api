@@ -1,12 +1,10 @@
-apply from: file("${project.rootDir}/libraries.gradle")
-
 dependencies {
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'com.google.auto.service:auto-service:1.0'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-    checkstyle libs.checkstyle
+    checkstyle 'com.puppycrawl.tools:checkstyle:7.6.1'
 
     implementation 'com.google.auto.service:auto-service:1.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -17,40 +15,54 @@ dependencies {
 
     implementation 'org.glassfish.main.external:jmxremote_optional-repackaged:5.0'
 
-    implementation libs.keycloak
+    implementation 'org.keycloak:keycloak-spring-boot-starter:19.0.3'
 
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.6.java8'
 
-    implementation "org.springdoc:springdoc-openapi-ui:1.6.14"
-    implementation "org.springdoc:springdoc-openapi-security:1.6.14"
-    implementation "org.springdoc:springdoc-openapi-hateoas:1.6.14"
-    implementation "org.springdoc:springdoc-openapi-data-rest:1.6.14"
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+    implementation 'org.springdoc:springdoc-openapi-security:1.6.14'
+    implementation 'org.springdoc:springdoc-openapi-hateoas:1.6.14'
+    implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.14'
 
     // to use regexp in logback.xml
     implementation 'org.codehaus.janino:janino:3.1.6'
 
-    compileOnly libs.commonsLang3
-    compileOnly libs.commonsIO
-    compileOnly libs.lombok
+    compileOnly 'org.apache.commons:commons-lang3'
+    compileOnly 'commons-io:commons-io:2.6'
+    compileOnly 'org.projectlombok:lombok'
     compileOnly 'com.google.code.findbugs:annotations:3.0.1u2'
 
-    testCompileOnly libs.jupiter
-    testCompileOnly libs.testContainers
-    testCompileOnly libs.lombok
-    testCompileOnly libs.spotbugs
+    testCompileOnly (
+            'org.junit.jupiter:junit-jupiter:5.6.2',
+            'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+    )
+    testCompileOnly (
+            "org.testcontainers:testcontainers:1.17.3",
+            "org.testcontainers:junit-jupiter:1.17.3"
+    )
+    testCompileOnly "org.projectlombok:lombok"
+    testCompileOnly (
+            "com.github.spotbugs:spotbugs:4.7.1",
+            "com.google.code.findbugs:annotations:3.0.1u2"
+    )
 
     testImplementation ('com.tngtech.keycloakmock:mock-junit5:0.7.0') {
         exclude group: 'io.netty'
     }
     testImplementation 'io.netty:netty-all:4.1.60.Final'
     testImplementation 'io.rest-assured:rest-assured'
-    testImplementation (libs.springStarterTest) {
+    testImplementation ('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    testImplementation platform(libs.testContainersBom)
-    testImplementation libs.testContainerFirebird
-    testImplementation libs.sprintMockMvc
+    testImplementation platform(
+            'org.testcontainers:testcontainers-bom:1.17.3'
+    )
+    testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.2.0'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test:5.5.1'
 
-    testRuntimeOnly libs.jupiter
+    testRuntimeOnly (
+            'org.junit.jupiter:junit-jupiter:5.6.2',
+            'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+    )
 }

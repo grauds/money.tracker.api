@@ -18,8 +18,6 @@ spring:
       maximum-pool-size: 25
       minimum-idle: 1
     driver-class-name: org.firebirdsql.jdbc.FBDriver
-    continue-on-error: true
-    separator: ^
 
   jpa:
     database-platform: org.hibernate.dialect.FirebirdDialect
@@ -35,6 +33,7 @@ spring:
     init:
       mode: always
       separator: ^
+      continue-on-error: true
 
   jmx:
     enabled: true
