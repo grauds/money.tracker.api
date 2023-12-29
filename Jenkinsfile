@@ -35,10 +35,10 @@ pipeline {
 
         stage ('Dependency-Check') {
             steps {
-                dependencyCheck additionalArguments: ''' 
-                    -o "./" 
+                dependencyCheck additionalArguments: '''
+                    -o "./"
                     -s "./"
-                    -f "ALL" 
+                    -f "ALL"
                     --prettyPrint''', odcInstallation: 'Dependency Checker'
 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'

@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.springframework.boot' version '2.7.10'
+    id "org.springframework.boot" version "2.7.12"
     id 'io.spring.dependency-management' version '1.1.0' // needed for resolving spring boot deps
     id 'java'
 
@@ -18,11 +18,10 @@ plugins {
     id 'jacoco'
     id 'checkstyle'
     id 'idea'
-    id 'eclipse'
 
-    id 'com.palantir.docker' version '0.30.0'
-    id 'com.palantir.docker-run' version '0.30.0'
-    id 'com.palantir.docker-compose' version '0.30.0'
+    id 'com.palantir.docker' version '0.35.0'
+    id 'com.palantir.docker-run' version '0.35.0'
+    id 'com.palantir.docker-compose' version '0.35.0'
 }
 
 group 'name.troshin.anton.clematis'

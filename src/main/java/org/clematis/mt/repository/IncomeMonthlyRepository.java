@@ -20,7 +20,7 @@ public interface IncomeMonthlyRepository extends PagingAndSortingRepository<Inco
             + "       AN, "
             + "       ROUND(TOTAL, 2) AS TOTAL, "
             + "       ROUND(TOTAL * (SELECT * FROM CROSS_RATE(:code, CODE, "
-            + "          cast ('1-' || MOIS || '-' || AN as date))), 2) AS TOTAL_CONVERTED, "
+            + "          cast( AN || '-' || MOIS || '-01' as date))), 2) AS TOTAL_CONVERTED, "
             + "       COMM_ID, "
             + "       COMMODITY,"
             + "       CODE "
