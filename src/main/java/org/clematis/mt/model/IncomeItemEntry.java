@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * @author Anton Troshin
  */
-@Projection(name = "IncomeItemEntry", types = IncomeItemEntry.class)
+@Projection(name = "IncomeItemEntry", types = IncomeItem.class)
 public interface IncomeItemEntry {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
