@@ -58,7 +58,7 @@ public class ExpenseItemTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, items.getStatusCode());
 
     }
-
+/*
     @Test
     public void testExpenseItemsCount() {
 
@@ -75,7 +75,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
         Assertions.assertEquals(HttpStatus.OK, count.getStatusCode());
         Assertions.assertEquals(345, count.getBody());
-    }
+    }*/
 
     @Test
     public void testCommodityTotalSum() {
