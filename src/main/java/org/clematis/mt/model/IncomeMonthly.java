@@ -8,27 +8,32 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author Anton Troshin
  */
 @Entity
 @Table(name = "MONTHLY_INCOME")
+@SuppressFBWarnings
 public class IncomeMonthly implements Serializable {
 
+    @Getter
     @EmbeddedId
-    IncomeMonthlyKey key = new IncomeMonthlyKey();
+    IncomeMonthlyKey key;
 
+    @Setter
+    @Getter
     private String code;
 
     private Double totalConverted;
 
     private Double total;
 
+    @Setter
     private String commodity;
-
-    public IncomeMonthlyKey getKey() {
-        return key;
-    }
 
     public int getMois() {
         return key.getMois();
@@ -45,10 +50,6 @@ public class IncomeMonthly implements Serializable {
 
     public double getTotalConverted() {
         return totalConverted;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public int getCommId() {
@@ -77,16 +78,8 @@ public class IncomeMonthly implements Serializable {
         this.totalConverted = total;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public void setCommId(int commId) {
         this.key.setCommId(commId);
-    }
-
-    public void setCommodity(String commodity) {
-        this.commodity = commodity;
     }
 
 }

@@ -6,6 +6,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,9 +17,10 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@SuppressFBWarnings
 public class OperationEntry {
 
-    @EmbeddedId OperationEntryKey key = new OperationEntryKey();
+    @EmbeddedId OperationEntryKey key;
 
     private Double amount;
 

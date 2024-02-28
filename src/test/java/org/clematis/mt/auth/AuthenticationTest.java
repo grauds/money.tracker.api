@@ -1,6 +1,5 @@
 package org.clematis.mt.auth;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,9 +8,9 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import static com.tngtech.keycloakmock.api.ServerConfig.aServerConfig;
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
-
 import com.tngtech.keycloakmock.junit5.KeycloakMockExtension;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.restassured.RestAssured;
 
 @SuppressFBWarnings

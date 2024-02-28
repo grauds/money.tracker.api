@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ import lombok.Setter;
  * @param <T>
  */
 @MappedSuperclass
+@SuppressFBWarnings
 public class TreeNode<T extends IdAware> extends NamedEntity {
 
     @Setter

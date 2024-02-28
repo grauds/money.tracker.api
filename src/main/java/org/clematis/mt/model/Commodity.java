@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,6 +62,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "COMMODITY")
+@SuppressFBWarnings
 public class Commodity extends NamedEntity {
 
     @ManyToOne

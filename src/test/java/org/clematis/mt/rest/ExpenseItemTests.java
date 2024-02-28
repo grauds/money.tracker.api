@@ -60,6 +60,24 @@ public class ExpenseItemTests extends HateoasApiTests {
     }
 
     @Test
+    public void testExpenseItemsCount() {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer "
+                + mock.getAccessToken(aTokenConfig().build()));
+
+        ResponseEntity<Integer> count
+                = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/expenseItems/count",
+                        HttpMethod.GET,
+                        new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {});
+
+        Assertions.assertEquals(HttpStatus.OK, count.getStatusCode());
+        Assertions.assertEquals(345, count.getBody());
+    }
+
+    @Test
     public void testCommodityTotalSum() {
 
         HttpHeaders headers = new HttpHeaders();

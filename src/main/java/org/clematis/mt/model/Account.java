@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -62,6 +63,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "ACCOUNT")
+@SuppressFBWarnings
 public class Account extends NamedEntity {
 
     private String notes;

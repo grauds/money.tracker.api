@@ -32,9 +32,7 @@ public class MonthlyDeltaIdConverter implements BackendIdConverter {
 
         int i = 0;
         if (parts.length == PARTS) {
-            return new MonthlyDeltaKey(Integer.parseInt(parts[i]),
-                    Integer.parseInt(parts[++i]),
-                    parts[++i]);
+            return new MonthlyDeltaKey(Integer.parseInt(parts[i]), Integer.parseInt(parts[++i]), parts[++i]);
         } else {
             throw new IllegalArgumentException("Id must consist of 3 chunks separated by '_'");
         }

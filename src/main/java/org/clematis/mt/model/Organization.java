@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -46,6 +47,7 @@ import lombok.Setter;
 @Table(name = "ORGANIZATION")
 @Getter
 @Setter
+@SuppressFBWarnings
 public class Organization extends NamedEntity {
 
     private String address;

@@ -8,25 +8,23 @@ import java.sql.Statement;
 import org.firebirdsql.testcontainers.FirebirdContainer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
+
+import lombok.extern.java.Log;
 
 @Testcontainers
 @SpringBootTest(
         classes = ClematisMoneyTrackerApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("local")
+@Log
 public class ClematisMoneyTrackerApplicationTests {
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(ClematisMoneyTrackerApplicationTests.class);
 
     private static final DockerImageName IMAGE =
             DockerImageName.parse(FirebirdContainer.IMAGE).withTag("2.5.9-sc");
@@ -37,9 +35,10 @@ public class ClematisMoneyTrackerApplicationTests {
         container = new FirebirdContainer<>(IMAGE)
                 .withDatabaseName("mt.fdb")
                 .withUsername("SYSDBA")
-                .withCopyFileToContainer(MountableFile.forClasspathResource("mt.fdb"), "/firebird/data/mt.fdb")
-                .withUrlParam("encoding", "win1251")
-                .withLogConsumer(new Slf4jLogConsumer(LOGGER));
+                .withCopyFileToContainer(
+                        MountableFile.forClasspathResource("mt.fdb"), "/firebird/data/mt.fdb"
+                )
+                .withUrlParam("encoding", "win1251");
         container.start();
     }
 

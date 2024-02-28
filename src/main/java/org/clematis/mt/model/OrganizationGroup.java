@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -35,6 +36,7 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "ORGANIZATIONGROUP")
+@SuppressFBWarnings
 public class OrganizationGroup extends TreeNode<OrganizationGroup> {
 
     @Setter

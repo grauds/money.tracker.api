@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="30 seconds">
+<configuration>
+    <springProperty name="LOG_PATH" source="logging.file.path" defaultValue="logs/" />
     <jmxConfigurator/>
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
@@ -57,11 +57,9 @@
     </root>
 
     <logger name="org.clematis" level="${LOG_LEVEL}"/>
+    <logger name="jworkspace" level="${LOG_LEVEL}"/>
     <logger name="org.apache" additivity="false"/>
     <logger name="httpclient.wire" additivity="false"/>
     <logger name="org.springframework" level="${LOG_LEVEL}"/>
     <logger name="org.springframework.retry" level="${LOG_LEVEL}"/>
-    <logger name="org.openrdf" additivity="false"/>
-    <logger name="org.xml.sax" additivity="false"/>
-    <logger name="com.wordnik.swagger" additivity="false"/>
 </configuration>

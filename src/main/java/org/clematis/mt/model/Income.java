@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -67,6 +68,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "INCOME")
+@SuppressFBWarnings
 public class Income extends IdAware {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)

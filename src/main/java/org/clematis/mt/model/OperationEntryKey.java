@@ -7,6 +7,7 @@ import javax.persistence.Embeddable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Data
 @NoArgsConstructor
+@SuppressFBWarnings
 public class OperationEntryKey implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)

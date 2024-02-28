@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "IN_OUT_DELTA")
 @NoArgsConstructor
 @AllArgsConstructor
+@SuppressFBWarnings
 public class InOutDelta implements Serializable {
 
     @EmbeddedId InOutDeltaKey key;

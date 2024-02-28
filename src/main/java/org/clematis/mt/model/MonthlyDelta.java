@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "MONTHLY_DELTA")
 @NoArgsConstructor
 @AllArgsConstructor
+@SuppressFBWarnings
 public class MonthlyDelta implements Serializable {
 
     @EmbeddedId MonthlyDeltaKey key = new MonthlyDeltaKey();
