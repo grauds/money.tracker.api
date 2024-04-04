@@ -62,15 +62,6 @@ pipeline {
             }
         }
 
-        stage('Update database from the cloud') {
-            environment {
-                DB_CLOUD_ADDRESS = credentials('MT_FIREBIRD_DB_CLOUD_ADDRESS')
-            }
-            steps {
-                sh 'cp "$DB_CLOUD_ADDRESS" /home/firebird/db/'
-            }
-        }
-
         stage('Update demo database from GitHub') {
             steps {
                 sh 'wget "https://github.com/grauds/money.tracker.api/raw/master/src/test/resources/mt.fdb" -O /home/firebird/demo/db/mt.fdb'
