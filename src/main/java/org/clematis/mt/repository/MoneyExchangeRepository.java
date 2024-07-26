@@ -31,7 +31,7 @@ public interface MoneyExchangeRepository extends PagingAndSortingRepository<Mone
     Double getAverageExchangeRate(@Param(value = "source") String source, @Param(value = "dest") String dest);
 
 
-    @Query(value = "select b.*, b.DESTAMOUNT * (b.CURRATE - b.AVGRATE) as DELTA from "
+    @Query(value = "select b.*, b.SOURCEAMOUNT * (b.CURRATE - b.AVGRATE) as DELTA from "
             + "(select a.*, (SELECT * FROM CROSS_RATE(:dest, :source)) as CURRATE from "
             + "    (select SUM(SOURCEAMOUNT) as SOURCEAMOUNT, "
             + "            SUM(DESTAMOUNT) as DESTAMOUNT, "
