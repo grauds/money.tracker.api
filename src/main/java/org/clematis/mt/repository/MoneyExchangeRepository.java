@@ -32,10 +32,10 @@ public interface MoneyExchangeRepository extends PagingAndSortingRepository<Mone
 
 
     @Query(value = "select b.*, b.DESTAMOUNT * (b.CURRATE - b.AVGRATE) as DELTA from "
-            + "(select a.*, (SELECT * FROM CROSS_RATE(:source, :dest)) as CURRATE from "
+            + "(select a.*, (SELECT * FROM CROSS_RATE(:dest, :source)) as CURRATE from "
             + "    (select SUM(SOURCEAMOUNT) as SOURCEAMOUNT, "
             + "            SUM(DESTAMOUNT) as DESTAMOUNT, "
-            + "            (SUM(SOURCEAMOUNT) / SUM(DESTAMOUNT)) as AVGRATE "
+            + "            (SUM(DESTAMOUNT) / SUM(SOURCEAMOUNT)) as AVGRATE "
             + "    from MONEYEXCHANGE "
             + "     where SOURCEMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:source) "
             + "      AND DESTMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:dest)) "
