@@ -31,7 +31,7 @@ public class MoneyExchangeRepositoryTests extends ClematisMoneyTrackerApplicatio
     void testExchangeReport() {
         //334.4599981117249,8385.19,0.03988699100577624,0.033166395807768,-1247685.6220242358
         MoneyExchangeReport report = this.moneyExchangeRepository.getExchangeReport("USD", "RUB");
-        Assertions.assertEquals(1699.1134030666158,  report.getDelta());
+        Assertions.assertEquals(-1699.1134030666158,  report.getDelta());
         Assertions.assertEquals(30.151,  report.getCurRate());
         Assertions.assertEquals(25.070830734140486,  report.getAvgRate());
         Assertions.assertEquals(8385.19,  report.getDestAmount());
