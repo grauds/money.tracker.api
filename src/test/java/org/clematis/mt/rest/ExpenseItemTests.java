@@ -128,4 +128,20 @@ public class ExpenseItemTests extends HateoasApiTests {
 
         Assertions.assertEquals(HttpStatus.OK, sum.getStatusCode());
     }
+
+    @Test
+    public void testAgentCommodityGroupTotalSum() {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer "
+              + mock.getAccessToken(aTokenConfig().build()));
+
+        ResponseEntity<?> response = getRestTemplateWithHalMessageConverter()
+                .exchange("/api/agentCommodityGroupExpenses?code=RUB&mois=3&an=2018",
+                        HttpMethod.GET,
+                        new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {});
+
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 }

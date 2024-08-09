@@ -1,7 +1,9 @@
 package org.clematis.mt.repositories;
 
+import java.util.List;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
+import org.clematis.mt.dto.AgentCommodityGroup;
 import org.clematis.mt.model.Expense;
 import org.clematis.mt.model.MoneyTypeCode;
 import org.clematis.mt.repository.ExpenseRepository;
@@ -25,6 +27,12 @@ public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests
         Long result = expenseRepository.sumCommodityGroupExpenses(287,
             String.valueOf(MoneyTypeCode.RUB));
         Assertions.assertEquals(16162, result);
+    }
+
+    @Test
+    public void testAgentCommodityTotalSum() {
+        List<AgentCommodityGroup> groups = expenseRepository.getAgentCommodityGroups("RUB", 3, 2018);
+        Assertions.assertEquals(4, groups.size());
     }
 
 }
