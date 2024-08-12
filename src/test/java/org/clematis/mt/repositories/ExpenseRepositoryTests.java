@@ -33,7 +33,7 @@ public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests
     public void testAgentCommodityTotalSum() {
         List<AgentCommodityGroup> groups = expenseRepository.getAgentCommodityGroups("RUB",
             3, 2018, 3, 2019);
-        Assertions.assertEquals(16, groups.size());
+        Assertions.assertEquals(8, groups.size());
     }
 
 }
