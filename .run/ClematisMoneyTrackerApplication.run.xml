@@ -1,0 +1,32 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ClematisMoneyTrackerApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+    <envs>
+      <env name="SPRING_DATASOURCE_PASSWORD" value="c2e58bcf" />
+      <env name="KEYCLOAK_SECRET" value="p6BgCWlV1sqZbor8e4S6BceQSsaGICfr" />
+    </envs>
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/jenkins/.env.local" />
+    </option>
+    <option name="MAIN_CLASS_NAME" value="org.clematis.mt.ClematisMoneyTrackerApplication" />
+    <module name="org.clematis.clematis.mt.api.main" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="org.clematis.mt.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <extension name="net.ashald.envfile">
+      <option name="IS_ENABLED" value="false" />
+      <option name="IS_SUBST" value="false" />
+      <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+      <option name="IS_IGNORE_MISSING_FILES" value="false" />
+      <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+      <ENTRIES>
+        <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+      </ENTRIES>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

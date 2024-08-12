@@ -136,11 +136,21 @@ public class ExpenseItemTests extends HateoasApiTests {
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer "
               + mock.getAccessToken(aTokenConfig().build()));
 
+        Map<String, String> uriParam = new HashMap<>();
+        uriParam.put("moisStart", "1");
+        uriParam.put("anStart", "2010");
+        uriParam.put("moisEnd", "1");
+        uriParam.put("anEnd", "2022");
+        uriParam.put("code", "RUB");
+
         ResponseEntity<?> response = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/agentCommodityGroupExpenses?code=RUB&mois=3&an=2018",
+                .exchange("/api/agentCommodityGroupExpenses?code={code}" +
+                        "&moisStart={moisStart}&anStart={anStart}&moisEnd={moisEnd}&anEnd={anEnd}",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
-                        new ParameterizedTypeReference<>() {});
+                        new ParameterizedTypeReference<>() {},
+                        uriParam
+                );
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }

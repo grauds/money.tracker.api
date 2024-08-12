@@ -28,10 +28,14 @@ public class ExpenseController {
     @GetMapping("/api/agentCommodityGroupExpenses")
     public ResponseEntity<Page<AgentCommodityGroup>> getAgentCommodityGroupExpenses(
             @RequestParam(value = "code") String code,
-            @RequestParam(value = "mois") int mois,
-            @RequestParam(value = "an") int an) {
+            @RequestParam(value = "moisStart") int moisStart,
+            @RequestParam(value = "anStart") int anStart,
+            @RequestParam(value = "moisEnd") int moisEnd,
+            @RequestParam(value = "anEnd") int anEnd) {
 
-        List<AgentCommodityGroup> groups = this.expenseRepository.getAgentCommodityGroups(code, mois, an);
+        List<AgentCommodityGroup> groups = this.expenseRepository.getAgentCommodityGroups(
+            code, moisStart, anStart, moisEnd, anEnd
+        );
         Pageable pageRequest = Pageable.ofSize(groups.size());
         Page<AgentCommodityGroup> p = new PageImpl<>(groups, pageRequest, groups.size());
 
