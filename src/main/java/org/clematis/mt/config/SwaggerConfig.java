@@ -3,8 +3,8 @@ package org.clematis.mt.config;
 import static org.springdoc.core.Constants.ALL_PATTERN;
 
 import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.SwaggerUiConfigProperties;
 import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.info.BuildProperties;
@@ -82,7 +82,7 @@ public class SwaggerConfig {
     public GroupedOpenApi expensesApi() {
         return GroupedOpenApi.builder()
                 .group("Expenses")
-                .pathsToMatch("/api/expenses", "/api/expenseItems")
+                .pathsToMatch("/api/expenses", "/api/expenseItems", "/api/agentCommodityGroupExpenses")
                 .build();
     }
 
@@ -127,7 +127,8 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi actuatorApi(OpenApiCustomiser actuatorOpenApiCustomiser,
+    public GroupedOpenApi actuatorApi(@Qualifier("actuatorOpenApiCustomizer")
+                                      OpenApiCustomiser actuatorOpenApiCustomiser,
                                       WebEndpointProperties endpointProperties) {
         return GroupedOpenApi.builder()
                 .group("Actuator")
@@ -140,13 +141,6 @@ public class SwaggerConfig {
                 .pathsToExclude("/rest/actuator/health/**")
                 .pathsToExclude("/rest/actuator/health/*")
                 .build();
-    }
-
-    @Bean
-    SwaggerUiConfigProperties swaggerUiConfig() {
-        SwaggerUiConfigProperties config = new SwaggerUiConfigProperties();
-        config.setShowCommonExtensions(true);
-        return config;
     }
 
 }

@@ -49,23 +49,23 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.keycloak:keycloak-spring-boot-starter:20.0.5'
 
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
-    implementation 'org.springdoc:springdoc-openapi-security:1.6.14'
-    implementation 'org.springdoc:springdoc-openapi-hateoas:1.6.14'
-    implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.14'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
+    implementation 'org.springdoc:springdoc-openapi-security:1.8.0'
+    implementation 'org.springdoc:springdoc-openapi-hateoas:1.8.0'
+    implementation 'org.springdoc:springdoc-openapi-data-rest:1.8.0'
 
     implementation 'org.glassfish.main.external:jmxremote_optional-repackaged:5.0'
     // to use regexp in logback.xml
-    implementation 'org.codehaus.janino:janino:3.1.10'
+    implementation 'org.codehaus.janino:janino:3.1.12'
 
-    runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.6.java8'
+    runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
 
     testCompileOnly (
             "com.github.spotbugs:spotbugs:4.8.4",
             "com.google.code.findbugs:annotations:3.0.1u2",
             "org.projectlombok:lombok",
-            "org.testcontainers:testcontainers:1.17.6",
-            "org.testcontainers:junit-jupiter:1.17.6"
+            "org.testcontainers:testcontainers:1.20.0",
+            "org.testcontainers:junit-jupiter:1.20.0"
     )
 
     testImplementation ('org.springframework.boot:spring-boot-starter-test') {
@@ -75,7 +75,7 @@ dependencies {
     testImplementation 'org.apache.httpcomponents.client5:httpclient5'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.2.0'
+    testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.4.0'
     testImplementation 'com.tngtech.keycloakmock:mock-junit5:0.16.0'
     testImplementation 'io.rest-assured:rest-assured'
 
