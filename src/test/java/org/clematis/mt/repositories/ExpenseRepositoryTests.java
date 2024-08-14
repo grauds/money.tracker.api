@@ -1,9 +1,11 @@
 package org.clematis.mt.repositories;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.dto.AgentCommodityGroup;
+import org.clematis.mt.dto.DateRange;
 import org.clematis.mt.model.Expense;
 import org.clematis.mt.model.MoneyTypeCode;
 import org.clematis.mt.repository.ExpenseRepository;
@@ -36,4 +38,10 @@ public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests
         Assertions.assertEquals(16, groups.size());
     }
 
+    @Test
+    public void testDates() {
+        DateRange range = expenseRepository.getDatesRange();
+        Assertions.assertEquals(Date.valueOf("2017-06-11"), range.getStart());
+        Assertions.assertEquals(Date.valueOf("2018-06-09"), range.getEnd());
+    }
 }

@@ -38,7 +38,7 @@ dependencies {
         "com.github.spotbugs:spotbugs:4.8.4",
         "com.google.code.findbugs:annotations:3.0.1u2"
     )
-    checkstyle "com.puppycrawl.tools:checkstyle:7.8.2"
+    checkstyle "com.puppycrawl.tools:checkstyle:10.9.3"
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

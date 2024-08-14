@@ -3,6 +3,7 @@ package org.clematis.mt.repository;
 import java.util.List;
 
 import org.clematis.mt.dto.AgentCommodityGroup;
+import org.clematis.mt.dto.DateRange;
 import org.clematis.mt.model.Expense;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -55,4 +56,10 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
                                                       @Param(value = "anStart") int anStart,
                                                       @Param(value = "moisEnd") int moisEnd,
                                                       @Param(value = "anEnd") int anEnd);
+
+    @Query(value =
+        "SELECT new org.clematis.mt.dto.DateRange(MIN(e.transferdate) "
+            + "AS start, MAX(e.transferdate) AS end) FROM Expense e "
+    )
+    DateRange getDatesRange();
 }

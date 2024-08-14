@@ -2,6 +2,7 @@ package org.clematis.mt.repositories;
 
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
+import org.clematis.mt.dto.DateRange;
 import org.clematis.mt.model.ExpenseItem;
 import org.clematis.mt.model.MoneyTypeCode;
 import org.clematis.mt.repository.ExpenseItemRepository;
@@ -77,5 +78,23 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Double result = expenseItemRepository.sumOrganizationExpenses(316,
                 String.valueOf(MoneyTypeCode.RUB));
         Assertions.assertEquals(661, result);
+    }
+
+    @Test
+    public void testCountItemsWithTradeplace() {
+        Long result = expenseItemRepository.countItemsWithTradeplace();
+        Assertions.assertEquals(2291, result);
+    }
+
+    @Test
+    public void testCountItemsWithNoTradeplace() {
+        Long result = expenseItemRepository.countItemsWithNoTradeplace();
+        Assertions.assertEquals(0, result);
+    }
+
+    @Test
+    public void testCountItemsWithNoCommodity() {
+        Long result = expenseItemRepository.countItemsWithNoCommodity();
+        Assertions.assertEquals(0, result);
     }
 }

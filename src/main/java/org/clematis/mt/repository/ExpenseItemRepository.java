@@ -52,10 +52,19 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
                                  @Param(value = "moneyCode") String moneyCode);
 
     @Query(value = "SELECT SUM(ei.qty) "
-            + "FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id WHERE ei.commodity.id=:commodityId")
+            + "FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id "
+            + "WHERE ei.commodity.id=:commodityId"
+    )
     @RestResource(path = "sumCommodityQuantity")
     Long sumCommodityQuantity(@Param(value = "commodityId") int commodityId);
 
 
+    @Query(value = "SELECT COUNT(1) FROM ExpenseItem e WHERE e.commodity IS NULL")
+    Long countItemsWithNoCommodity();
 
+    @Query(value = "SELECT COUNT(1) FROM ExpenseItem e WHERE e.tradeplace = 1")
+    Long countItemsWithNoTradeplace();
+
+    @Query(value = "SELECT COUNT(1) FROM ExpenseItem e WHERE e.tradeplace <> 1")
+    Long countItemsWithTradeplace();
 }

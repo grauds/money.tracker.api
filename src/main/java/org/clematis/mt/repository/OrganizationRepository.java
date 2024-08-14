@@ -18,23 +18,23 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "bearer")
 public interface OrganizationRepository extends PagingAndSortingAndFilteringByNameRepository<Organization, Integer> {
 
-    @Query(value = "SELECT * FROM (WITH recursive w1(id, parent, name) AS\n"
-            + "(SELECT c.id, c.parent, c.name\n"
-            + "    FROM ORGANIZATIONGROUP as c\n"
-            + "    WHERE c.id = :id\n"
-            + "\tUNION ALL\n"
-            + "\tSELECT c2.id, c2.parent, c2.name\n"
-            + "\tFROM w1 JOIN ORGANIZATIONGROUP as c2 ON c2.parent=w1.id\n"
-            + ")\n"
+    @Query(value = "SELECT * FROM (WITH recursive w1(id, parent, name) AS "
+            + "(SELECT c.id, c.parent, c.name "
+            + "    FROM ORGANIZATIONGROUP as c "
+            + "    WHERE c.id = :id "
+            + " UNION ALL "
+            + " SELECT c2.id, c2.parent, c2.name "
+            + " FROM w1 JOIN ORGANIZATIONGROUP as c2 ON c2.parent=w1.id "
+            + ") "
             + "SELECT * FROM ORGANIZATION WHERE PARENT IN (SELECT w1.id FROM w1) ORDER BY NAME)",
-            countQuery = "SELECT COUNT(*) FROM (WITH recursive w1(id, parent, name) AS\n"
-                + "(SELECT c.id, c.parent, c.name\n"
-                + "    FROM ORGANIZATIONGROUP as c\n"
-                + "    WHERE c.id = :id\n"
-                + "\tUNION ALL\n"
-                + "\tSELECT c2.id, c2.parent, c2.name\n"
-                + "\tFROM w1 JOIN ORGANIZATIONGROUP as c2 ON c2.parent=w1.id\n"
-                + ")\n"
+            countQuery = "SELECT COUNT(*) FROM (WITH recursive w1(id, parent, name) AS "
+                + "(SELECT c.id, c.parent, c.name "
+                + "    FROM ORGANIZATIONGROUP as c "
+                + "    WHERE c.id = :id "
+                + " UNION ALL "
+                + " SELECT c2.id, c2.parent, c2.name "
+                + " FROM w1 JOIN ORGANIZATIONGROUP as c2 ON c2.parent=w1.id "
+                + ") "
                 + "SELECT * FROM ORGANIZATION WHERE PARENT IN (SELECT w1.id FROM w1) ORDER BY NAME)",
             nativeQuery = true)
     @Operation(summary = "Find organizations recursively by parent group id")
