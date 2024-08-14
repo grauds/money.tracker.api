@@ -2,12 +2,11 @@ package org.clematis.mt.model;
 
 import java.util.Collection;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 

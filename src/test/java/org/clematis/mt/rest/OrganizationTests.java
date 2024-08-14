@@ -1,6 +1,5 @@
 package org.clematis.mt.rest;
 
-import org.clematis.mt.model.CommodityGroup;
 import org.clematis.mt.model.Organization;
 import org.clematis.mt.model.OrganizationGroup;
 import org.junit.jupiter.api.Assertions;

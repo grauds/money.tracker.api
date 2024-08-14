@@ -23,7 +23,6 @@ import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AccountsTests extends HateoasApiTests {
 
-
     @Test
     public void testAccounts() {
         HttpHeaders headers = new HttpHeaders();

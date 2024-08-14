@@ -10,6 +10,7 @@ import org.clematis.mt.repository.ExpenseRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 
 public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
@@ -18,7 +19,7 @@ public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests
 
     @Test
     public void testGetAll() {
-        Iterable<Expense> result = expenseRepository.findAll();
+        Iterable<Expense> result = expenseRepository.findAll(Sort.unsorted());
         Assertions.assertEquals(681, result.spliterator().estimateSize());
     }
 

@@ -1,6 +1,5 @@
 package org.clematis.mt.rest;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

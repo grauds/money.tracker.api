@@ -2,10 +2,9 @@ package org.clematis.mt.model;
 
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,8 +34,8 @@ public class AccountTotal extends NamedEntity {
         }
         AccountTotal that = (AccountTotal) o;
         return Objects.equals(balance, that.balance)
-                && Objects.equals(total, that.total)
-                && Objects.equals(code, that.code);
+            && Objects.equals(total, that.total)
+            && Objects.equals(code, that.code);
     }
 
     @Override

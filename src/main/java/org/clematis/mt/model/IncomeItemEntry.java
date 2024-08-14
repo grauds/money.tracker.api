@@ -1,6 +1,5 @@
 package org.clematis.mt.model;
 
-
 import java.util.Date;
 
 import org.springframework.data.rest.core.config.Projection;

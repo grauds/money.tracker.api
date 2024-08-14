@@ -3,11 +3,10 @@ package org.clematis.mt.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Embeddable;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.Embeddable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

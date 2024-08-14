@@ -1,0 +1,16 @@
+spring:
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: clematis
+            client-secret: ${KEYCLOAK_SECRET}
+            scope: openid
+            authorization-grant-type: client_credentials
+        provider:
+          keycloak:
+            issuer-uri: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth/realms/${keycloak.realm}"
+            token-uri: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth/realms/${keycloak.realm}/protocol/openid-connect/token"
+

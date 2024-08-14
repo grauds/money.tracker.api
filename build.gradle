@@ -1,10 +1,9 @@
 plugins {
     id "java"
-    id "org.springframework.boot" version "2.7.18"
-    id "io.spring.dependency-management" version "1.1.4"
+    id "org.springframework.boot" version "3.3.2"
+    id "io.spring.dependency-management" version "1.1.6"
 
     id "com.github.spotbugs" version "6.0.7"
-   // id "org.asciidoctor.jvm.convert" version "3.1.0"
     id "jacoco"
     id "checkstyle"
 
@@ -38,7 +37,7 @@ dependencies {
         "com.github.spotbugs:spotbugs:4.8.4",
         "com.google.code.findbugs:annotations:3.0.1u2"
     )
-    checkstyle "com.puppycrawl.tools:checkstyle:7.8.2"
+    checkstyle "com.puppycrawl.tools:checkstyle:10.14.1"
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
@@ -46,8 +45,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.keycloak:keycloak-spring-boot-starter:20.0.5'
 
     implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
     implementation 'org.springdoc:springdoc-openapi-security:1.8.0'
@@ -58,6 +57,7 @@ dependencies {
     // to use regexp in logback.xml
     implementation 'org.codehaus.janino:janino:3.1.12'
 
+    implementation 'org.hibernate.orm:hibernate-community-dialects'
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
 
     testCompileOnly (

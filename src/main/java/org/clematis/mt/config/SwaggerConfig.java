@@ -1,14 +1,10 @@
 package org.clematis.mt.config;
 
 import static org.springdoc.core.Constants.ALL_PATTERN;
-
 import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.customizers.OpenApiCustomiser;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.info.BuildProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,28 +22,17 @@ public class SwaggerConfig {
     private static final String OAUTH = "spring_oauth";
     private static final String TOKEN_NAME = "oauthtoken";
 
-    @Value("${spring.auth.authServer}")
-    private String authServer;
-
     @Value("${keycloak.resource}")
     private String clientId;
-
-    @Value("${spring.auth.clientSecret}")
-    private String clientSecret;
 
     @Value("${keycloak.realm}")
     private String realm;
 
     private final BuildProperties buildProperties;
 
-    private final ApplicationContext applicationContext;
-
-
-    public SwaggerConfig(BuildProperties buildProperties, ApplicationContext applicationContext) {
+    public SwaggerConfig(BuildProperties buildProperties) {
         this.buildProperties = buildProperties;
-        this.applicationContext = applicationContext;
     }
-
 
     @Bean
     public OpenAPI openAPI() {
@@ -127,13 +112,10 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi actuatorApi(@Qualifier("actuatorOpenApiCustomizer")
-                                      OpenApiCustomiser actuatorOpenApiCustomiser,
-                                      WebEndpointProperties endpointProperties) {
+    public GroupedOpenApi actuatorApi(WebEndpointProperties endpointProperties) {
         return GroupedOpenApi.builder()
                 .group("Actuator")
                 .pathsToMatch(endpointProperties.getBasePath() + ALL_PATTERN)
-                .addOpenApiCustomiser(actuatorOpenApiCustomiser)
                 .addOpenApiCustomiser(openApi -> openApi.info(new Info()
                         .title("Money Tracker Actuator API")
                         .version(buildProperties.getVersion()))

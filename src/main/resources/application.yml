@@ -9,10 +9,6 @@ management:
 
 spring:
 
-  auth:
-    authServer: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth/realms/${keycloak.realm}/protocol/openid-connect"
-    clientSecret: ${KEYCLOAK_SECRET}
-
   datasource:
     hikari:
       maximum-pool-size: 25
@@ -20,7 +16,7 @@ spring:
     driver-class-name: org.firebirdsql.jdbc.FBDriver
 
   jpa:
-    database-platform: org.hibernate.dialect.FirebirdDialect
+    database-platform: org.hibernate.community.dialect.FirebirdDialect
     show-sql: true
     hibernate:
       ddl-auto: none

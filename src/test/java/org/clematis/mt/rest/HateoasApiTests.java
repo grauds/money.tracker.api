@@ -12,18 +12,17 @@ import org.springframework.hateoas.server.mvc.TypeConstrainedMappingJackson2Http
 import org.springframework.http.converter.HttpMessageConverter;
 
 import static com.tngtech.keycloakmock.api.ServerConfig.aServerConfig;
-
 import com.tngtech.keycloakmock.junit5.KeycloakMockExtension;
 
 abstract class HateoasApiTests extends ClematisMoneyTrackerApplicationTests {
 
-    @Autowired
-    private TestRestTemplate testRestTemplate;
-
     @RegisterExtension
     static KeycloakMockExtension mock = new KeycloakMockExtension(
-            aServerConfig().withRealm("clematis").build()
+        aServerConfig().withDefaultRealm("clematis").build()
     );
+
+    @Autowired
+    private TestRestTemplate testRestTemplate;
 
     @Autowired
     @Qualifier("halJacksonHttpMessageConverter")
