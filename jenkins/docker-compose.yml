@@ -4,7 +4,7 @@ services:
     image: clematis.mt.api:latest
     networks:
       - clematis_mt
-    env_file: ".env.uat"
+    env_file: "uat.env"
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15085:5000"
@@ -23,7 +23,7 @@ services:
     image: clematis.mt.api:latest
     networks:
       - clematis_mt
-    env_file: ".env.demo"
+    env_file: "demo.env"
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15087:5000"
