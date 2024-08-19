@@ -1,13 +1,10 @@
-version: '3.7'
-
 services:
   money-tracker-api:
     container_name: clematis-money-tracker-api
     image: clematis.mt.api:latest
     networks:
       - clematis_mt
-    env_file:
-      - .env.uat
+    env_file: ".env.uat"
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15085:5000"
@@ -26,8 +23,7 @@ services:
     image: clematis.mt.api:latest
     networks:
       - clematis_mt
-    env_file:
-      - .env.demo
+    env_file: ".env.demo"
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15087:5000"
