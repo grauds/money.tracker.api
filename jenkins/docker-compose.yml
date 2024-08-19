@@ -8,7 +8,7 @@ services:
       - clematis_mt
     env_file: "uat.env"
     ports:
-      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+      - "18085:8080"
       - "15085:5000"
       - "15086:5001"
     volumes:
@@ -25,7 +25,7 @@ services:
       - clematis_mt
     env_file: "demo.env"
     ports:
-      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+      - "18086:8080"
       - "15087:5000"
       - "15088:5001"
     volumes:
