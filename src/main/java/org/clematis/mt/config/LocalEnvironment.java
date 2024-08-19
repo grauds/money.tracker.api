@@ -15,6 +15,6 @@ public class LocalEnvironment implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         Environment environment = context.getEnvironment();
-        return environment.acceptsProfiles(Profiles.of("local"));
+        return environment.acceptsProfiles(Profiles.of("local", "demo"));
     }
 }
