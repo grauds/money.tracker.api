@@ -25,7 +25,6 @@ services:
     networks:
       - clematis_mt
     env_file:
-      - .env
       - .env.demo
     ports:
       - ${SPRING_LOCAL_DEMO_PORT}:${SPRING_DOCKER_PORT}
@@ -37,7 +36,7 @@ services:
       - /home/clematis/mt-demo/logs:/var/log/clematis
     restart: unless-stopped
     depends_on:
-      money-tracker-db:
+      money-tracker-db-demo:
         condition: service_healthy
 
   money-tracker-db:
