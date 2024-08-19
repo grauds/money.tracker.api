@@ -1,3 +1,5 @@
+version: '3.7'
+
 services:
   money-tracker-api:
     container_name: clematis-money-tracker-api
@@ -9,8 +11,6 @@ services:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15085:5000"
       - "15086:5001"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=uat"
     volumes:
       - /home/clematis/mt/logs:/var/log/clematis
     restart: unless-stopped
@@ -28,8 +28,6 @@ services:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - "15087:5000"
       - "15088:5001"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=demo"
     volumes:
       - /home/clematis/mt-demo/logs:/var/log/clematis
     restart: unless-stopped
