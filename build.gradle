@@ -14,7 +14,7 @@ plugins {
 }
 
 group = 'org.clematis'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0'
 
 java {
     sourceCompatibility = '17'
@@ -72,12 +72,12 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
+    testImplementation 'io.rest-assured:rest-assured'
     testImplementation 'org.apache.httpcomponents.client5:httpclient5'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.4.0'
     testImplementation 'com.tngtech.keycloakmock:mock-junit5:0.16.0'
-    testImplementation 'io.rest-assured:rest-assured'
 
 }
 
