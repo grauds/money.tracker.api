@@ -41,6 +41,9 @@ pipeline {
                     -f "ALL"
                     --prettyPrint''', nvdCredentialsId: 'NVD_API_Key', odcInstallation: 'Dependency Checker'
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    sh "exit 1"
+                }
             }
         }
 
