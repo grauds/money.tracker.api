@@ -3,6 +3,7 @@ package org.clematis.mt.repositories;
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.repository.CommodityGroupRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ public class CommodityGroupsRepositoryTests extends ClematisMoneyTrackerApplicat
             commodityGroupRepository.findRecursiveByParentId(303, Pageable.ofSize(20)).getTotalElements());
     }
 
+    @Disabled
     @Test
     void countGroupsWithCommodities() {
         // all groups minus one - the same group

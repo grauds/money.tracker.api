@@ -15,8 +15,10 @@ import org.springframework.data.repository.NoRepositoryBean;
  */
 @NoRepositoryBean
 public interface ReadOnlyRepository<T, ID> extends JpaRepository<T, ID> {
+
     @Override
     Optional<T> findById(ID id);
+
     @Override
     List<T> findAll();
 }

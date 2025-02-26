@@ -17,16 +17,19 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @RepositoryRestResource(path = "inOutDeltas", excerptProjection = InOutDeltaEntry.class)
 public interface InOutDeltaRepository extends PagingAndSortingRepository<InOutDelta, InOutDeltaKey> {
 
-    @Query(value = "SELECT COMM_ID, SUM(ETOTAL) AS ETOTAL, SUM(ITOTAL) AS ITOTAL, ROUND(SUM(DELTA), 2) AS DELTA,"
-            + " MID, MCODE "
-            + "FROM"
-            + "    (SELECT COMM_ID, ETOTAL, ITOTAL,"
-            + "       DELTA * (SELECT * FROM CROSS_RATE(:code, MCODE)) AS DELTA,"
-            + "       M.ID as MID, M.CODE AS MCODE "
-            + "     FROM IN_OUT_DELTA as IOD"
-            + "     LEFT JOIN MONEYTYPE M on M.CODE=:code WHERE IOD.EXPENCES = 1 AND IOD.INCOMES = 1"
-            + "    )"
-            + "    AS A GROUP BY COMM_ID, MID, MCODE ORDER BY DELTA DESC", nativeQuery = true)
+    @Query(value = """
+        SELECT COMM_ID, SUM(ETOTAL) AS ETOTAL, SUM(ITOTAL) AS ITOTAL,
+               ROUND(SUM(DELTA), 2) AS DELTA,
+               MID, MCODE
+        FROM
+            (SELECT COMM_ID, ETOTAL, ITOTAL,
+               DELTA * (SELECT * FROM CROSS_RATE(:code, MCODE)) AS DELTA,
+               M.ID as MID, M.CODE AS MCODE
+             FROM IN_OUT_DELTA as IOD
+             LEFT JOIN MONEYTYPE M on M.CODE=:code WHERE IOD.EXPENCES = 1 AND IOD.INCOMES = 1
+            )
+            AS A GROUP BY COMM_ID, MID, MCODE ORDER BY DELTA DESC
+        """, nativeQuery = true)
     @RestResource(path = "code")
     List<InOutDelta> getDeltas(@Param(value = "code") String code);
 }

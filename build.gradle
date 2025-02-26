@@ -1,16 +1,22 @@
 plugins {
-    id "java"
+    id 'java'
+    id "jacoco"
+    id "checkstyle"
+    
     id "org.springframework.boot" version "2.7.18"
     id "io.spring.dependency-management" version "1.1.4"
 
     id "com.github.spotbugs" version "6.0.7"
-   // id "org.asciidoctor.jvm.convert" version "3.1.0"
-    id "jacoco"
-    id "checkstyle"
 
     id "com.palantir.docker" version "0.36.0"
     id "com.palantir.docker-run" version "0.36.0"
     id "com.palantir.docker-compose" version "0.36.0"
+
+    id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
+}
+
+repositories {
+    mavenCentral()
 }
 
 group = 'org.clematis'
@@ -24,10 +30,6 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
@@ -59,7 +61,6 @@ dependencies {
     implementation 'org.codehaus.janino:janino:3.1.12'
 
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
-
     testCompileOnly (
             "com.github.spotbugs:spotbugs:4.8.4",
             "com.google.code.findbugs:annotations:3.0.1u2",
@@ -79,6 +80,26 @@ dependencies {
     testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.4.0'
     testImplementation 'com.tngtech.keycloakmock:mock-junit5:0.16.0'
 
+}
+
+// ------------ Checkstyle configuration  ---------
+checkstyle {
+    configProperties.configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+    configProperties.checkstyleSuppressionFile = file("${project.rootDir}/config/checkstyle/suppressions.xml")
+}
+
+tasks.register('checkstyleReport') {
+    doLast {
+        if (file("${buildDir}/reports/checkstyle/${project.ext.checkType}.xml").exists()) {
+            ant.xslt(in: "${buildDir}/reports/checkstyle/${project.ext.checkType}.xml",
+                    style: "${project.rootDir}/config/checkstyle/checkstyle.xsl",
+                    out: "${buildDir}/reports/checkstyle/checkstyle_${project.ext.checkType}.html")
+        }
+    }
+}
+
+tasks.withType(Checkstyle).configureEach {
+    exclude '**/*Test*'
 }
 
 // ------------ JaCoCo configuration  ---------
@@ -114,12 +135,7 @@ jacocoTestReport {
     }
     executionData fileTree(project.rootDir.absolutePath).include("jacoco/*.exec")
 }
-/*
-asciidoctor {
-    inputs.dir snippetsDir
-    dependsOn test
-}
-*/
+
 // ------------ Spotbugs configuration  ---------
 spotbugsMain {
     reports {
@@ -143,26 +159,6 @@ spotbugsTest {
             destination = file("$buildDir/reports/spotbugs/test/spotbugs.html")
         }
     }
-}
-
-// ------------ Checkstyle configuration  ---------
-checkstyle {
-    configProperties.configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
-    configProperties.checkstyleSuppressionFile = file("${project.rootDir}/config/checkstyle/suppressions.xml")
-}
-
-tasks.register('checkstyleReport') {
-    doLast {
-        if (file("${buildDir}/reports/checkstyle/${project.ext.checkType}.xml").exists()) {
-            ant.xslt(in: "${buildDir}/reports/checkstyle/${project.ext.checkType}.xml",
-                    style: "${project.rootDir}/config/checkstyle/checkstyle.xsl",
-                    out: "${buildDir}/reports/checkstyle/checkstyle_${project.ext.checkType}.html")
-        }
-    }
-}
-
-tasks.withType(Checkstyle).configureEach {
-    exclude '**/*Test*'
 }
 
 docker {

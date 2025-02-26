@@ -26,7 +26,11 @@ public class AccountsTotalsTests extends HateoasApiTests {
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + mock.getAccessToken(aTokenConfig().build()));
 
         ResponseEntity<PagedModel<AccountTotal>> accountsTotals = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/accountsTotals", HttpMethod.GET,  new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+                .exchange("/api/accountsTotals",
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {}
+                );
         Assertions.assertEquals(HttpStatus.OK, accountsTotals.getStatusCode());
     }
 
@@ -39,8 +43,12 @@ public class AccountsTotalsTests extends HateoasApiTests {
         uriParam.put("code", "RUB");
 
         ResponseEntity<PagedModel<AccountTotal>> accountsTotals = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/accountsTotals/search/code?code={code}", HttpMethod.GET,
-                        new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}, uriParam);
+                .exchange("/api/accountsTotals/search/code?code={code}",
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {},
+                    uriParam
+                );
         Assertions.assertEquals(HttpStatus.OK, accountsTotals.getStatusCode());
     }
 
@@ -53,8 +61,12 @@ public class AccountsTotalsTests extends HateoasApiTests {
         uriParam.put("code", "RUB");
 
         ResponseEntity<Long> total = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/accountsTotals/search/balance?code={code}", HttpMethod.GET,
-                        new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}, uriParam);
+                .exchange("/api/accountsTotals/search/balance?code={code}",
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {},
+                    uriParam
+                );
         Assertions.assertEquals(HttpStatus.OK, total.getStatusCode());
     }
 
@@ -68,8 +80,12 @@ public class AccountsTotalsTests extends HateoasApiTests {
         uriParam.put("days", "14");
 
         ResponseEntity<Long> total = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/accountsTotals/search/balanceHistory?code={code}&days={days}", HttpMethod.GET,
-                        new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}, uriParam);
+                .exchange("/api/accountsTotals/search/balanceHistory?code={code}&days={days}",
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {},
+                    uriParam
+                );
         Assertions.assertEquals(HttpStatus.OK, total.getStatusCode());
     }
 }

@@ -16,17 +16,18 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @RepositoryRestResource(path = "incomeMonthly")
 public interface IncomeMonthlyRepository extends PagingAndSortingRepository<IncomeMonthly, IncomeMonthlyKey> {
 
-    @Query(value = "SELECT MOIS, "
-            + "       AN, "
-            + "       ROUND(TOTAL, 2) AS TOTAL, "
-            + "       ROUND(TOTAL * (SELECT * FROM CROSS_RATE(:code, CODE, "
-            + "          cast( AN || '-' || MOIS || '-01' as date))), 2) AS TOTAL_CONVERTED, "
-            + "       COMM_ID, "
-            + "       COMMODITY,"
-            + "       CODE "
-            + "FROM MONTHLY_INCOME where (AN < :anEnd OR (AN = :anEnd AND MOIS <= :moisEnd)) AND "
-            + "                          (AN > :anStart OR (AN = :anStart AND MOIS >= :moisStart))",
-            nativeQuery = true)
+    @Query(value = """
+            SELECT MOIS,
+                   AN,
+                   ROUND(TOTAL, 2) AS TOTAL,
+                   ROUND(TOTAL * (SELECT * FROM CROSS_RATE(:code, CODE,
+                      cast( AN || '-' || MOIS || '-01' as date))), 2) AS TOTAL_CONVERTED,
+                   COMM_ID,
+                   COMMODITY,
+                   CODE
+            FROM MONTHLY_INCOME where (AN < :anEnd OR (AN = :anEnd AND MOIS <= :moisEnd)) AND
+                                      (AN > :anStart OR (AN = :anStart AND MOIS >= :moisStart))
+        """, nativeQuery = true)
     @RestResource(path = "report")
     List<IncomeMonthly> getIncomeItemReports(@Param("code") String code,
                                              @Param(value = "moisStart") int moisStart,

@@ -2,7 +2,6 @@ package org.clematis.mt.repositories;
 
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
-import org.clematis.mt.dto.DateRange;
 import org.clematis.mt.model.ExpenseItem;
 import org.clematis.mt.model.MoneyTypeCode;
 import org.clematis.mt.repository.ExpenseItemRepository;

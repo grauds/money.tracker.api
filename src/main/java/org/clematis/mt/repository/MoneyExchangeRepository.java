@@ -23,24 +23,27 @@ public interface MoneyExchangeRepository extends PagingAndSortingRepository<Mone
                                                                            @Param(value = "dest") String dest,
                                                                            Pageable pageable);
 
-    @Query(value = "select SUM(SOURCEAMOUNT) / SUM(DESTAMOUNT) from MONEYEXCHANGE where"
-            + " SOURCEMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:source)"
-            + " AND DESTMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:dest)",
+    @Query(value = """
+            SELECT SUM(SOURCEAMOUNT) / SUM(DESTAMOUNT) FROM MONEYEXCHANGE WHERE
+                    SOURCEMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:source)
+                        AND DESTMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:dest)
+            """,
             nativeQuery = true)
     @RestResource(path = "average")
     Double getAverageExchangeRate(@Param(value = "source") String source, @Param(value = "dest") String dest);
 
 
-    @Query(value = "select b.*, b.SOURCEAMOUNT * (b.AVGRATE - b.CURRATE) as DELTA from "
-            + "(select a.*, (SELECT * FROM CROSS_RATE(:dest, :source)) as CURRATE from "
-            + "    (select SUM(SOURCEAMOUNT) as SOURCEAMOUNT, "
-            + "            SUM(DESTAMOUNT) as DESTAMOUNT, "
-            + "            (SUM(DESTAMOUNT) / SUM(SOURCEAMOUNT)) as AVGRATE "
-            + "    from MONEYEXCHANGE "
-            + "     where SOURCEMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:source) "
-            + "      AND DESTMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:dest)) "
-            + "    as a) "
-            + " as b", nativeQuery = true)
+    @Query(value = """
+        SELECT b.*, b.SOURCEAMOUNT * (b.AVGRATE - b.CURRATE) AS DELTA FROM
+        (SELECT a.*, (SELECT * FROM CROSS_RATE(:dest, :source)) AS CURRATE FROM
+            (SELECT SUM(SOURCEAMOUNT) AS SOURCEAMOUNT,
+                    SUM(DESTAMOUNT) AS DESTAMOUNT,
+                    (SUM(DESTAMOUNT) / SUM(SOURCEAMOUNT)) AS AVGRATE
+            FROM MONEYEXCHANGE
+             WHERE SOURCEMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:source)
+              AND DESTMONEYTYPE = (SELECT ID FROM MONEYTYPE WHERE CODE=:dest))
+            AS a)
+         AS b""", nativeQuery = true)
     @RestResource(path = "report")
     MoneyExchangeReport getExchangeReport(@Param(value = "source") String source, @Param(value = "dest") String dest);
 }

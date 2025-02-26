@@ -35,25 +35,31 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
             Pageable pageable
     );
 
-    @Query(value = "SELECT SUM(ei.total) "
-            + "FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id "
-            + "WHERE ei.commodity.id=:commodityId "
-            + "AND e.moneyType.code LIKE :moneyCode")
+    @Query(value = """
+            SELECT SUM(ei.total)
+            FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id
+            WHERE ei.commodity.id=:commodityId 
+            AND e.moneyType.code LIKE :moneyCode
+        """)
     @RestResource(path = "sumCommodityExpenses")
     Double sumCommodityExpenses(@Param(value = "commodityId") int commodityId,
                               @Param(value = "moneyCode") String moneyCode);
 
-    @Query(value = "SELECT SUM(ei.total) "
-            + "FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id "
-            + "WHERE ei.tradeplace.id=:organizationId "
-            + "AND e.moneyType.code LIKE :moneyCode")
+    @Query(value = """
+            SELECT SUM(ei.total)
+            FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id
+            WHERE ei.tradeplace.id=:organizationId
+            AND e.moneyType.code LIKE :moneyCode
+        """)
     @RestResource(path = "sumOrganizationExpenses")
     Double sumOrganizationExpenses(@Param(value = "organizationId") int organizationId,
                                  @Param(value = "moneyCode") String moneyCode);
 
-    @Query(value = "SELECT SUM(ei.qty) "
-            + "FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id "
-            + "WHERE ei.commodity.id=:commodityId"
+    @Query(value = """
+            SELECT SUM(ei.qty)
+            FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id
+            WHERE ei.commodity.id=:commodityId
+        """
     )
     @RestResource(path = "sumCommodityQuantity")
     Long sumCommodityQuantity(@Param(value = "commodityId") int commodityId);
