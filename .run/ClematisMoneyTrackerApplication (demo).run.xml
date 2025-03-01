@@ -1,9 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ClematisMoneyTrackerApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="ClematisMoneyTrackerApplication (demo)" type="Application" factoryName="Application">
     <envs>
       <env name="SPRING_DATASOURCE_PASSWORD" value="c2e58bcf" />
       <env name="KEYCLOAK_SECRET" value="p6BgCWlV1sqZbor8e4S6BceQSsaGICfr" />
     </envs>
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/jenkins/demo.env" />
+    </option>
     <option name="MAIN_CLASS_NAME" value="org.clematis.mt.ClematisMoneyTrackerApplication" />
     <module name="org.clematis.clematis.mt.api.main" />
     <extension name="coverage">
@@ -20,7 +23,7 @@
       <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
       <ENTRIES>
         <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
-        <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="config/money_tracker_api_local.env" />
+        <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="config/money_tracker_api_demo.env" />
       </ENTRIES>
     </extension>
     <method v="2">
