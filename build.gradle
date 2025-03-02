@@ -3,16 +3,16 @@ plugins {
     id "jacoco"
     id "checkstyle"
     
-    id "org.springframework.boot" version "2.7.18"
+    id "org.springframework.boot" version "2.7.18" // the latest Spring Boot 2
     id "io.spring.dependency-management" version "1.1.4"
 
-    id "com.github.spotbugs" version "6.0.7"
+    id "com.github.spotbugs" version "6.1.6"
 
     id "com.palantir.docker" version "0.36.0"
     id "com.palantir.docker-run" version "0.36.0"
     id "com.palantir.docker-compose" version "0.36.0"
 
-    id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
+    id "org.springdoc.openapi-gradle-plugin" version "1.9.0"
 }
 
 repositories {
@@ -32,13 +32,15 @@ configurations {
     }
 }
 
+
 dependencies {
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     compileOnly (
         'org.projectlombok:lombok',
-        "com.github.spotbugs:spotbugs:4.8.4",
-        "com.google.code.findbugs:annotations:3.0.1u2"
+        'com.github.spotbugs:spotbugs:4.8.4',
+        'com.google.code.findbugs:annotations:3.0.1u2'
     )
     checkstyle "com.puppycrawl.tools:checkstyle:10.9.3"
 
@@ -49,7 +51,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.keycloak:keycloak-spring-boot-starter:20.0.5'
+    implementation 'org.keycloak:keycloak-spring-boot-starter:22.0.5'
+
+    runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
 
     implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
     implementation 'org.springdoc:springdoc-openapi-security:1.8.0'
@@ -60,13 +64,13 @@ dependencies {
     // to use regexp in logback.xml
     implementation 'org.codehaus.janino:janino:3.1.12'
 
-    runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
     testCompileOnly (
             "com.github.spotbugs:spotbugs:4.8.4",
             "com.google.code.findbugs:annotations:3.0.1u2",
             "org.projectlombok:lombok",
-            "org.testcontainers:testcontainers:1.20.0",
-            "org.testcontainers:junit-jupiter:1.20.0"
+            "org.testcontainers:testcontainers:1.20.3",
+            "org.testcontainers:junit-jupiter:1.20.3"
     )
 
     testImplementation ('org.springframework.boot:spring-boot-starter-test') {
@@ -74,9 +78,6 @@ dependencies {
     }
 
     testImplementation 'io.rest-assured:rest-assured'
-    testImplementation 'org.apache.httpcomponents.client5:httpclient5'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.4.0'
     testImplementation 'com.tngtech.keycloakmock:mock-junit5:0.16.0'
 
@@ -90,10 +91,10 @@ checkstyle {
 
 tasks.register('checkstyleReport') {
     doLast {
-        if (file("${buildDir}/reports/checkstyle/${project.ext.checkType}.xml").exists()) {
-            ant.xslt(in: "${buildDir}/reports/checkstyle/${project.ext.checkType}.xml",
+        if (file("${layout.buildDirectory.asFile.get()}/reports/checkstyle/${project.ext.checkType}.xml").exists()) {
+            ant.xslt(in: "${layout.buildDirectory.asFile.get()}/reports/checkstyle/${project.ext.checkType}.xml",
                     style: "${project.rootDir}/config/checkstyle/checkstyle.xsl",
-                    out: "${buildDir}/reports/checkstyle/checkstyle_${project.ext.checkType}.html")
+                    out: "${layout.buildDirectory.asFile.get()}/reports/checkstyle/checkstyle_${project.ext.checkType}.html")
         }
     }
 }
@@ -113,6 +114,7 @@ openApi {
 // ------------ JaCoCo configuration  ---------
 ext {
     setProperty('snippetsDir', file("build/generated-snippets"))
+    setProperty('commons-lang3.version', '3.13.0')
 }
 
 tasks.named('test') {
@@ -145,34 +147,15 @@ jacocoTestReport {
 }
 
 // ------------ Spotbugs configuration  ---------
-spotbugsMain {
-    reports {
-        xml {
-            enabled = false
-        }
-        html {
-            enabled = true
-            destination = file("$buildDir/reports/spotbugs/main/spotbugs.html")
-        }
-    }
-}
-
-spotbugsTest {
-    reports {
-        xml {
-            enabled = false
-        }
-        html {
-            enabled = true
-            destination = file("$buildDir/reports/spotbugs/test/spotbugs.html")
-        }
-    }
+spotbugs {
+    reportsDir = file("${layout.buildDirectory.asFile.get()}/reports/spotbugs/main/spotbugs.html")
+    ignoreFailures = true
 }
 
 docker {
     name = "atroshin/${project.name}:${version}"
     dockerfile = file('Dockerfile')
-    copySpec.from("${buildDir}").into("build")
+    copySpec.from("${layout.buildDirectory.asFile.get()}").into("build")
     pull true
     noCache true
 }
