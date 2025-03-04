@@ -51,6 +51,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+// works only with Spring Boot 2, migrate to https://docs.spring.io/spring-security/reference/servlet/oauth2/index.html
     implementation 'org.keycloak:keycloak-spring-boot-starter:22.0.5'
 
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
@@ -152,6 +153,7 @@ spotbugs {
     ignoreFailures = true
 }
 
+// ----------- Docker configuration -------------
 docker {
     name = "atroshin/${project.name}:${version}"
     dockerfile = file('Dockerfile')
