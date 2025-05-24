@@ -10,7 +10,7 @@ management:
 spring:
 
   auth:
-    authServer: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth/realms/${keycloak.realm}/protocol/openid-connect"
+    authServer: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/realms/${keycloak.realm}/protocol/openid-connect"
     clientSecret: ${KEYCLOAK_SECRET}
 
   datasource:
