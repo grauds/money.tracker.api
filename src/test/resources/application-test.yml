@@ -1,0 +1,6 @@
+keycloak:
+  auth-server-url: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth"
+  realm: clematis
+  resource: ${KEYCLOAK_CLIENT}
+  bearer-only: true
+  cors: true

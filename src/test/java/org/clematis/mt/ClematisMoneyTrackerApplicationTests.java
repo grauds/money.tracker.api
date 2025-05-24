@@ -22,7 +22,7 @@ import lombok.extern.java.Log;
 @SpringBootTest(
         classes = ClematisMoneyTrackerApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("local")
+@ActiveProfiles({"test", "local"})
 @Log
 public class ClematisMoneyTrackerApplicationTests {
 

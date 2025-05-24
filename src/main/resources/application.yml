@@ -40,7 +40,7 @@ spring:
     url: service:jmx:jmxmp://${JMXMP_HOST}:${JMXMP_PORT}/
 
 keycloak:
-  auth-server-url: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}/auth"
+  auth-server-url: "http://${KEYCLOAK_URL}:${KEYCLOAK_PORT}"
   realm: clematis
   resource: ${KEYCLOAK_CLIENT}
   bearer-only: true
