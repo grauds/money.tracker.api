@@ -52,7 +52,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 // works only with Spring Boot 2, migrate to https://docs.spring.io/spring-security/reference/servlet/oauth2/index.html
-    implementation 'org.keycloak:keycloak-spring-boot-starter:22.0.5'
+    implementation 'org.keycloak:keycloak-spring-boot-starter:25.0.3'
 
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
 
