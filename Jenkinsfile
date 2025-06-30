@@ -60,7 +60,17 @@ pipeline {
 
         stage('Build docker image') {
             steps {
-                sh 'docker build -t clematis.mt.api .'
+                script {
+                   // Using secret file
+                   withCredentials([
+                      file(credentialsId: 'keycloak_certificate', variable: 'SSL_CERT'),
+                   ]) {
+                      sh """
+                         cp "$SSL_CERT" "${WORKSPACE}/jenkins/keycloak.pem"
+                         docker build -t clematis.mt.api .
+                      """
+                   }
+                }
             }
         }
 

@@ -46,3 +46,4 @@ docker/.devcontainer/
 /LOG_PATH_IS_UNDEFINED/
 /jacoco/
 /jacocoHtml/
+/jenkins/keycloak.pem

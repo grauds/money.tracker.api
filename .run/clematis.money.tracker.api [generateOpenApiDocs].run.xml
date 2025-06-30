@@ -6,9 +6,9 @@
           <entry key="JMXMP_HOST" value="0.0.0.0" />
           <entry key="JMXMP_PORT" value="5001" />
           <entry key="KEYCLOAK_CLIENT" value="clematis-money-tracker-api" />
-          <entry key="KEYCLOAK_PORT" value="8080" />
+          <entry key="KEYCLOAK_PORT" value="443" />
           <entry key="KEYCLOAK_SECRET" value="oHzraUuxLXxhStONrIWOfAkJWHm6ztSa" />
-          <entry key="KEYCLOAK_URL" value="192.168.1.157" />
+          <entry key="KEYCLOAK_URL" value="https://192.168.1.157" />
           <entry key="LOG_PATH" value="./log" />
           <entry key="SPRING_DATASOURCE_PASSWORD" value="c2e58bcf" />
           <entry key="SPRING_DATASOURCE_URL" value="jdbc:firebirdsql://192.168.1.118:3050//firebird/data/mt.fdb?encoding=win1251" />
