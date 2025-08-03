@@ -129,7 +129,7 @@ pipeline {
             junit '**/build/**/test-results/test/*.xml'
             sh '''
                rm -rf docker_export
-               rm -rf "${CERT_DIR}"
+               rm -rf "${WORKSPACE}/jenkins/keycloak.pem"
             '''
         }
     }
