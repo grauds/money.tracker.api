@@ -3,12 +3,6 @@ version: '3.7'
 services:
   money-tracker-api:
     container_name: clematis-money-tracker-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        KEYCLOAK_SECRET: ${KEYCLOAK_SECRET}
-        SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     image: clematis.mt.api:latest
     networks:
       - clematis_mt
@@ -26,12 +20,6 @@ services:
 
   money-tracker-api-demo:
     container_name: clematis-money-tracker-api-demo
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        KEYCLOAK_SECRET: ${KEYCLOAK_SECRET}
-        SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     image: clematis.mt.api:latest
     networks:
       - clematis_mt
