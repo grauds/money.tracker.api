@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import lombok.extern.java.Log;
 /**
@@ -41,6 +42,11 @@ public class ClematisMoneyTrackerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ClematisMoneyTrackerApplication.class, args);
+    }
+
+    @Bean
+    public ForwardedHeaderFilter forwardedHeaderFilter() {
+        return new ForwardedHeaderFilter();
     }
 
     @Log
