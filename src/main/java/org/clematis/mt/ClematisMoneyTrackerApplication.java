@@ -45,7 +45,7 @@ public class ClematisMoneyTrackerApplication {
 
     @Log
     @Component
-    public class HeaderLoggerFilter implements Filter {
+    public static class HeaderLoggerFilter implements Filter {
         public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
             HttpServletRequest req = (HttpServletRequest) request;
