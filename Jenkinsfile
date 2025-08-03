@@ -120,6 +120,7 @@ pipeline {
                     export SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD}" && \
                     docker load < clematis.mt.api.tar && \
                     docker compose -f docker-compose.yml build --build-arg KEYCLOAK_SECRET="${KEYCLOAK_SECRET}" --build-arg SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD}" && \
+                    docker compose -f docker-compose.yml up -d money-tracker-db money-tracker-db-demo && \
                     docker compose -f docker-compose.yml up -d --no-deps --build money-tracker-api money-tracker-api-demo
                   '
                 """
