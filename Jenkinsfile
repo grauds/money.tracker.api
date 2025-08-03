@@ -106,23 +106,27 @@ pipeline {
         }
 
         stage('Deploy on Yoda') {
-            environment {
-                KEYCLOAK_SECRET = credentials('MT_API_KEYCLOAK_SECRET')
-                SPRING_DATASOURCE_PASSWORD = credentials('MT_FIREBIRD_PASSWORD')
-           }
-           steps {
-                sshagent (credentials: ['yoda-anton-key']) {
-                  sh '''
-                    ssh ${SSH_DEST} "
-                      docker rm -f clematis-money-tracker-api clematis-money-tracker-api-demo 2>/dev/null || true && \
-                      docker load < ${REMOTE_APP_DIR}/clematis.mt.api.tar && \
-                      docker compose -f ${REMOTE_APP_DIR}/docker-compose.yml build --build-arg KEYCLOAK_SECRET='$KEYCLOAK_SECRET' --build-arg SPRING_DATASOURCE_PASSWORD='$SPRING_DATASOURCE_PASSWORD' && \
-                      docker compose -f ${REMOTE_APP_DIR}/docker-compose.yml up -d
-                    "
-                  '''
-                }
-           }
+          environment {
+            KEYCLOAK_SECRET = credentials('MT_API_KEYCLOAK_SECRET')
+            SPRING_DATASOURCE_PASSWORD = credentials('MT_FIREBIRD_PASSWORD')
+          }
+          steps {
+            sshagent (credentials: ['yoda-anton-key']) {
+                sh """
+                  ssh ${SSH_DEST} '
+                    cd ${REMOTE_APP_DIR} && \
+                    docker rm -f clematis-money-tracker-api clematis-money-tracker-api-demo 2>/dev/null || true && \
+                    export KEYCLOAK_SECRET="${KEYCLOAK_SECRET}" && \
+                    export SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD}" && \
+                    docker load < clematis.mt.api.tar && \
+                    docker compose -f docker-compose.yml build --build-arg KEYCLOAK_SECRET="${KEYCLOAK_SECRET}" --build-arg SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD}" && \
+                    docker compose -f docker-compose.yml up -d --no-deps --build clematis-money-tracker-api clematis-money-tracker-api-demo
+                  '
+                """
+            }
+          }
         }
+
 
     }
 
