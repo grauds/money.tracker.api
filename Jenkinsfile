@@ -115,7 +115,7 @@ pipeline {
                 sh """
                   ssh ${SSH_DEST} '
                     cd ${REMOTE_APP_DIR} && \
-                    docker rm -f clematis-money-tracker-api clematis-money-tracker-api-demo 2>/dev/null || true && \
+                    docker rm -f rm -f clematis-money-tracker-db clematis-money-tracker-db-demo clematis-money-tracker-api clematis-money-tracker-api-demo 2>/dev/null || true && \
                     export KEYCLOAK_SECRET="${KEYCLOAK_SECRET}" && \
                     export SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD}" && \
                     docker load < clematis.mt.api.tar && \
