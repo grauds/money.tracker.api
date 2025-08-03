@@ -99,6 +99,7 @@ pipeline {
                 scp -o StrictHostKeyChecking=no "jenkins/docker-compose.yml" "${SSH_DEST}:${REMOTE_APP_DIR}/"
                 scp -o StrictHostKeyChecking=no "jenkins/demo.env" "${SSH_DEST}:${REMOTE_APP_DIR}/"
                 scp -o StrictHostKeyChecking=no "jenkins/uat.env" "${SSH_DEST}:${REMOTE_APP_DIR}/"
+                scp -o StrictHostKeyChecking=no "jenkins/money_tracker_server.env" "${SSH_DEST}:${REMOTE_APP_DIR}/"
                '''
             }
           }
@@ -115,7 +116,7 @@ pipeline {
                     ssh ${SSH_DEST} "
                       docker rm -f clematis-money-tracker-api clematis-money-tracker-api-demo 2>/dev/null || true && \
                       docker load < ${REMOTE_APP_DIR}/clematis.mt.api.tar && \
-                      docker compose -f ${REMOTE_APP_DIR}/docker-compose.yml build --build-arg KEYCLOAK_SECRET='$KEYCLOAK_SECRET' --build-arg SPRING_DATASOURCE_PASSWORD='$SPRING_DATASOURCE_PASSWORD' \
+                      docker compose -f ${REMOTE_APP_DIR}/docker-compose.yml build --build-arg KEYCLOAK_SECRET='$KEYCLOAK_SECRET' --build-arg SPRING_DATASOURCE_PASSWORD='$SPRING_DATASOURCE_PASSWORD' && \
                       docker compose -f ${REMOTE_APP_DIR}/docker-compose.yml up -d
                     "
                   '''
