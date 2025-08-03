@@ -1,6 +1,13 @@
 pipeline {
 
     agent any
+    tools { nodejs "Node18" }
+    environment {
+        REMOTE_HOST = "192.168.1.118"
+        REMOTE_USER = "anton"
+        SSH_DEST = "${REMOTE_USER}@${REMOTE_HOST}"
+        REMOTE_APP_DIR = "/home/anton/deploy/mt/api"
+    }
 
     stages {
 
@@ -74,27 +81,56 @@ pipeline {
             }
         }
 
-        stage("Build and start docker compose services") {
-          environment {
-                KEYCLOAK_SECRET = credentials('MT_API_KEYCLOAK_SECRET')
-                SPRING_DATASOURCE_PASSWORD = credentials('MT_FIREBIRD_PASSWORD')
-          }
+        stage('Export Docker Images') {
           steps {
-              sh '''
-                 cd jenkins
-                 docker compose stop
-                 docker stop clematis-money-tracker-api || true && docker rm clematis-money-tracker-api || true
-                 docker stop clematis-money-tracker-api-demo || true && docker rm clematis-money-tracker-api-demo || true
-                 docker compose build --build-arg KEYCLOAK_SECRET='$KEYCLOAK_SECRET' --build-arg SPRING_DATASOURCE_PASSWORD='$SPRING_DATASOURCE_PASSWORD'
-                 docker compose up -d 
-              '''
+            sh '''
+              mkdir -p docker_export
+              docker save clematis.mt.api > docker_export/clematis.mt.api.tar
+            '''
           }
         }
+
+        stage('Transfer Files to Yoda') {
+          steps {
+            sshagent (credentials: ['yoda-anton-key']) {
+              sh '''
+                [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
+                scp -o StrictHostKeyChecking=no docker_export/*.tar "${SSH_DEST}:${REMOTE_APP_DIR}/"
+                scp -o StrictHostKeyChecking=no "jenkins/docker-compose.yml" "${SSH_DEST}:${REMOTE_APP_DIR}/"
+                scp -o StrictHostKeyChecking=no "jenkins/*.env" "${SSH_DEST}:${REMOTE_APP_DIR}/"
+               '''
+            }
+          }
+        }
+
+        stage('Deploy on Yoda') {
+            environment {
+                KEYCLOAK_SECRET = credentials('MT_API_KEYCLOAK_SECRET')
+                SPRING_DATASOURCE_PASSWORD = credentials('MT_FIREBIRD_PASSWORD')
+           }
+           steps {
+                sshagent (credentials: ['yoda-anton-key']) {
+                  sh '''
+                    ssh ${SSH_DEST} "
+                      docker rm -f clematis-money-tracker-api clematis-money-tracker-api-demo 2>/dev/null || true && \
+                      docker load < ${REMOTE_APP_DIR}/clematis.mt.api.tar && \
+                      docker compose -f ${REMOTE_APP_DIR}/docker-compose.yml build --build-arg KEYCLOAK_SECRET='$KEYCLOAK_SECRET' --build-arg SPRING_DATASOURCE_PASSWORD='$SPRING_DATASOURCE_PASSWORD' \
+                      docker compose -f ${REMOTE_APP_DIR}/docker-compose.yml up -d
+                    "
+                  '''
+                }
+           }
+        }
+
     }
 
     post {
         always {
             junit '**/build/**/test-results/test/*.xml'
+            sh '''
+               rm -rf docker_export
+               rm -rf "${CERT_DIR}"
+            '''
         }
     }
 }
