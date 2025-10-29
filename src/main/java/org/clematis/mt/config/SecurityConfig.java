@@ -1,7 +1,5 @@
 package org.clematis.mt.config;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
@@ -10,9 +8,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimValidator;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -74,12 +73,24 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @SuppressWarnings("checkstyle:ReturnCount")
     @Bean
     public OAuth2TokenValidator<Jwt> audienceValidator() {
-        return new JwtClaimValidator<List<String>>(
-            "aud",
-            aud -> aud != null && aud.contains(clientId)
-        );
+        return token -> {
+            // Check authorized party (azp) claim
+            String azp = token.getClaimAsString("azp");
+            if ("clematis-money-tracker-ui".equals(azp)) {
+                return OAuth2TokenValidatorResult.success();
+            }
+
+            // You can also check for your API client ID as a fallback
+            if (this.clientId.equals(azp)) {
+                return OAuth2TokenValidatorResult.success();
+            }
+
+            return OAuth2TokenValidatorResult.failure(
+                new OAuth2Error("invalid_token", "Invalid authorized party", null));
+        };
     }
 
     @Bean
