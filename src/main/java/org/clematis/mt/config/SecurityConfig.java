@@ -1,22 +1,22 @@
 package org.clematis.mt.config;
 
-import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
-import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
  * @author  Anton Troshin
  */
-@KeycloakConfiguration
+@Configuration
+@EnableWebSecurity
 @Conditional(NotLocalEnvironment.class)
-public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     public static final String ALL_REGEXP = "/**";
 
@@ -26,33 +26,35 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         "/swagger-ui.html",
     };
 
-    @Autowired
-    private CorsConfigurationSource corsConfigurationSource;
+    private final CorsConfigurationSource corsConfigurationSource;
 
-    @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new NullAuthenticatedSessionStrategy();
+    public SecurityConfig(CorsConfigurationSource corsConfigurationSource) {
+        this.corsConfigurationSource = corsConfigurationSource;
     }
 
-    @Autowired
-    public void configureGlobal(final AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(keycloakAuthenticationProvider());
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable()
+            .cors().configurationSource(corsConfigurationSource)
+            .and()
+            .authorizeRequests()
+            .antMatchers(HttpMethod.OPTIONS, ALL_REGEXP).permitAll()
+            .antMatchers(SWAGGER_WHITELIST).permitAll()
+            .antMatchers("/api" + ALL_REGEXP).authenticated()
+            .antMatchers(ALL_REGEXP).permitAll()
+            .and()
+            .oauth2ResourceServer()
+            .jwt()
+            .jwtAuthenticationConverter(jwtAuthenticationConverter());
+
+        return http.build();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        http.csrf().disable()
-                .cors().configurationSource(corsConfigurationSource)
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, ALL_REGEXP)
-                .permitAll()
-                .antMatchers(SWAGGER_WHITELIST)
-                .permitAll()
-                .antMatchers("/api" + ALL_REGEXP)
-                .authenticated()
-                .antMatchers(ALL_REGEXP)
-                .permitAll();
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        // If you need role conversion logic, add it here
+        return new JwtAuthenticationConverter();
     }
+
 }

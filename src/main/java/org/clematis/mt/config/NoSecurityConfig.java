@@ -1,44 +1,39 @@
 package org.clematis.mt.config;
 
-import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
-import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
  * @author  Anton Troshin
  */
-@KeycloakConfiguration
+@Configuration
+@EnableWebSecurity
 @Conditional(LocalEnvironment.class)
-public class NoSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
+public class NoSecurityConfig {
 
     public static final String ALL_REGEXP = "/**";
 
-    @Autowired
-    private CorsConfigurationSource corsConfigurationSource;
+    private final CorsConfigurationSource corsConfigurationSource;
 
-    @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new NullAuthenticatedSessionStrategy();
+    public NoSecurityConfig(CorsConfigurationSource corsConfigurationSource) {
+        this.corsConfigurationSource = corsConfigurationSource;
     }
 
-    @Autowired
-    public void configureGlobal(final AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(keycloakAuthenticationProvider());
-    }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable()
+            .cors().configurationSource(corsConfigurationSource)
+            .and()
+            .authorizeRequests()
+            .antMatchers(ALL_REGEXP).permitAll();
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        http.cors().configurationSource(corsConfigurationSource)
-                .and()
-                .authorizeRequests()
-                .antMatchers(ALL_REGEXP)
-                .permitAll();
+        return http.build();
+
     }
 }

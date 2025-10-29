@@ -1,6 +1,5 @@
 package org.clematis.mt;
 
-import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -22,11 +21,6 @@ public class ClematisMoneyTrackerApplication {
 
         // Remove the default ROLE_ prefix that Spring Boot otherwise expects
         return new GrantedAuthorityDefaults("");
-    }
-
-    @Bean
-    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
-        return new KeycloakSpringBootConfigResolver();
     }
 
     public static void main(String[] args) {

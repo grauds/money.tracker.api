@@ -42,12 +42,12 @@ spring:
     enabled: true
     url: service:jmx:jmxmp://${JMXMP_HOST}:${JMXMP_PORT}/
 
-keycloak:
-  auth-server-url: "${KEYCLOAK_URL}:${KEYCLOAK_PORT}"
-  realm: clematis
-  resource: ${KEYCLOAK_CLIENT}
-  bearer-only: true
-  cors: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "${KEYCLOAK_URL}:${KEYCLOAK_PORT}/realms/clematis"
+          jwk-set-uri: "${KEYCLOAK_URL}:${KEYCLOAK_PORT}/realms/clematis/protocol/openid-connect/certs"
 
 logging:
   file:
