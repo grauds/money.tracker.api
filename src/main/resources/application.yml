@@ -50,6 +50,10 @@ spring:
           jwk-set-uri: "${KEYCLOAK_URL}:${KEYCLOAK_PORT}/realms/clematis/protocol/openid-connect/certs"
 
 logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.web: DEBUG
   file:
     path:
       ${LOG_PATH}
