@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
@@ -42,9 +43,14 @@ public class SecurityConfig {
     @Value("${KEYCLOAK_CLIENT}")
     private String clientId;
 
+    private final JwtDebugFilter jwtDebugFilter;
+
     private final CorsConfigurationSource corsConfigurationSource;
 
-    public SecurityConfig(CorsConfigurationSource corsConfigurationSource) {
+    public SecurityConfig(JwtDebugFilter jwtDebugFilter,
+                          CorsConfigurationSource corsConfigurationSource
+    ) {
+        this.jwtDebugFilter = jwtDebugFilter;
         this.corsConfigurationSource = corsConfigurationSource;
     }
 
@@ -54,6 +60,7 @@ public class SecurityConfig {
             .csrf().disable()
             .cors().configurationSource(corsConfigurationSource)
             .and()
+            .addFilterBefore(jwtDebugFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
             .antMatchers(HttpMethod.OPTIONS, ALL_REGEXP).permitAll()
             .antMatchers(SWAGGER_WHITELIST).permitAll()
