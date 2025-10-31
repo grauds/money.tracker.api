@@ -38,7 +38,8 @@ public class ClematisMoneyTrackerApplicationTests {
                 .withCopyFileToContainer(
                         MountableFile.forClasspathResource("mt.fdb"), "/firebird/data/mt.fdb"
                 )
-                .withUrlParam("encoding", "win1251");
+                .withUrlParam("encoding", "win1251")
+                .withUrlParam("enableProtocol", "true");
         container.start();
     }
 

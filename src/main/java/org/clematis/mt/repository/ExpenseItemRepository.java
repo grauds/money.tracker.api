@@ -68,9 +68,9 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
     @Query(value = "SELECT COUNT(1) FROM ExpenseItem e WHERE e.commodity IS NULL")
     Long countItemsWithNoCommodity();
 
-    @Query(value = "SELECT COUNT(1) FROM ExpenseItem e WHERE e.tradeplace = 1")
+    @Query(value = "SELECT COUNT(1) FROM ExpenseItem e WHERE e.tradeplace.id = 1")
     Long countItemsWithNoTradeplace();
 
-    @Query(value = "SELECT COUNT(1) FROM ExpenseItem e WHERE e.tradeplace <> 1")
+    @Query(value = "SELECT COUNT(1) FROM ExpenseItem e WHERE e.tradeplace.id <> 1")
     Long countItemsWithTradeplace();
 }

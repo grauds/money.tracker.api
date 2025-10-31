@@ -1,18 +1,15 @@
 plugins {
     id 'java'
-    id "jacoco"
-    id "checkstyle"
-    
-    id "org.springframework.boot" version "2.7.18" // the latest Spring Boot 2
-    id "io.spring.dependency-management" version "1.1.4"
+    id 'jacoco'
+    id 'checkstyle'
 
-    id "com.github.spotbugs" version "6.1.6"
+    id 'org.springframework.boot' version '3.5.5'
+    id 'io.spring.dependency-management' version '1.1.4'
 
-    id "com.palantir.docker" version "0.36.0"
-    id "com.palantir.docker-run" version "0.36.0"
-    id "com.palantir.docker-compose" version "0.36.0"
+    id 'com.github.spotbugs' version '6.1.6'
 
     id "org.springdoc.openapi-gradle-plugin" version "1.9.0"
+    id "org.asciidoctor.jvm.convert" version "4.0.4"
 }
 
 repositories {
@@ -27,15 +24,16 @@ java {
 }
 
 configurations {
+    asciidoctorExtensions
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
 
-
 dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
     compileOnly (
         'org.projectlombok:lombok',
@@ -50,21 +48,23 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-// works only with Spring Boot 2, migrate to https://docs.spring.io/spring-security/reference/servlet/oauth2/index.html
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
+    runtimeOnly 'org.firebirdsql.jdbc:jaybird:4.0.10.java11'
+    implementation 'org.hibernate.orm:hibernate-community-dialects'
 
-    implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
-    implementation 'org.springdoc:springdoc-openapi-security:1.8.0'
-    implementation 'org.springdoc:springdoc-openapi-hateoas:1.8.0'
-    implementation 'org.springdoc:springdoc-openapi-data-rest:1.8.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-common:2.8.13'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
 
     implementation 'org.glassfish.main.external:jmxremote_optional-repackaged:5.0'
     // to use regexp in logback.xml
     implementation 'org.codehaus.janino:janino:3.1.12'
+
+    testImplementation ('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
     testCompileOnly (
@@ -75,15 +75,19 @@ dependencies {
             "org.testcontainers:junit-jupiter:1.20.3"
     )
 
-    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation ('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.4.0'
+
+    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'com.tngtech.keycloakmock:mock-junit5:0.16.0'
 
+    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+}
+
+ext {
+    snippetsDir = file("${layout.buildDirectory.asFile.get()}/generated-snippets")
 }
 
 // ------------ Checkstyle configuration  ---------
@@ -115,10 +119,6 @@ openApi {
 }
 
 // ------------ JaCoCo configuration  ---------
-ext {
-    setProperty('snippetsDir', file("build/generated-snippets"))
-    setProperty('commons-lang3.version', '3.13.0')
-}
 
 tasks.named('test') {
     useJUnitPlatform()
@@ -136,7 +136,7 @@ test {
 }
 
 jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
+    dependsOn test
     reports {
         xml.required = true
         csv.required = false
@@ -155,23 +155,45 @@ spotbugs {
     ignoreFailures = true
 }
 
-// ----------- Docker configuration -------------
-docker {
-    name = "atroshin/${project.name}:${version}"
-    dockerfile = file('Dockerfile')
-    copySpec.from("${layout.buildDirectory.asFile.get()}").into("build")
-    pull true
-    noCache true
+// ----------- Spring Rest Doc ------------------
+
+asciidoctor {
+    dependsOn test
+    options doctype: 'book'
+    attributes = [
+            'source-highlighter': 'highlightjs',
+            'imagesdir'         : './images',
+            'toc'               : 'left',
+            'toclevels'         : 3,
+            'numbered'          : '',
+            'icons'             : 'font',
+            'setanchors'        : '',
+            'idprefix'          : '',
+            'idseparator'       : '-',
+            'docinfo1'          : '',
+            'safe-mode-unsafe'  : '',
+            'allow-uri-read'    : '',
+            'snippets'          : snippetsDir,
+            linkattrs           : true,
+            encoding            : 'utf-8'
+    ]
+
+    inputs.dir snippetsDir
+    outputDir "build/asciidoc"
+    sourceDir 'src/docs/asciidocs'
+    baseDir sourceDir
+    sources {
+        include 'api.adoc'
+    }
 }
 
-dockerCompose {
-    dockerComposeFile file("${project.rootDir}/docker/docker-compose.yml")
-}
+// ----------- Packaging ------------------------
 
-dockerRun {
-    name 'clematis.mt.api'
-    image "atroshin/${project.name}:${version}"
-    ports '18085:8080'
+bootJar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
 }
 
 springBoot {

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
@@ -56,19 +57,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
-            .cors().configurationSource(corsConfigurationSource)
-            .and()
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(cors -> cors.configurationSource(corsConfigurationSource))
             .addFilterBefore(jwtDebugFilter, UsernamePasswordAuthenticationFilter.class)
-            .authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS, ALL_REGEXP).permitAll()
-            .antMatchers(SWAGGER_WHITELIST).permitAll()
-            .antMatchers("/api" + ALL_REGEXP).authenticated()
-            .antMatchers(ALL_REGEXP).permitAll()
-            .and()
-            .oauth2ResourceServer()
-            .jwt()
-            .jwtAuthenticationConverter(jwtAuthenticationConverter());
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(HttpMethod.OPTIONS, ALL_REGEXP).permitAll()
+                .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                .requestMatchers("/api" + ALL_REGEXP).authenticated()
+                .requestMatchers(ALL_REGEXP).permitAll())
+            .oauth2ResourceServer(oauth2 -> oauth2
+                .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
 
         return http.build();
     }
@@ -89,7 +87,8 @@ public class SecurityConfig {
             }
 
             return OAuth2TokenValidatorResult.failure(
-                new OAuth2Error("invalid_token", "Invalid authorized party", null));
+                new OAuth2Error("invalid_token", "Invalid authorized party", null)
+            );
         };
     }
 
@@ -99,7 +98,8 @@ public class SecurityConfig {
 
         OAuth2TokenValidator<Jwt> defaultValidators = JwtValidators.createDefault();
         OAuth2TokenValidator<Jwt> combinedValidator = new DelegatingOAuth2TokenValidator<>(
-            defaultValidators, audienceValidator);
+            defaultValidators, audienceValidator
+        );
 
         jwtDecoder.setJwtValidator(combinedValidator);
         return jwtDecoder;

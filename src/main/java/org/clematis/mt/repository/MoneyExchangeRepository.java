@@ -5,8 +5,8 @@ import org.clematis.mt.model.MoneyExchange;
 import org.clematis.mt.model.MoneyExchangeEntry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -15,7 +15,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
  * @author Anton Troshin
  */
 @RepositoryRestResource(path = "exchange", excerptProjection = MoneyExchangeEntry.class)
-public interface MoneyExchangeRepository extends PagingAndSortingRepository<MoneyExchange, Integer> {
+public interface MoneyExchangeRepository extends JpaRepository<MoneyExchange, Integer> {
 
     @RestResource(path = "events")
     @SuppressWarnings("checkstyle:methodname")

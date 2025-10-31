@@ -23,10 +23,22 @@ spring:
     driver-class-name: org.firebirdsql.jdbc.FBDriver
 
   jpa:
-    database-platform: org.hibernate.dialect.FirebirdDialect
+    database-platform: org.hibernate.community.dialect.FirebirdDialect
     show-sql: true
     hibernate:
       ddl-auto: none
+      jdbc:
+        use_scrollable_resultset: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          use_scrollable_resultset: false
+          fetch_size: 50
+        connection:
+          wrap_result_sets: true
+        query:
+          result_type: FORWARD_ONLY
 
   data:
     rest:
@@ -54,6 +66,7 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
     org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
   file:
     path:
       ${LOG_PATH}

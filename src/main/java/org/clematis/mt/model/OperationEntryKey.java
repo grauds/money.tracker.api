@@ -3,7 +3,7 @@ package org.clematis.mt.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
