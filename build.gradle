@@ -74,8 +74,8 @@ dependencies {
             "org.projectlombok:lombok"
     )
 
-    testImplementation 'org.testcontainers:testcontainers:1.20.3'
-    testImplementation 'org.testcontainers:junit-jupiter:1.20.3'
+    testImplementation "org.testcontainers:testcontainers:1.21.3"
+    testImplementation 'org.testcontainers:junit-jupiter:1.21.3'
 
     testImplementation 'io.rest-assured:rest-assured'
     testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.4.0'
