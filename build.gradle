@@ -71,10 +71,11 @@ dependencies {
     testCompileOnly (
             "com.github.spotbugs:spotbugs:4.8.4",
             "com.google.code.findbugs:annotations:3.0.1u2",
-            "org.projectlombok:lombok",
-            "org.testcontainers:testcontainers:1.20.3",
-            "org.testcontainers:junit-jupiter:1.20.3"
+            "org.projectlombok:lombok"
     )
+
+    testImplementation 'org.testcontainers:testcontainers:1.20.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.20.3'
 
     testImplementation 'io.rest-assured:rest-assured'
     testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.4.0'
