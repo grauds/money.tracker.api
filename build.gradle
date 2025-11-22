@@ -91,6 +91,13 @@ ext {
     setProperty('commons-lang3.version', '3.13.0')
 }
 
+tasks.test {
+    jvmArgs(
+            "-Dtestcontainers.docker.client.version=1.52",
+            "-Dtestcontainers.docker.host=unix:///var/run/docker.sock"
+    )
+}
+
 // ------------ Checkstyle configuration  ---------
 checkstyle {
     configProperties.configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
