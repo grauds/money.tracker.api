@@ -7,7 +7,6 @@ pipeline {
         REMOTE_USER = "anton"
         SSH_DEST = "${REMOTE_USER}@${REMOTE_HOST}"
         REMOTE_APP_DIR = "/home/anton/deploy/mt/api"
-        TESTCONTAINERS_DOCKER_CLIENT_VERSION = '1.52'
     }
 
     stages {
