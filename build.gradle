@@ -130,9 +130,8 @@ test {
     useJUnitPlatform()
     testLogging.showStandardStreams = true
 
-    // Explicitly set Docker socket for Testcontainers
-    systemProperty "docker.host", "unix:///var/run/docker.sock"
-    systemProperty "testcontainers.docker.client.strategy", "org.testcontainers.dockerclient.UnixSocketClientProviderStrategy"
+    // Ensure Testcontainers uses the Unix socket in CI
+    systemProperty "DOCKER_HOST", "unix:///var/run/docker.sock"
 
     finalizedBy jacocoTestReport
     jacoco {
