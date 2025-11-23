@@ -129,6 +129,11 @@ test {
     outputs.dir snippetsDir
     useJUnitPlatform()
     testLogging.showStandardStreams = true
+
+    // Explicitly set Docker socket for Testcontainers
+    systemProperty "docker.host", "unix:///var/run/docker.sock"
+    systemProperty "testcontainers.docker.client.strategy", "org.testcontainers.dockerclient.UnixSocketClientProviderStrategy"
+
     finalizedBy jacocoTestReport
     jacoco {
         destinationFile = file("jacoco/jacocoTest.exec")
