@@ -1,7 +1,6 @@
 pipeline {
 
     agent any
-    tools { nodejs "Node18" }
     environment {
         REMOTE_HOST = "192.168.1.118"
         REMOTE_USER = "anton"
