@@ -1,6 +1,7 @@
 pipeline {
 
-    agent { label 'docker-host' }
+    agent any
+
     environment {
         REMOTE_HOST = "192.168.1.118"
         REMOTE_USER = "anton"
