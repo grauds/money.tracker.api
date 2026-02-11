@@ -1,11 +1,15 @@
 pipeline {
 
-    agent any
+    agent { label 'docker-host' }
     environment {
         REMOTE_HOST = "192.168.1.118"
         REMOTE_USER = "anton"
         SSH_DEST = "${REMOTE_USER}@${REMOTE_HOST}"
         REMOTE_APP_DIR = "/home/anton/deploy/mt/api"
+    }
+
+    tools {
+        jdk 'JDK-17'
     }
 
     stages {
@@ -22,6 +26,17 @@ pipeline {
               docker compose ps
             '''
             }
+        }
+
+        stage("Inspect Testcontainers environment") {
+          steps {
+            sh '''
+              which docker
+              docker version
+              ls -l /var/run/docker.sock
+              echo DOCKER_HOST=$DOCKER_HOST
+            '''
+          }
         }
 
         stage('Get code') {
