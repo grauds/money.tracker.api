@@ -75,10 +75,10 @@ dependencies {
     )
 
     testImplementation "org.testcontainers:testcontainers:1.21.3"
-    testImplementation 'org.testcontainers:junit-jupiter:1.21.3'
+    testImplementation "org.testcontainers:junit-jupiter:1.21.3"
+    testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.4.0'
 
     testImplementation 'io.rest-assured:rest-assured'
-    testImplementation 'org.firebirdsql:firebird-testcontainers-java:1.4.0'
 
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'com.tngtech.keycloakmock:mock-junit5:0.16.0'
@@ -121,17 +121,10 @@ openApi {
 
 // ------------ JaCoCo configuration  ---------
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
 test {
     outputs.dir snippetsDir
     useJUnitPlatform()
     testLogging.showStandardStreams = true
-
-    // Ensure Testcontainers uses the Unix socket in CI
-    systemProperty "DOCKER_HOST", "unix:///var/run/docker.sock"
 
     finalizedBy jacocoTestReport
     jacoco {

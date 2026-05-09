@@ -16,7 +16,7 @@
           <entry key="SPRING_DOCKER_PORT" value="8080" />
           <entry key="SPRING_JPA_HIBERNATE_DDL_AUTO" value="none" />
           <entry key="SPRING_LOCAL_PORT" value="8080" />
-          <entry key="SPRING_PROFILES_ACTIVE" value="uat" />
+          <entry key="SPRING_PROFILES_ACTIVE" value="prod" />
         </map>
       </option>
       <option name="executionName" />

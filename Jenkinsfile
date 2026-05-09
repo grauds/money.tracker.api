@@ -112,9 +112,9 @@ pipeline {
                 [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
                 scp -o StrictHostKeyChecking=no docker_export/*.tar "${SSH_DEST}:${REMOTE_APP_DIR}/"
                 scp -o StrictHostKeyChecking=no "jenkins/docker-compose.yml" "${SSH_DEST}:${REMOTE_APP_DIR}/"
-                scp -o StrictHostKeyChecking=no "jenkins/demo.env" "${SSH_DEST}:${REMOTE_APP_DIR}/"
-                scp -o StrictHostKeyChecking=no "jenkins/uat.env" "${SSH_DEST}:${REMOTE_APP_DIR}/"
-                scp -o StrictHostKeyChecking=no "jenkins/money_tracker_server.env" "${SSH_DEST}:${REMOTE_APP_DIR}/"
+                scp -o StrictHostKeyChecking=no "jenkins/.env.demo" "${SSH_DEST}:${REMOTE_APP_DIR}/"
+                scp -o StrictHostKeyChecking=no "jenkins/.env.prod" "${SSH_DEST}:${REMOTE_APP_DIR}/"
+                scp -o StrictHostKeyChecking=no "jenkins/.env.db.prod" "${SSH_DEST}:${REMOTE_APP_DIR}/"
                '''
             }
           }

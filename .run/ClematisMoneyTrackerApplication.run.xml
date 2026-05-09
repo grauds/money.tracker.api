@@ -1,9 +1,12 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ClematisMoneyTrackerApplication" type="Application" factoryName="Application" nameIsGenerated="true">
     <envs>
-      <env name="SPRING_DATASOURCE_PASSWORD" value="c2e58bcf" />
       <env name="KEYCLOAK_SECRET" value="p6BgCWlV1sqZbor8e4S6BceQSsaGICfr" />
+      <env name="SPRING_DATASOURCE_PASSWORD" value="c2e58bcf" />
     </envs>
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/config/environments/.env.local" />
+    </option>
     <option name="MAIN_CLASS_NAME" value="org.clematis.mt.ClematisMoneyTrackerApplication" />
     <module name="org.clematis.clematis.mt.api.main" />
     <extension name="coverage">

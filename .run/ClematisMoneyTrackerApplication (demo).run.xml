@@ -5,7 +5,7 @@
       <env name="KEYCLOAK_SECRET" value="p6BgCWlV1sqZbor8e4S6BceQSsaGICfr" />
     </envs>
     <option name="envFilePaths">
-      <option value="$PROJECT_DIR$/jenkins/demo.env" />
+      <option value="$PROJECT_DIR$/config/environments/.env.demo" />
     </option>
     <option name="MAIN_CLASS_NAME" value="org.clematis.mt.ClematisMoneyTrackerApplication" />
     <module name="org.clematis.clematis.mt.api.main" />
