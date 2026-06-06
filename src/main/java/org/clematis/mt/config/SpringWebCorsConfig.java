@@ -20,6 +20,7 @@ public class SpringWebCorsConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(ORIGINS));
+        configuration.setAllowedHeaders(List.of(ORIGINS));
         configuration.setAllowedMethods(List.of(HttpMethod.GET.name(),
                 HttpMethod.POST.name(),
                 HttpMethod.PUT.name(),

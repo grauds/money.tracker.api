@@ -6,20 +6,20 @@
 
 ## About
 
-This is a Spring Data REST based Restful API service for database from MoneyTracker application (https://dominsoft.ru/). It uses [Clematis Keycloak Auth API](https://github.com/grauds/clematis.auth.api) to secure its endpoints. 
+This is a Spring Data REST-based Restful API service for a database from MoneyTracker application (https://dominsoft.ru/). It uses [Keycloak](https://keycloak.org) to secure its endpoints. 
 
 ## Quick Start
 
-Checkout the code
+Check out the code
 ```
 git clone https://github.com/grauds/money.tracker.api.git
 ```                                                            
-The database file is a Firefox 2.5.9 database, so any data file from MoneyTracker application is possible to use with this web application. To do this, change the following line `/home/firebird/db` in the Docker compose sample file included into this repository with a path to actual directory on the server filesystem where a custom database file is stored:
+The database file is a Firefox 2.5.9 database, so any data file from the MoneyTracker application is possible to use with this web application. To do this, change the following line `/home/firebird/db` in the Docker compose sample file included in this repository with a path to actual directory on the server filesystem where a custom database file is stored:
 ```
 volumes:
    - /home/firebird/db:/firebird/data
 ```
-Set executable bit to gradlew
+Set the executable bit to gradlew
 ```
 chmod +x gradlew
 ```
@@ -38,13 +38,13 @@ The application is meant to be deployed with Docker compose along with Firefox 2
 
 ## Development
 
-Current version of this application doesn't repeat the functionality of MoneyTracker but adds more insight into data. Therefore the database is accessed is readonly mode, with sophisticated native queries. There is an idea to convert that queries into stored procedures to further improve performance and use more features from Firebird 2 as there is no need to switch to another database version or vendor.
+The current version of this application doesn't repeat the functionality of MoneyTracker but adds more insight into data. Therefore, the database is accessed is readonly mode, with sophisticated native queries. There is an idea to convert that query into stored procedures to further improve performance and use more features from Firebird 2 as there is no need to switch to another database version or vendor.
 
 ### Firebird Database Version
 
-Unfortunately, MoneyTracker application is discontinued so there is no hope it will use Firebird 3, 4 or 5 version any time soon.
+Unfortunately, MoneyTracker application is discontinued, so there is no hope it will use Firebird 3, 4 or 5 version any time soon.
 
 ### Currency Exchange Rates
 
-There is one requirement for the database to have a continuous history of exchange rates for all the currencies within the years of budget. This is an optional operation in MoneyTracker application, but it helps to calculate cross rates for any date.
+There is one requirement for the database to have a continuous history of exchange rates for all the currencies within the years of budget. This is an optional operation in the MoneyTracker application, but it helps to calculate cross-rates for any date.
 
