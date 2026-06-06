@@ -1,5 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ClematisMoneyTrackerApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="ALTERNATIVE_JRE_PATH" value="17" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
       <env name="KEYCLOAK_SECRET" value="p6BgCWlV1sqZbor8e4S6BceQSsaGICfr" />
       <env name="SPRING_DATASOURCE_PASSWORD" value="c2e58bcf" />
