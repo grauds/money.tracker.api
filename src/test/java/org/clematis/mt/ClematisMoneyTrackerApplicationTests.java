@@ -5,10 +5,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.clematis.storage.client.StorageApiClient;
 import org.firebirdsql.testcontainers.FirebirdContainer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -59,4 +61,7 @@ public class ClematisMoneyTrackerApplicationTests {
                  Assertions.assertEquals("SYSDBA", rs.getString(1), "user name");
         }
     }
+
+    @MockBean
+    private StorageApiClient storageApiClient;
 }

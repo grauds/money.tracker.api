@@ -30,6 +30,33 @@ configurations {
     }
 }
 
+def githubEnv = layout.projectDirectory.file('config/build/github.env')
+if (githubEnv.asFile.exists()) {
+    def props = providers.fileContents(githubEnv).asText.map { text ->
+        def p = new Properties()
+        p.load(new StringReader(text))
+        return p
+    }.get()
+    ext.username = props.getProperty('USERNAME')
+    ext.token = props.getProperty('TOKEN')
+} else {
+    ext.username = providers.environmentVariable("USERNAME").getOrNull()
+    ext.token = providers.environmentVariable("TOKEN").getOrNull()
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = URI.create("https://maven.pkg.github.com/grauds/clematis.storage.api.client")
+        credentials {
+            username = project.ext.username
+            password = project.ext.token
+        }
+    }
+}
+
+
 dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
@@ -51,6 +78,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.clematis.storage:storage-api-client-spring2:1.0.3.1'
 
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
 

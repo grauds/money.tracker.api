@@ -2,6 +2,7 @@ package org.clematis.mt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,6 +15,7 @@ import org.springframework.web.filter.ForwardedHeaderFilter;
 @SpringBootApplication
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@EnableFeignClients(basePackages = "org.clematis.storage.client")
 public class ClematisMoneyTrackerApplication {
 
     @Bean
