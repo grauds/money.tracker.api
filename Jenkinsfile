@@ -7,6 +7,8 @@ pipeline {
         REMOTE_USER = "anton"
         SSH_DEST = "${REMOTE_USER}@${REMOTE_HOST}"
         REMOTE_APP_DIR = "/home/anton/deploy/mt/api"
+        USERNAME = "grauds"
+        TOKEN = credentials('GITHUB_PERSONAL_TOKEN')
     }
 
     tools {
@@ -42,7 +44,6 @@ pipeline {
 
         stage('Get code') {
             steps {
-               // Get some code from a GitHub repository
                git 'https://github.com/grauds/money.tracker.api.git'
                sh 'chmod +x gradlew'
             }
