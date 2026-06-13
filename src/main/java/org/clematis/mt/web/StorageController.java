@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,8 +50,7 @@ public class StorageController {
         String directory = buildDirectory(entityName, entityId, extraPath);
         List<FileMetadata> files = storageApiClient.getFilesByPath(directory);
         for (FileMetadata old : files) {
-            String downloadUrl = old.getDownloadUrl();
-            String id = downloadUrl.substring(downloadUrl.lastIndexOf(PATH_SEPARATOR) + 1);
+            String id = extractId(old);
             storageApiClient.deleteFile(id);
         }
         storageApiClient.uploadFile(file, directory);
@@ -89,8 +89,7 @@ public class StorageController {
         List<FileMetadata> files = storageApiClient.getFilesByPath(directory);
         // todo: for money tracker support many files in one directory, i.e. galleries
         if (!files.isEmpty()) {
-            String downloadUrl = files.get(0).getDownloadUrl();
-            String id = downloadUrl.substring(downloadUrl.lastIndexOf(PATH_SEPARATOR) + 1);
+            String id = extractId(files.get(0));
             byte[] body = storageApiClient.getFile(id).getBody();
 
             HttpHeaders headers = new HttpHeaders();
@@ -99,6 +98,26 @@ public class StorageController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping("/{entityName}/{entityId}")
+    public ResponseEntity<byte[]> deleteFile(
+        @PathVariable("entityName") String entityName,
+        @PathVariable("entityId") String entityId,
+        @RequestParam(value = "extraPath", required = false) String extraPath
+    ) {
+        String directory = buildDirectory(entityName, entityId, extraPath);
+        List<FileMetadata> files = storageApiClient.getFilesByPath(directory);
+        if (!files.isEmpty()) {
+            String id = extractId(files.get(0));
+            storageApiClient.deleteFile(id);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    private static String extractId(FileMetadata fileMetadata) {
+        String downloadUrl = fileMetadata.getDownloadUrl();
+        return downloadUrl.substring(downloadUrl.lastIndexOf(PATH_SEPARATOR) + 1);
     }
 
     private String buildDirectory(String entityName, String entityId, String extraPath) {
