@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Integer> {
 
     @RestResource(path = "commodity")
-    Page<ExpenseItem> findByCommodityId(@Param(value = "commodityId") int commodityId, Pageable pageable);
+    Page<ExpenseItem> findByCommodityId(@Param(value = "id") int id, Pageable pageable);
 
     @RestResource(path = "tradeplace")
-    Page<ExpenseItem> findByTradeplaceId(@Param(value = "tradeplaceId") int tradeplaceId, Pageable pageable);
+    Page<ExpenseItem> findByTradeplaceId(@Param(value = "id") int id, Pageable pageable);
 
     @RestResource(path = "filtered")
     Page<ExpenseItem> findByTransferdateGreaterThanEqualAndTransferdateLessThanEqual(
@@ -38,31 +38,49 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
     @Query(value = """
             SELECT SUM(ei.total)
             FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id
-            WHERE ei.commodity.id=:commodityId 
+            WHERE ei.commodity.id=:id 
             AND e.moneyType.code LIKE :moneyCode
         """)
     @RestResource(path = "sumCommodityExpenses")
-    Double sumCommodityExpenses(@Param(value = "commodityId") int commodityId,
+    Double sumCommodityExpenses(@Param(value = "id") int id,
                               @Param(value = "moneyCode") String moneyCode);
 
     @Query(value = """
             SELECT SUM(ei.total)
             FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id
-            WHERE ei.tradeplace.id=:organizationId
+            WHERE ei.tradeplace.id=:id
             AND e.moneyType.code LIKE :moneyCode
         """)
     @RestResource(path = "sumOrganizationExpenses")
-    Double sumOrganizationExpenses(@Param(value = "organizationId") int organizationId,
+    Double sumOrganizationExpenses(@Param(value = "id") int id,
                                  @Param(value = "moneyCode") String moneyCode);
+
+    @Query(value = """
+            WITH RECURSIVE w1(id, parent, name) AS
+            (SELECT c.id, c.parent, c.name
+                FROM COMMGROUP as c
+                WHERE c.id = :id
+                UNION ALL
+                SELECT c2.id, c2.parent, c2.name
+                FROM w1 JOIN COMMGROUP as c2 ON c2.parent=w1.id
+            )
+            SELECT SUM(ei.TOTAL) FROM EXPENSEITEM as ei
+            LEFT JOIN EXPENSE as e ON e.id=ei.expense WHERE ei.COMM IN
+            (SELECT ID FROM COMMODITY WHERE PARENT IN (SELECT w1.id FROM w1))
+            AND e.MONEYTYPE=(SELECT ID FROM MONEYTYPE WHERE MONEYTYPE.CODE LIKE :moneyCode)
+        """, nativeQuery = true)
+    @RestResource(path = "sumCommodityGroupExpenses")
+    Long sumCommodityGroupExpenses(@Param(value = "id") int id,
+                                   @Param(value = "moneyCode") String moneyCode);
 
     @Query(value = """
             SELECT SUM(ei.qty)
             FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id
-            WHERE ei.commodity.id=:commodityId
+            WHERE ei.commodity.id=:id
         """
     )
     @RestResource(path = "sumCommodityQuantity")
-    Long sumCommodityQuantity(@Param(value = "commodityId") int commodityId);
+    Long sumCommodityQuantity(@Param(value = "id") int id);
 
 
     @Query(value = "SELECT COUNT(1) FROM ExpenseItem e WHERE e.commodity IS NULL")

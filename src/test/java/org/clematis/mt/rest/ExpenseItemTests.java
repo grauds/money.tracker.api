@@ -50,7 +50,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
         ResponseEntity<PagedModel<ExpenseItem>> items
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/expenseItems/search/commodity?commodityId=258",
+                .exchange("/api/expenseItems/search/commodity?id=258",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {});
@@ -86,7 +86,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
         ResponseEntity<Long> sum
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/expenseItems/search/sumCommodityExpenses?commodityId=258&moneyCode=RUB",
+                .exchange("/api/expenseItems/search/sumCommodityExpenses?id=258&moneyCode=RUB",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {});
@@ -103,7 +103,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
         ResponseEntity<Long> sum
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/expenseItems/search/sumCommodityQuantity?commodityId=258",
+                .exchange("/api/expenseItems/search/sumCommodityQuantity?id=258",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {});
@@ -121,7 +121,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
         ResponseEntity<Long> sum
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/expenses/search/sumCommodityGroupExpenses?commodityGroupId=287&moneyCode=RUB",
+                .exchange("/api/expenseItems/search/sumCommodityGroupExpenses?id=287&moneyCode=RUB",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {});

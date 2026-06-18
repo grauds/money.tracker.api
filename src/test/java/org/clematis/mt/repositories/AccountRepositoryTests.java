@@ -2,8 +2,6 @@ package org.clematis.mt.repositories;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.model.Account;
-import org.clematis.mt.model.NamedEntity;
-import org.clematis.mt.model.Organization;
 import org.clematis.mt.repository.AccountGroupRepository;
 import org.clematis.mt.repository.AccountRepository;
 import org.junit.jupiter.api.Assertions;
