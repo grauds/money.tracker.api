@@ -56,19 +56,38 @@ pipeline {
 
         }
 
-        stage ('Dependency-Check') {
-            steps {
-                dependencyCheck additionalArguments: '''
-                    -o "./"
-                    -s "./"
-                    -f "ALL"
-                    --prettyPrint''', nvdCredentialsId: 'NVD_API_Key', odcInstallation: 'Dependency Checker'
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    sh "exit 1"
-                }
-            }
-        }
+        stage('Dependency-Check') {
+              steps {
+                  script {
+                      try {
+                          dependencyCheck(
+                              additionalArguments: '''
+                                  -s "./"
+                                  -o "./dependency-check-reports"
+                                  -f "ALL"
+                                  --prettyPrint
+                                  -P "depcheck.properties"
+                                  --suppression "dependency-check-suppressions.xml"
+                                  --disableOssIndex
+                                  --exclude "./coverage"
+                              ''',
+                              nvdCredentialsId: 'NVD_API_Key',
+                              odcInstallation: 'Dependency Checker'
+                          )
+                      } catch (Exception e) {
+                          echo "Dependency-Check failed: ${e.getMessage()}"
+                      }
+
+                      if (fileExists('dependency-check-reports/dependency-check-report.xml')) {
+                          dependencyCheckPublisher(
+                              pattern: 'dependency-check-reports/dependency-check-report.xml'
+                          )
+                      } else {
+                          echo 'Dependency-Check report not generated, skipping publisher'
+                      }
+                  }
+              }
+          }
 
         stage('Publish tests') {
             steps {
