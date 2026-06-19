@@ -1,6 +1,5 @@
 package org.clematis.mt.repositories;
 
-
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.model.ExpenseItem;
 import org.clematis.mt.model.MoneyTypeCode;
@@ -20,37 +19,37 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
     @Test
     public void testExpenses() {
         Iterable<ExpenseItem> result
-                = expenseItemRepository.findAll(Sort.by("transferdate").descending());
+            = expenseItemRepository.findAll(Sort.by("transferdate").descending());
         Assertions.assertEquals(2291, result.spliterator().estimateSize());
     }
 
     @Test
     public void testSorting() {
         Page<ExpenseItem> result = expenseItemRepository
-                .findByCommodityId(258, PageRequest.of(0, 400,
-                        Sort.by("transferdate").descending()));
+            .findByCommodityId(258, PageRequest.of(0, 400,
+                Sort.by("transferdate").descending()));
         Assertions.assertEquals(323, result.getTotalElements());
     }
 
     @Test
     public void testNameSorting() {
         Page<ExpenseItem> result = expenseItemRepository
-                .findByCommodityId(258, PageRequest.of(0, 400,
-                        Sort.by("commodity.name").descending()));
+            .findByCommodityId(258, PageRequest.of(0, 400,
+                Sort.by("commodity.name").descending()));
         Assertions.assertEquals(323, result.getTotalElements());
     }
 
     @Test
     public void testCommodityExpenses() {
         Page<ExpenseItem> result = expenseItemRepository
-                .findByCommodityId(258, PageRequest.of(0, 400));
+            .findByCommodityId(258, PageRequest.of(0, 400));
         Assertions.assertEquals(323, result.getTotalElements());
     }
 
     @Test
     public void testCommodityTotalSum() {
         Double result = expenseItemRepository.sumCommodityExpenses(258, String.valueOf(MoneyTypeCode.RUB));
-        Assertions.assertEquals(6026, result);
+        Assertions.assertEquals(6066.37376, result);
     }
 
 
@@ -58,7 +57,7 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
     public void testCommodityGroupTotalSum() {
         Long result = expenseItemRepository.sumCommodityGroupExpenses(287,
             String.valueOf(MoneyTypeCode.RUB));
-        Assertions.assertEquals(16162, result);
+        Assertions.assertEquals(16254, result);
     }
 
     @Test

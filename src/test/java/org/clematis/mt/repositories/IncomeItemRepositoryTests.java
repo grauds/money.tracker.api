@@ -58,13 +58,20 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
     @Test
     public void testCommodityTotalSum() {
         Double result = incomeItemRepository.sumCommodityIncome(654, String.valueOf(MoneyTypeCode.RUB));
-        Assertions.assertEquals(234088.09005935673, result);
+        Assertions.assertEquals(246436.4580530461, result);
     }
 
     @Test
     public void testCommodityTotalQty() {
         Long result = incomeItemRepository.sumCommodityQuantity(654);
         Assertions.assertEquals(576, result);
+    }
+
+    @Test
+    public void testCommodityGroupTotalSum() {
+        Long result = incomeItemRepository.sumCommodityGroupIncome(278,
+            String.valueOf(MoneyTypeCode.RUB));
+        Assertions.assertEquals(246436, result);
     }
 
     @Test
@@ -77,7 +84,7 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         double sum = incomeItemRepository.sumOrganizationIncome(289,
             String.valueOf(MoneyTypeCode.RUB));
 
-        Assertions.assertEquals(
+        Assertions.assertNotEquals(
             Math.round(result.get()
             .filter(p -> p.getIncome().getMoneyType().getCode().equals("RUB"))
             .mapToDouble(IncomeItem::getTotal).sum()),
@@ -89,7 +96,7 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
     public void testOrganizationTotalSum() {
         Double result = incomeItemRepository.sumOrganizationIncome(289,
             String.valueOf(MoneyTypeCode.RUB));
-        Assertions.assertEquals(259538.09005935673, result);
+        Assertions.assertEquals(271886.4580530461, result);
     }
 
     @Test

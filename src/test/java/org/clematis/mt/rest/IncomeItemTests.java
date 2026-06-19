@@ -52,7 +52,7 @@ public class IncomeItemTests extends HateoasApiTests {
 
         ResponseEntity<PagedModel<IncomeItem>> items
             = getRestTemplateWithHalMessageConverter()
-            .exchange("/api/incomeItems/search/commodity?commodityId=654",
+            .exchange("/api/incomeItems/search/commodity?id=654",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 new ParameterizedTypeReference<>() {});
@@ -70,7 +70,7 @@ public class IncomeItemTests extends HateoasApiTests {
 
         ResponseEntity<Long> sum
             = getRestTemplateWithHalMessageConverter()
-            .exchange("/api/incomeItems/search/sumCommodityIncome?commodityId=654&moneyCode=RUB",
+            .exchange("/api/incomeItems/search/sumCommodityIncome?id=654&moneyCode=RUB",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 new ParameterizedTypeReference<>() {});
@@ -87,7 +87,7 @@ public class IncomeItemTests extends HateoasApiTests {
 
         ResponseEntity<Long> sum
             = getRestTemplateWithHalMessageConverter()
-            .exchange("/api/incomeItems/search/sumCommodityQuantity?commodityId=654",
+            .exchange("/api/incomeItems/search/sumCommodityQuantity?id=654",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 new ParameterizedTypeReference<>() {});
@@ -104,7 +104,7 @@ public class IncomeItemTests extends HateoasApiTests {
 
         ResponseEntity<Long> sum
             = getRestTemplateWithHalMessageConverter()
-            .exchange("/api/income/search/sumCommodityGroupIncome?commodityGroupId=278&moneyCode=RUB",
+            .exchange("/api/incomeItems/search/sumCommodityGroupIncome?id=278&moneyCode=RUB",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 new ParameterizedTypeReference<>() {});

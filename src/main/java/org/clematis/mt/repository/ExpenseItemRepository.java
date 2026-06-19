@@ -14,9 +14,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * @author Anton Troshin
- */
+
 @RepositoryRestResource(path = "expenseItems", excerptProjection = ExpenseItemEntry.class)
 public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Integer> {
 
@@ -28,55 +26,66 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
 
     @RestResource(path = "filtered")
     Page<ExpenseItem> findByTransferdateGreaterThanEqualAndTransferdateLessThanEqual(
-            @RequestParam(value = "startDate", required = false)
-            @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-            @RequestParam(value = "endDate", required = false)
-            @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
-            Pageable pageable
+        @RequestParam(value = "startDate", required = false)
+        @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+        @RequestParam(value = "endDate", required = false)
+        @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+        Pageable pageable
     );
 
     @Query(value = """
-            SELECT SUM(ei.total)
-            FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id
-            WHERE ei.commodity.id=:id 
-            AND e.moneyType.code LIKE :moneyCode
-        """)
+        SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            FROM ExpenseItem as ei
+                JOIN Expense as e ON e.id=ei.expense
+                JOIN MoneyType m ON m.id = e.moneyType
+            WHERE ei.COMM=:id
+        """, nativeQuery = true)
     @RestResource(path = "sumCommodityExpenses")
-    Double sumCommodityExpenses(@Param(value = "id") int id,
-                              @Param(value = "moneyCode") String moneyCode);
+    Double sumCommodityExpenses(
+        @Param(value = "id") int id,
+        @Param(value = "moneyCode") String moneyCode
+    );
 
     @Query(value = """
-            SELECT SUM(ei.total)
-            FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id
-            WHERE ei.tradeplace.id=:id
-            AND e.moneyType.code LIKE :moneyCode
-        """)
+        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            FROM ExpenseItem as ei
+                 JOIN Expense as e ON e.id = ei.expense
+                 JOIN MoneyType m ON m.id = e.moneyType
+            WHERE ei.tradeplace = :id
+        """, nativeQuery = true)
     @RestResource(path = "sumOrganizationExpenses")
-    Double sumOrganizationExpenses(@Param(value = "id") int id,
-                                 @Param(value = "moneyCode") String moneyCode);
+    Double sumOrganizationExpenses(
+        @Param(value = "id") int id,
+        @Param(value = "moneyCode") String moneyCode
+    );
 
     @Query(value = """
             WITH RECURSIVE w1(id, parent, name) AS
-            (SELECT c.id, c.parent, c.name
+            (
+                SELECT c.id, c.parent, c.name
                 FROM COMMGROUP as c
                 WHERE c.id = :id
                 UNION ALL
                 SELECT c2.id, c2.parent, c2.name
-                FROM w1 JOIN COMMGROUP as c2 ON c2.parent=w1.id
+                FROM w1 JOIN COMMGROUP as c2 ON c2.parent = w1.id
             )
-            SELECT SUM(ei.TOTAL) FROM EXPENSEITEM as ei
-            LEFT JOIN EXPENSE as e ON e.id=ei.expense WHERE ei.COMM IN
-            (SELECT ID FROM COMMODITY WHERE PARENT IN (SELECT w1.id FROM w1))
-            AND e.MONEYTYPE=(SELECT ID FROM MONEYTYPE WHERE MONEYTYPE.CODE LIKE :moneyCode)
-        """, nativeQuery = true)
+            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            FROM EXPENSEITEM as ei
+                 JOIN EXPENSE as e ON e.id = ei.expense
+                 JOIN MONEYTYPE m ON m.id = e.moneyType
+            WHERE ei.COMM IN (
+                SELECT ID FROM COMMODITY WHERE PARENT IN (SELECT w1.id FROM w1)
+            )
+         """, nativeQuery = true)
     @RestResource(path = "sumCommodityGroupExpenses")
     Long sumCommodityGroupExpenses(@Param(value = "id") int id,
                                    @Param(value = "moneyCode") String moneyCode);
 
     @Query(value = """
-            SELECT SUM(ei.qty)
-            FROM ExpenseItem as ei LEFT JOIN Expense as e ON e.id=ei.expense.id
-            WHERE ei.commodity.id=:id
+        SELECT SUM(ei.qty)
+            FROM ExpenseItem as ei
+            LEFT JOIN Expense as e ON e.id = ei.expense.id
+        WHERE ei.commodity.id=:id
         """
     )
     @RestResource(path = "sumCommodityQuantity")
