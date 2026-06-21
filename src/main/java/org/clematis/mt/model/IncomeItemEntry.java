@@ -22,6 +22,8 @@ public interface IncomeItemEntry {
 
     Double getPrice();
 
+    Double getTotal();
+
     Double getQty();
 
     IncomeEntry getIncome();
