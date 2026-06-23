@@ -83,6 +83,28 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
                                  @Param(value = "moneyCode") String moneyCode);
 
     @Query(value = """
+            WITH RECURSIVE w1(id, parent, name) AS
+            (
+                SELECT c.id, c.parent, c.name
+                FROM ORGANIZATIONGROUP as c
+                WHERE c.id = :id
+                UNION ALL
+                SELECT c2.id, c2.parent, c2.name
+                FROM w1 JOIN ORGANIZATIONGROUP as c2 ON c2.parent = w1.id
+            )
+            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            FROM INCOMEITEM as ei
+                 JOIN INCOME as e ON e.id = ei.INCOME
+                 JOIN MONEYTYPE m ON m.id = e.moneyType
+            WHERE ei.TRADEPLACE IN (
+                SELECT ID FROM ORGANIZATION WHERE PARENT IN (SELECT w1.id FROM w1)
+            )
+         """, nativeQuery = true)
+    @RestResource(path = "sumOrganizationGroupIncome")
+    Long sumOrganizationGroupIncome(@Param(value = "id") int id,
+                                 @Param(value = "moneyCode") String moneyCode);
+
+    @Query(value = """
         SELECT SUM(ei.qty)
             FROM IncomeItem as ei
             LEFT JOIN Income as e ON e.id = ei.income.id
