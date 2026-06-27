@@ -1,5 +1,7 @@
 package org.clematis.mt.repositories;
 
+import java.util.List;
+
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.dto.IncomeMonthlyReport;
 import org.clematis.mt.model.IncomeItem;
@@ -14,8 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
-import java.util.List;
 
 public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
@@ -79,6 +79,28 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Long result = incomeItemRepository.sumOrganizationGroupIncome(268,
             String.valueOf(MoneyTypeCode.RUB));
         Assertions.assertEquals(769069, result);
+    }
+
+    @Test
+    public void testAccountIncome() {
+        Page<IncomeItem> result = incomeItemRepository
+            .findByIncomeAccountId(257, PageRequest.of(0, 800));
+        Assertions.assertEquals(251, result.getTotalElements());
+        Assertions.assertEquals(1, result.getTotalPages());
+
+        double sum = incomeItemRepository.sumAccountIncome(
+            257,
+            String.valueOf(MoneyTypeCode.RUB)
+        );
+
+        Assertions.assertEquals(
+            Math.round(
+                result.get()
+                .filter(p -> p.getIncome().getMoneyType().getCode().equals("RUB"))
+                .mapToDouble(IncomeItem::getTotal).sum()
+            ),
+            Math.round(sum)
+        );
     }
 
     @Test

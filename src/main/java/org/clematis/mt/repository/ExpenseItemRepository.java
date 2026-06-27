@@ -24,6 +24,9 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
     @RestResource(path = "tradeplace")
     Page<ExpenseItem> findByTradeplaceId(@Param(value = "id") int id, Pageable pageable);
 
+    @RestResource(path = "account")
+    Page<ExpenseItem> findByExpenseAccountId(@Param(value = "id") int accountId, Pageable pageable);
+
     @RestResource(path = "filtered")
     Page<ExpenseItem> findByTransferdateGreaterThanEqualAndTransferdateLessThanEqual(
         @RequestParam(value = "startDate", required = false)

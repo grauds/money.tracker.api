@@ -87,6 +87,28 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
     }
 
     @Test
+    public void testAccountIncome() {
+        Page<ExpenseItem> result = expenseItemRepository
+            .findByExpenseAccountId(257, PageRequest.of(0, 800));
+        Assertions.assertEquals(2211, result.getTotalElements());
+        Assertions.assertEquals(3, result.getTotalPages());
+
+        double sum = expenseItemRepository.sumAccountExpenses(
+            257,
+            String.valueOf(MoneyTypeCode.RUB)
+        );
+
+        Assertions.assertNotEquals(
+            Math.round(
+                result.get()
+                    .filter(p -> p.getExpense().getMoneyType().getCode().equals("RUB"))
+                    .mapToDouble(ExpenseItem::getTotal).sum()
+            ),
+            Math.round(sum)
+        );
+    }
+
+    @Test
     public void testOrganizationTotalSum() {
         Double result = expenseItemRepository.sumOrganizationExpenses(316,
                 String.valueOf(MoneyTypeCode.RUB));

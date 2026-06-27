@@ -25,6 +25,9 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     @RestResource(path = "tradeplace")
     Page<IncomeItem> findByTradeplaceId(@Param(value = "id") int tradeplaceId, Pageable pageable);
 
+    @RestResource(path = "account")
+    Page<IncomeItem> findByIncomeAccountId(@Param(value = "id") int accountId, Pageable pageable);
+
     @RestResource(path = "filtered")
     Page<IncomeItem> findByTransferdateGreaterThanEqualAndTransferdateLessThanEqual(
         @RequestParam(value = "startDate", required = false)
