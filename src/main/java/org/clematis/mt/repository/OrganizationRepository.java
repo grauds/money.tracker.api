@@ -42,6 +42,6 @@ public interface OrganizationRepository extends PagingAndSortingAndFilteringByNa
                 SELECT * FROM ORGANIZATION WHERE PARENT IN (SELECT w1.id FROM w1) ORDER BY NAME)""",
             nativeQuery = true)
     @Operation(summary = "Find organizations recursively by parent group id")
-    @RestResource(path = "recursiveByParentGroupId")
-    Page<Organization> findRecursiveByParentGroupId(@Param("id") Integer id, Pageable pageable);
+    @RestResource(path = "recursiveOrganizationsByGroupId")
+    Page<Organization> findOrganizationsRecursiveByGroupId(@Param("id") Integer id, Pageable pageable);
 }
