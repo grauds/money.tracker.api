@@ -35,7 +35,7 @@ public class OrganizationTests extends HateoasApiTests {
 
         ResponseEntity<PagedModel<Organization>> organizations
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/organizations/search/recursiveByParentGroupId?id=264", HttpMethod.GET,
+                .exchange("/api/organizations/search/recursiveOrganizationsByGroupId?id=264", HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {});
 
