@@ -1,7 +1,5 @@
 package org.clematis.mt.repository;
 
-import io.swagger.v3.oas.annotations.Operation;
-
 import org.clematis.mt.model.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * @author Anton Troshin
