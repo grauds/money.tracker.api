@@ -1,5 +1,7 @@
 package org.clematis.mt.repository;
 
+import java.util.List;
+
 import org.clematis.mt.model.AccountGroup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,4 +40,20 @@ public interface AccountGroupRepository extends PagingAndSortingAndFilteringByNa
     )
     @RestResource(path = "recursiveByParentId")
     Page<AccountGroup> findRecursiveByParentId(@Param("id") Integer id, Pageable pageable);
+
+    @Query(
+        value = """
+                SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS
+                (SELECT c.id, c.parent, c.name
+                    FROM ACCOUNTGROUP as c
+                    WHERE c.id = :id
+                UNION ALL
+                SELECT c2.id, c2.parent, c2.name
+                FROM w1 JOIN ACCOUNTGROUP as c2 ON c2.id=w1.parent
+                )
+                SELECT * FROM w1 WHERE w1.id <> :id)""",
+        nativeQuery = true
+    )
+    @RestResource(path = "pathById")
+    List<AccountGroup> findPathById(@Param("id") Integer id);
 }
