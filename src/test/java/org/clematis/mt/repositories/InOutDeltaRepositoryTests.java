@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 public class InOutDeltaRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
@@ -32,7 +33,7 @@ public class InOutDeltaRepositoryTests extends ClematisMoneyTrackerApplicationTe
 
     @Test
     void testDeltas() {
-        List<InOutDelta> entries = deltaRepository.getDeltas("RUB");
-        Assertions.assertEquals(0, entries.size());
+        Page<InOutDelta> entries = deltaRepository.getDeltas("RUB", Pageable.ofSize(100));
+        Assertions.assertEquals(0, entries.getTotalElements());
     }
 }

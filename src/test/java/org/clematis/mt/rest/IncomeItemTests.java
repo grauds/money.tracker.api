@@ -2,12 +2,9 @@ package org.clematis.mt.rest;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.clematis.mt.dto.IncomeMonthlyReport;
 import org.clematis.mt.model.IncomeItem;
-import org.clematis.mt.model.IncomeMonthly;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;

@@ -82,6 +82,19 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
     }
 
     @Test
+    public void testAccountTotalSum() {
+        Double result = incomeItemRepository.sumAccountIncome(257, String.valueOf(MoneyTypeCode.RUB));
+        Assertions.assertEquals(398795.0, result);
+    }
+
+    @Test
+    public void testAccountGroupTotalSum() {
+        Long result = incomeItemRepository.sumAccountGroupIncome(257,
+            String.valueOf(MoneyTypeCode.RUB));
+        Assertions.assertEquals(433107, result);
+    }
+
+    @Test
     public void testOrganizationIncome() {
         Page<IncomeItem> result = incomeItemRepository
             .findByTradeplaceId(289, PageRequest.of(0, 800));

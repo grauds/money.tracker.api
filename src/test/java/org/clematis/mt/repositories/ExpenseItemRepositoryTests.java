@@ -110,4 +110,18 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Long result = expenseItemRepository.countItemsWithNoCommodity();
         Assertions.assertEquals(0, result);
     }
+
+    @Test
+    public void testAccountTotalSum() {
+        Double result = expenseItemRepository.sumAccountExpenses(257,
+            String.valueOf(MoneyTypeCode.RUB));
+        Assertions.assertEquals(1026166.159995079, result);
+    }
+
+    @Test
+    public void testAccountGroupTotalSum() {
+        Long result = expenseItemRepository.sumAccountGroupExpenses(257,
+            String.valueOf(MoneyTypeCode.RUB));
+        Assertions.assertEquals(1039422, result);
+    }
 }
