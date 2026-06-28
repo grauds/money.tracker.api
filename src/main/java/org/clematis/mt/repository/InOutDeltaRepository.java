@@ -26,7 +26,13 @@ public interface InOutDeltaRepository extends PagingAndSortingRepository<InOutDe
              LEFT JOIN MONEYTYPE M on M.CODE=:code WHERE IOD.EXPENCES = 1 AND IOD.INCOMES = 1
             )
             AS A GROUP BY COMM_ID, MID, MCODE ORDER BY DELTA DESC
-        """, nativeQuery = true)
+        """,
+        countQuery = """
+        SELECT COUNT(DISTINCT COMM_ID)
+            FROM IN_OUT_DELTA as IOD
+            LEFT JOIN MONEYTYPE M on M.CODE=:code
+        WHERE IOD.EXPENCES = 1 AND IOD.INCOMES = 1
+        """,  nativeQuery = true)
     @RestResource(path = "code")
     Page<InOutDelta> getDeltas(@Param(value = "code") String code, Pageable pageable);
 }

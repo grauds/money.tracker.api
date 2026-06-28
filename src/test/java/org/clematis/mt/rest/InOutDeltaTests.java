@@ -39,7 +39,7 @@ public class InOutDeltaTests extends HateoasApiTests {
                 "Bearer " + mock.getAccessToken(aTokenConfig().build()));
 
         Map<String, String> uriParam = new HashMap<>();
-        uriParam.put("code", "RUB");
+        uriParam.put("code", "USD");
 
         ResponseEntity<PagedModel<InOutDelta>> inOutDeltas = getRestTemplateWithHalMessageConverter()
                 .exchange("/api/inOutDeltas/search/code?code={code}", HttpMethod.GET,  new HttpEntity<>(headers),
