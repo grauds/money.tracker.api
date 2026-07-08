@@ -1,5 +1,6 @@
 package org.clematis.mt.repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.clematis.mt.model.ExpenseItem;
@@ -34,6 +35,19 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
         @RequestParam(value = "endDate", required = false)
         @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
         Pageable pageable
+    );
+
+    @Query(value = """
+        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            FROM ExpenseItem as ei
+                 JOIN Expense as e ON e.id = ei.expense
+                 JOIN MoneyType m ON m.id = e.moneyType
+            WHERE CAST(e.TRANSFERDATE AS DATE) = :targetDate
+        """, nativeQuery = true)
+    @RestResource(path = "sumDailyExpenses")
+    Double sumDailyExpenses(
+        @Param(value = "targetDate") LocalDate targetDate,
+        @Param(value = "moneyCode") String moneyCode
     );
 
     @Query(value = """

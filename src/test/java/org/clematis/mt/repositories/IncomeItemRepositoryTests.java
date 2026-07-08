@@ -1,5 +1,6 @@
 package org.clematis.mt.repositories;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
@@ -53,6 +54,14 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Page<IncomeItem> result = incomeItemRepository
             .findByCommodityId(654, PageRequest.of(0, 400));
         Assertions.assertEquals(576, result.getTotalElements());
+    }
+
+    @Test
+    public void testDayTotalSum() {
+        Double result = incomeItemRepository.sumDailyIncome(
+            LocalDate.of(2017, 6, 24), String.valueOf(MoneyTypeCode.RUB)
+        );
+        Assertions.assertEquals(2100.0, result);
     }
 
     @Test

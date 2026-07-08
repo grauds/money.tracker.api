@@ -1,5 +1,6 @@
 package org.clematis.mt.repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.clematis.mt.dto.IncomeMonthlyReport;
@@ -35,6 +36,19 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
         @RequestParam(value = "endDate", required = false)
         @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
         Pageable pageable
+    );
+
+    @Query(value = """
+        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            FROM IncomeItem as ei
+                 JOIN Income as e ON e.id = ei.income
+                 JOIN MoneyType m ON m.id = e.moneyType
+            WHERE CAST(e.TRANSFERDATE AS DATE) = :targetDate
+        """, nativeQuery = true)
+    @RestResource(path = "sumDailyIncome")
+    Double sumDailyIncome(
+        @Param(value = "targetDate") LocalDate targetDate,
+        @Param(value = "moneyCode") String moneyCode
     );
 
     @Query(value = """
