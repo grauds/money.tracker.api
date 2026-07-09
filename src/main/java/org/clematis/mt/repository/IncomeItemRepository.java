@@ -46,7 +46,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
         """, nativeQuery = true)
     @RestResource(path = "sumDailyIncome")
     Double sumDailyIncome(
-        @Param(value = "targetDate") Date targetDate,
+        @Param(value = "targetDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date targetDate,
         @Param(value = "moneyCode") String moneyCode
     );
 

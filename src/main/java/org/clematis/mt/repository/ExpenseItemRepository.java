@@ -45,7 +45,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
         """, nativeQuery = true)
     @RestResource(path = "sumDailyExpenses")
     Double sumDailyExpenses(
-        @Param(value = "targetDate") Date targetDate,
+        @Param(value = "targetDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date targetDate,
         @Param(value = "moneyCode") String moneyCode
     );
 
