@@ -1,6 +1,5 @@
 package org.clematis.mt.repository;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import org.clematis.mt.model.ExpenseItem;
@@ -46,7 +45,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
         """, nativeQuery = true)
     @RestResource(path = "sumDailyExpenses")
     Double sumDailyExpenses(
-        @Param(value = "targetDate") LocalDate targetDate,
+        @Param(value = "targetDate") Date targetDate,
         @Param(value = "moneyCode") String moneyCode
     );
 

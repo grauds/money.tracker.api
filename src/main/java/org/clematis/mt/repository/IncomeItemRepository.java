@@ -1,6 +1,5 @@
 package org.clematis.mt.repository;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import org.clematis.mt.dto.IncomeMonthlyReport;
@@ -47,7 +46,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
         """, nativeQuery = true)
     @RestResource(path = "sumDailyIncome")
     Double sumDailyIncome(
-        @Param(value = "targetDate") LocalDate targetDate,
+        @Param(value = "targetDate") Date targetDate,
         @Param(value = "moneyCode") String moneyCode
     );
 

@@ -1,6 +1,6 @@
 package org.clematis.mt.repositories;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.model.ExpenseItem;
@@ -51,7 +51,7 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
     @Test
     public void testDayTotalSum() {
         Double result = expenseItemRepository.sumDailyExpenses(
-            LocalDate.of(2017, 6, 24), String.valueOf(MoneyTypeCode.RUB)
+            Date.valueOf("2017-06-24"), String.valueOf(MoneyTypeCode.RUB)
         );
         Assertions.assertEquals(335.0, result);
     }
