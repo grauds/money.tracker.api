@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/storage")
 public class StorageController {
 
-    private static final String ROOT = "mt";
     private static final String PATH_SEPARATOR = "/";
     private static final char PATH_SEPARATOR_CHAR = '/';
 
@@ -39,15 +38,16 @@ public class StorageController {
      * @param file - the file to upload
      * @param extraPath - an optional path to append to the entity root directory
      */
-    @PostMapping("/{entityName}/{entityId}/files")
+    @PostMapping("/{root}/{entityName}/{entityId}/files")
     public ResponseEntity<Void> uploadFile(
+        @PathVariable("root") String root,
         @PathVariable("entityName") String entityName,
         @PathVariable("entityId") String entityId,
         @RequestParam("file") MultipartFile file,
         @RequestParam(value = "extraPath", required = false) String extraPath
     ) {
 
-        String directory = buildDirectory(entityName, entityId, extraPath);
+        String directory = buildDirectory(root, entityName, entityId, extraPath);
         List<FileMetadata> files = storageApiClient.getFilesByPath(directory);
         for (FileMetadata old : files) {
             String id = extractId(old);
@@ -63,13 +63,14 @@ public class StorageController {
      * @param entityId - the id of the entity to get files for, for instance, the id of the commodity or account.
      * @param extraPath - an optional path to append to the entity root directory
      */
-    @GetMapping("/{entityName}/{entityId}/files")
+    @GetMapping("/{root}/{entityName}/{entityId}/files")
     public ResponseEntity<List<FileMetadata>> listFiles(
+        @PathVariable("root") String root,
         @PathVariable("entityName") String entityName,
         @PathVariable("entityId") String entityId,
         @RequestParam(value = "extraPath", required = false) String extraPath
     ) {
-        String directory = buildDirectory(entityName, entityId, extraPath);
+        String directory = buildDirectory(root, entityName, entityId, extraPath);
         List<FileMetadata> files = storageApiClient.getFilesByPath(directory);
         return ResponseEntity.ok(files);
     }
@@ -79,13 +80,14 @@ public class StorageController {
      * @param entityName - the name of the entity to get files for, for instance, 'commodities' or 'accounts'
      * @param entityId - the id of the entity to get files for, for instance, the id of the commodity or account.
      */
-    @GetMapping("/{entityName}/{entityId}")
+    @GetMapping("/{root}/{entityName}/{entityId}")
     public ResponseEntity<byte[]> downloadFile(
+        @PathVariable("root") String root,
         @PathVariable("entityName") String entityName,
         @PathVariable("entityId") String entityId,
         @RequestParam(value = "extraPath", required = false) String extraPath
     ) {
-        String directory = buildDirectory(entityName, entityId, extraPath);
+        String directory = buildDirectory(root, entityName, entityId, extraPath);
         List<FileMetadata> files = storageApiClient.getFilesByPath(directory);
         // todo: for money tracker support many files in one directory, i.e. galleries
         if (!files.isEmpty()) {
@@ -100,13 +102,14 @@ public class StorageController {
         }
     }
 
-    @DeleteMapping("/{entityName}/{entityId}")
+    @DeleteMapping("/{root}/{entityName}/{entityId}")
     public ResponseEntity<byte[]> deleteFile(
+        @PathVariable("root") String root,
         @PathVariable("entityName") String entityName,
         @PathVariable("entityId") String entityId,
         @RequestParam(value = "extraPath", required = false) String extraPath
     ) {
-        String directory = buildDirectory(entityName, entityId, extraPath);
+        String directory = buildDirectory(root, entityName, entityId, extraPath);
         List<FileMetadata> files = storageApiClient.getFilesByPath(directory);
         if (!files.isEmpty()) {
             String id = extractId(files.get(0));
@@ -120,9 +123,9 @@ public class StorageController {
         return downloadUrl.substring(downloadUrl.lastIndexOf(PATH_SEPARATOR) + 1);
     }
 
-    private String buildDirectory(String entityName, String entityId, String extraPath) {
+    private String buildDirectory(String root, String entityName, String entityId, String extraPath) {
         StringBuilder sb = new StringBuilder();
-        sb.append(ROOT)
+        sb.append(root)
             .append(PATH_SEPARATOR_CHAR)
             .append(entityName)
             .append(PATH_SEPARATOR_CHAR)
