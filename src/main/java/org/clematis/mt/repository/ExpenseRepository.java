@@ -17,25 +17,32 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface ExpenseRepository extends PagingAndSortingRepository<Expense, Integer> {
 
     @Query(value = """
-        SELECT * FROM (
-            SELECT
-                u.NAME AS AGENT,
-                cgp.NAME AS COMMODITYGROUP,
-                ROUND(SUM(ex.TOTAL * (SELECT * FROM CROSS_RATE(:code, m.CODE, e.TRANSFERDATE))), 2) AS TOTAL,
-                EXTRACT(MONTH FROM e.TRANSFERDATE) AS MOIS,
-                EXTRACT(YEAR FROM e.TRANSFERDATE) AS AN
-            FROM EXPENSEITEM ex
-            LEFT JOIN EXPENSE e ON ex.EXPENSE = e.ID
-            LEFT JOIN MONEYTYPE m ON m.ID = e.MONEYTYPE
-            LEFT JOIN COMMODITY c ON ex.COMM = c.ID
-            LEFT JOIN COMMGROUP cg ON c.PARENT = cg.ID
-            LEFT JOIN COMMGROUP cgp ON cg.PARENT = cgp.ID
-            LEFT JOIN USERMT u ON e.USERMT=u.ID
-            GROUP BY u.NAME, cgp.NAME, MOIS, AN ORDER BY AN, MOIS ASC
-        )
-        WHERE (AN < :anEnd OR (AN = :anEnd AND MOIS <= :moisEnd)) AND
-              (AN > :anStart OR (AN = :anStart AND MOIS >= :moisStart))
-        """, nativeQuery = true)
+        SELECT
+            u.NAME AS AGENT,
+            cgp.NAME AS COMMODITYGROUP,
+            ROUND(SUM(COALESCE(ex.TOTAL, 0) * COALESCE(
+                    (SELECT FIRST 1 rate FROM CROSS_RATE(:code, m.CODE, e.TRANSFERDATE)), 0
+            )), 2) AS TOTAL,
+            EXTRACT(MONTH FROM e.TRANSFERDATE) AS MOIS,
+            EXTRACT(YEAR FROM e.TRANSFERDATE) AS AN
+        FROM EXPENSEITEM ex
+        LEFT JOIN EXPENSE e ON ex.EXPENSE = e.ID
+        LEFT JOIN MONEYTYPE m ON m.ID = e.MONEYTYPE
+        LEFT JOIN COMMODITY c ON ex.COMM = c.ID
+        LEFT JOIN COMMGROUP cg ON c.PARENT = cg.ID
+        LEFT JOIN COMMGROUP cgp ON cg.PARENT = cgp.ID
+        LEFT JOIN USERMT u ON e.USERMT = u.ID
+        WHERE
+            (EXTRACT(YEAR FROM e.TRANSFERDATE) > :anStart OR (EXTRACT(YEAR FROM e.TRANSFERDATE) = :anStart
+                                                            AND EXTRACT(MONTH FROM e.TRANSFERDATE) >= :moisStart))
+            AND 
+            (EXTRACT(YEAR FROM e.TRANSFERDATE) < :anEnd OR (EXTRACT(YEAR FROM e.TRANSFERDATE) = :anEnd 
+                                                            AND EXTRACT(MONTH FROM e.TRANSFERDATE) <= :moisEnd))
+        GROUP BY u.NAME, cgp.NAME, EXTRACT(MONTH FROM e.TRANSFERDATE), EXTRACT(YEAR FROM e.TRANSFERDATE)
+        ORDER BY AN, MOIS ASC
+        """,
+        nativeQuery = true
+    )
     List<AgentCommodityGroup> getAgentCommodityGroups(@Param(value = "code") String code,
                                                       @Param(value = "moisStart") int moisStart,
                                                       @Param(value = "anStart") int anStart,

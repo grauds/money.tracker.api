@@ -48,6 +48,8 @@ The current version of this application doesn't repeat the functionality of Mone
 
 Unfortunately, MoneyTracker application is discontinued, so there is no hope it will use Firebird 3, 4 or 5 version any time soon.
 
+Also, this limitation freezes the version of Spring Boot to the latest in the 2.x branch due to the limitation of the Firebird JDBC driver.
+
 ### Currency Exchange Rates
 
 There is one requirement for the database to have a continuous history of exchange rates for all the currencies within the years of budget. This is an optional operation in the MoneyTracker application, but it is required to calculate cross-rates.

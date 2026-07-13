@@ -31,6 +31,13 @@ public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests
     }
 
     @Test
+    public void testAgentCommodityTotalSumInvalidDates() {
+        List<AgentCommodityGroup> groups = expenseRepository.getAgentCommodityGroups("RUB",
+            3, 2026, 3, 2030);
+        Assertions.assertEquals(0, groups.size());
+    }
+
+    @Test
     public void testDates() {
         DateRange range = expenseRepository.getDatesRange();
         Assertions.assertEquals(Date.valueOf("2017-06-11"), range.getStart());

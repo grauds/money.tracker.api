@@ -130,7 +130,7 @@ public class ExpenseItemTests extends HateoasApiTests {
     }
 
     @Test
-    public void testAgentCommodityGroupTotalSum() {
+    public void testAgentCommodityGroupTotalSumInvalidDates() {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer "
@@ -138,7 +138,7 @@ public class ExpenseItemTests extends HateoasApiTests {
 
         Map<String, String> uriParam = new HashMap<>();
         uriParam.put("moisStart", "1");
-        uriParam.put("anStart", "2010");
+        uriParam.put("anStart", "2020");
         uriParam.put("moisEnd", "1");
         uriParam.put("anEnd", "2022");
         uriParam.put("code", "RUB");

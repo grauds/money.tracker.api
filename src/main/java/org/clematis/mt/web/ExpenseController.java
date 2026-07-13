@@ -19,12 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ExpenseController {
 
+    public static final String X_PAGE_NUMBER = "X-Page-Number";
+    public static final String X_PAGE_SIZE = "X-Page-Size";
+
     private final ExpenseRepository expenseRepository;
 
     public ExpenseController(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;
     }
 
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @GetMapping("/api/agentCommodityGroupExpenses")
     public ResponseEntity<Page<AgentCommodityGroup>> getAgentCommodityGroupExpenses(
             @RequestParam(value = "code") String code,
@@ -36,16 +40,30 @@ public class ExpenseController {
         List<AgentCommodityGroup> groups = this.expenseRepository.getAgentCommodityGroups(
             code, moisStart, anStart, moisEnd, anEnd
         );
-        Pageable pageRequest = Pageable.ofSize(groups.size());
-        Page<AgentCommodityGroup> p = new PageImpl<>(groups, pageRequest, groups.size());
+        if (groups.isEmpty()) {
+            Pageable pageRequest = Pageable.unpaged();
+            Page<AgentCommodityGroup> p = Page.empty(pageRequest);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Page-Number", String.valueOf(p.getNumber()));
-        headers.add("X-Page-Size", String.valueOf(p.getSize()));
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(X_PAGE_NUMBER, "0");
+            headers.add(X_PAGE_SIZE, "0");
 
-        return ResponseEntity
+            return ResponseEntity
                 .ok()
                 .headers(headers)
                 .body(p);
+        } else {
+            Pageable pageRequest = Pageable.ofSize(groups.size());
+            Page<AgentCommodityGroup> p = new PageImpl<>(groups, pageRequest, groups.size());
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(X_PAGE_NUMBER, String.valueOf(p.getNumber()));
+            headers.add(X_PAGE_SIZE, String.valueOf(p.getSize()));
+
+            return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(p);
+        }
     }
 }
