@@ -35,7 +35,7 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
                 child.ID, 
                 child.PARENT, 
                 child.NAME,
-                CASE WHEN parent_tree.DEPTH >= 3 THEN parent_tree.ANCESTOR_ID ELSE child.ID END,
+                CASE WHEN parent_tree.DEPTH >= 2 THEN parent_tree.ANCESTOR_ID ELSE child.ID END,
                 parent_tree.DEPTH + 1
             FROM COMMGROUP child
             JOIN CATEGORY_TREE parent_tree ON child.PARENT = parent_tree.ID
