@@ -28,7 +28,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
     Page<ExpenseItem> findByExpenseAccountId(@Param(value = "id") int accountId, Pageable pageable);
 
     @RestResource(path = "filtered")
-    Page<ExpenseItem> findByTransferDateGreaterThanEqualAndTransferDateLessThanEqual(
+    Page<ExpenseItem> findByTransferdateGreaterThanEqualAndTransferdateLessThanEqual(
         @Param("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> startDate,
         @Param("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> endDate,
         Pageable pageable
