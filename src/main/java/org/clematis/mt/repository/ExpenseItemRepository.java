@@ -1,6 +1,7 @@
 package org.clematis.mt.repository;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.clematis.mt.model.ExpenseItem;
 import org.clematis.mt.model.ExpenseItemEntry;
@@ -12,7 +13,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RepositoryRestResource(path = "expenseItems", excerptProjection = ExpenseItemEntry.class)
@@ -28,11 +28,9 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
     Page<ExpenseItem> findByExpenseAccountId(@Param(value = "id") int accountId, Pageable pageable);
 
     @RestResource(path = "filtered")
-    Page<ExpenseItem> findByTransferdateGreaterThanEqualAndTransferdateLessThanEqual(
-        @RequestParam(value = "startDate", required = false)
-        @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-        @RequestParam(value = "endDate", required = false)
-        @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+    Page<ExpenseItem> findByTransferDateGreaterThanEqualAndTransferDateLessThanEqual(
+        @Param("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> startDate,
+        @Param("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> endDate,
         Pageable pageable
     );
 
