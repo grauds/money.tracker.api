@@ -1,6 +1,9 @@
 <configuration>
     <springProperty name="LOG_PATH" source="logging.file.path" defaultValue="logs/" />
+
     <jmxConfigurator/>
+
+    <conversionRule conversionWord="mdc" converterClass="org.clematis.logging.CustomMDCConverter" />
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.out</target>
@@ -17,7 +20,7 @@
             <OnMatch>DENY</OnMatch>
         </filter>
         <encoder>
-            <pattern>[%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX"}] [%thread] %level %logger{5} - %msg%n</pattern>
+            <pattern>[%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX"}] [%thread] %level %logger{5} - %mdc %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -47,17 +50,18 @@
             <OnMatch>DENY</OnMatch>
         </filter>
         <encoder>
-            <pattern>[%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX"}] [%thread] %level %logger{5} - %msg%n</pattern>
+            <pattern>[%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX"}] [%thread] %level %logger{5} - %mdc %msg%n</pattern>
         </encoder>
     </appender>
 
     <root level="${LOG_LEVEL}">
         <appender-ref ref="file"/>
-        <appender-ref ref="stdout" />
+        <appender-ref ref="stdout"/>
     </root>
 
     <logger name="org.clematis" level="${LOG_LEVEL}"/>
     <logger name="jworkspace" level="${LOG_LEVEL}"/>
     <logger name="org.springframework" level="${LOG_LEVEL}"/>
+    <logger name="org.hibernate.SQL" level="ERROR"/>
 
 </configuration>
