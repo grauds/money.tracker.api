@@ -70,3 +70,10 @@ springdoc:
     disable-swagger-default-url: true
     use-root-path: true
   show-actuator: true
+
+clematis:
+  transactionId:
+    httpHeader:
+      Transaction-ID
+    logKey:
+      transactionId
