@@ -12,10 +12,6 @@ plugins {
     id "org.asciidoctor.jvm.convert" version "4.0.4"
 }
 
-repositories {
-    mavenCentral()
-}
-
 group = 'org.clematis'
 version = '1.0.0'
 
@@ -81,6 +77,7 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa'
 
     implementation 'org.clematis.storage:storage-api-client-spring2:1.0.3.1'
+    implementation 'org.clematis:clematis-commons-spring-boot-2:1.0.0-SNAPSHOT'
 
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
 
