@@ -74,6 +74,6 @@ springdoc:
 clematis:
   transactionId:
     httpHeader:
-      Transaction-ID
+      X-Transaction-ID
     logKey:
       transactionId

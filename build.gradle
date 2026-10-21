@@ -76,7 +76,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.querydsl:querydsl-jpa'
 
-    implementation 'org.clematis.storage:storage-api-client-spring2:1.0.3.1'
+    implementation 'org.clematis.storage:storage-api-client-spring2:1.1.0'
     implementation 'org.clematis:clematis-commons-spring-boot-2:1.0.0-SNAPSHOT'
 
     runtimeOnly 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.10.java8'
