@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.clematis.mt.dto.AgentCommodityGroup;
 import org.clematis.mt.dto.DateRange;
+import org.clematis.mt.dto.MoneyShareInCurrency;
 import org.clematis.mt.model.Expense;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 
-/**
- * @author Anton Troshin
- */
+
 @RepositoryRestResource(path = "expenses")
 public interface ExpenseRepository extends PagingAndSortingRepository<Expense, Integer> {
 
@@ -20,16 +20,16 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
         WITH RECURSIVE CATEGORY_TREE (ID, PARENT, NAME, ANCESTOR_ID, DEPTH) AS (
             -- Base case: Root categories (Level 1)
             SELECT
-                c1.ID, 
-                c1.PARENT, 
-                c1.NAME, 
-                c1.ID, 
+                c1.ID,
+                c1.PARENT,
+                c1.NAME,
+                c1.ID,
                 1
             FROM COMMGROUP c1
             WHERE c1.PARENT IS NULL OR c1.PARENT = 0
-            
+        
             UNION ALL
-            
+
             -- Recursive case: Digging into children while pinning the Level 3 ancestor
             SELECT 
                 child.ID, 
@@ -87,4 +87,40 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
         """
     )
     DateRange getDatesRange();
+
+    @RestResource(path = "total")
+    @Query(value = """
+        SELECT SUM(e.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :code, e.transferdate)), 0))
+        FROM Expense as e
+             JOIN MoneyType m ON m.id = e.moneyType
+        """, nativeQuery = true)
+    Double sumTotalInCurrency(@Param("code") String code);
+
+    @RestResource(path = "totalByCurrency")
+    @Query(value = """
+        WITH DailyExpenses AS (
+            SELECT
+                e.moneyType,
+                e.transferdate,
+                SUM(e.total) AS daily_total
+            FROM Expense e
+            GROUP BY e.moneyType, e.transferdate
+        )
+        SELECT
+            m.CODE AS CODE,
+            ROUND(SUM(d.daily_total), 2) AS TOTAL,
+            ROUND(
+                SUM(
+                    d.daily_total * COALESCE(
+                        (SELECT RATE FROM CROSS_RATE_2(m.CODE, :code, d.transferdate)),
+                        1
+                    )
+                ),
+                2
+            ) AS TOTALCONVERTED
+        FROM DailyExpenses d
+        JOIN MoneyType m ON m.id = d.moneyType
+        GROUP BY m.CODE
+        """, nativeQuery = true)
+    List<MoneyShareInCurrency> getExpensesByCurrency(@Param("code") String code);
 }

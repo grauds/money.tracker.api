@@ -10,7 +10,7 @@
       <option value="$PROJECT_DIR$/config/environments/.env.local" />
     </option>
     <option name="MAIN_CLASS_NAME" value="org.clematis.mt.ClematisMoneyTrackerApplication" />
-    <module name="org.clematis.clematis.mt.api.main" />
+    <module name="clematis_mt_api.main" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="org.clematis.mt.*" />

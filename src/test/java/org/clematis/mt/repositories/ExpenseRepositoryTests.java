@@ -6,7 +6,9 @@ import java.util.List;
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.dto.AgentCommodityGroup;
 import org.clematis.mt.dto.DateRange;
+import org.clematis.mt.dto.MoneyShareInCurrency;
 import org.clematis.mt.model.Expense;
+import org.clematis.mt.model.MoneyTypeCode;
 import org.clematis.mt.repository.ExpenseRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -43,4 +45,47 @@ public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests
         Assertions.assertEquals(Date.valueOf("2017-06-11"), range.getStart());
         Assertions.assertEquals(Date.valueOf("2018-06-09"), range.getEnd());
     }
+
+    @Test
+    public void testGetIncomeByCurrency() {
+        List<MoneyShareInCurrency> result = expenseRepository.getExpensesByCurrency(String.valueOf(MoneyTypeCode.RUB));
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isEmpty());
+
+        for (MoneyShareInCurrency row : result) {
+            Assertions.assertNotNull(row.getCode());
+            Assertions.assertNotNull(row.getTotal());
+            Assertions.assertNotNull(row.getTotalConverted());
+            Assertions.assertTrue(row.getTotal() >= 0);
+            Assertions.assertTrue(row.getTotalConverted() > 0);
+        }
+    }
+
+    @Test
+    public void testGetIncomeByCurrencyUsd() {
+        List<MoneyShareInCurrency> result = expenseRepository.getExpensesByCurrency(String.valueOf(MoneyTypeCode.USD));
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isEmpty());
+
+        for (MoneyShareInCurrency row : result) {
+            Assertions.assertNotNull(row.getCode());
+            Assertions.assertNotNull(row.getTotal());
+            Assertions.assertNotNull(row.getTotalConverted());
+        }
+    }
+
+    @Test
+    public void testSumTotalInCurrency() {
+        Double result = expenseRepository.sumTotalInCurrency(String.valueOf(MoneyTypeCode.RUB));
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result > 0);
+    }
+
+    @Test
+    public void testSumTotalInCurrencyUsd() {
+        Double result = expenseRepository.sumTotalInCurrency(String.valueOf(MoneyTypeCode.USD));
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result > 0);
+    }
+
 }

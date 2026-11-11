@@ -379,4 +379,93 @@ FROM EXPENSEITEM e
 WHERE e.PRICE IS NOT NULL
   AND e.COMM IS NOT NULL
 GROUP BY e.COMM, c.NAME, c.UNITTYPE, c.DEFAULTPRICE
-HAVING COUNT(*) > 1;
+HAVING COUNT(*) > 1  ^
+
+------------------------------------------------------------
+
+CREATE INDEX IDX_INCOME_TYPE_DATE ON INCOME (MONEYTYPE, TRANSFERDATE) ^
+CREATE INDEX IDX_EXPENSE_TYPE_DATE ON EXPENSE (MONEYTYPE, TRANSFERDATE) ^
+
+CREATE OR ALTER PROCEDURE CROSS_RATE_2 (
+        SRC VARCHAR(16),
+        DEST VARCHAR(16),
+        RATE_DATE DATE = CURRENT_DATE
+    )
+    RETURNS (
+        RATE DOUBLE PRECISION
+    )
+    AS
+    DECLARE VARIABLE V_RUB_ID INTEGER;
+    DECLARE VARIABLE V_SRC_ID INTEGER;
+    DECLARE VARIABLE V_DEST_ID INTEGER;
+    DECLARE VARIABLE V_RATE_SRC DOUBLE PRECISION;
+    DECLARE VARIABLE V_RATE_DEST DOUBLE PRECISION;
+    BEGIN
+        RATE = 1;
+
+        -- Одинаковые валюты: мгновенный возврат без обращения к таблицам
+        IF (:SRC = :DEST OR :SRC IS NULL OR :DEST IS NULL) THEN
+        BEGIN
+                SUSPEND;
+                EXIT;
+        END
+
+        -- Получаем ID валют в переменные один раз
+    SELECT ID FROM MONEYTYPE WHERE CODE = 'RUB' INTO :V_RUB_ID;
+    SELECT ID FROM MONEYTYPE WHERE CODE = :SRC INTO :V_SRC_ID;
+    SELECT ID FROM MONEYTYPE WHERE CODE = :DEST INTO :V_DEST_ID;
+
+    -- Прямая конвертация в RUB
+    IF (:DEST = 'RUB') THEN
+    BEGIN
+        SELECT FIRST 1 mtr.RATE
+            FROM MONEYTYPERATE mtr
+        WHERE mtr.BUYMONEYTYPE = :V_RUB_ID
+            AND mtr.SELLMONEYTYPE = :V_SRC_ID
+            AND mtr.RATEDATE < :RATE_DATE
+        ORDER BY mtr.RATEDATE DESC
+            INTO :V_RATE_SRC;
+
+        IF (:V_RATE_SRC IS NOT NULL) THEN
+            RATE = ROUND(:V_RATE_SRC, 15);
+    END
+     -- Обратная конвертация из RUB
+    ELSE IF (:SRC = 'RUB') THEN
+    BEGIN
+        SELECT FIRST 1 mtr.RATE
+        FROM MONEYTYPERATE mtr
+        WHERE mtr.BUYMONEYTYPE = :V_RUB_ID
+            AND mtr.SELLMONEYTYPE = :V_DEST_ID
+            AND mtr.RATEDATE < :RATE_DATE
+        ORDER BY mtr.RATEDATE DESC
+            INTO :V_RATE_DEST;
+
+    IF (:V_RATE_DEST IS NOT NULL AND :V_RATE_DEST <> 0) THEN
+        RATE = ROUND(1.0 / :V_RATE_DEST, 15);
+    END
+     -- Кросс-курс (например, USD -> EUR через RUB) без JOIN
+    ELSE
+    BEGIN
+        SELECT FIRST 1 mtr.RATE
+        FROM MONEYTYPERATE mtr
+        WHERE mtr.BUYMONEYTYPE = :V_RUB_ID
+            AND mtr.SELLMONEYTYPE = :V_SRC_ID
+            AND mtr.RATEDATE < :RATE_DATE
+        ORDER BY mtr.RATEDATE DESC
+            INTO :V_RATE_SRC;
+
+        SELECT FIRST 1 mtr.RATE
+        FROM MONEYTYPERATE mtr
+        WHERE mtr.BUYMONEYTYPE = :V_RUB_ID
+            AND mtr.SELLMONEYTYPE = :V_DEST_ID
+            AND mtr.RATEDATE < :RATE_DATE
+        ORDER BY mtr.RATEDATE DESC
+            INTO :V_RATE_DEST;
+
+        IF (:V_RATE_SRC IS NOT NULL AND :V_RATE_DEST IS NOT NULL AND :V_RATE_DEST <> 0) THEN
+            RATE = ROUND(:V_RATE_SRC / :V_RATE_DEST, 15);
+        END
+
+    SUSPEND;
+    END ^
+
