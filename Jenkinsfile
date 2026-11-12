@@ -2,6 +2,14 @@ pipeline {
 
     agent any
 
+    parameters {
+        booleanParam(
+            name: 'SKIP_DEPENDENCY_CHECK',
+            defaultValue: false,
+            description: 'Check this box to skip the OWASP Dependency-Check stage'
+        )
+    }
+
     environment {
         REMOTE_HOST = "192.168.1.118"
         REMOTE_USER = "anton"
@@ -53,41 +61,43 @@ pipeline {
             steps {
               sh './gradlew clean build'
             }
-
         }
 
         stage('Dependency-Check') {
-              steps {
-                  script {
-                      try {
-                          dependencyCheck(
-                              additionalArguments: '''
-                                  -s "./"
-                                  -o "./dependency-check-reports"
-                                  -f "ALL"
-                                  --prettyPrint
-                                  -P "depcheck.properties"
-                                  --suppression "dependency-check-suppressions.xml"
-                                  --disableOssIndex
-                                  --exclude "./coverage"
-                              ''',
-                              nvdCredentialsId: 'NVD_API_Key',
-                              odcInstallation: 'Dependency Checker'
-                          )
-                      } catch (Exception e) {
-                          echo "Dependency-Check failed: ${e.getMessage()}"
-                      }
+            when {
+                expression { return !params.SKIP_DEPENDENCY_CHECK }
+            }
+            steps {
+                script {
+                    try {
+                        dependencyCheck(
+                            additionalArguments: '''
+                                -s "./"
+                                -o "./dependency-check-reports"
+                                -f "ALL"
+                                --prettyPrint
+                                -P "depcheck.properties"
+                                --suppression "dependency-check-suppressions.xml"
+                                --disableOssIndex
+                                --exclude "./coverage"
+                            ''',
+                            nvdCredentialsId: 'NVD_API_Key',
+                            odcInstallation: 'Dependency Checker'
+                        )
+                    } catch (Exception e) {
+                        echo "Dependency-Check failed: ${e.getMessage()}"
+                    }
 
-                      if (fileExists('dependency-check-reports/dependency-check-report.xml')) {
-                          dependencyCheckPublisher(
-                              pattern: 'dependency-check-reports/dependency-check-report.xml'
-                          )
-                      } else {
-                          echo 'Dependency-Check report not generated, skipping publisher'
-                      }
-                  }
-              }
-          }
+                    if (fileExists('dependency-check-reports/dependency-check-report.xml')) {
+                        dependencyCheckPublisher(
+                            pattern: 'dependency-check-reports/dependency-check-report.xml'
+                        )
+                    } else {
+                        echo 'Dependency-Check report not generated, skipping publisher'
+                    }
+                }
+            }
+        }
 
         stage('Publish tests') {
             steps {
@@ -162,7 +172,6 @@ pipeline {
             }
           }
         }
-
 
     }
 
