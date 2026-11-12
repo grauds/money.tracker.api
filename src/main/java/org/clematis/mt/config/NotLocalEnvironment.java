@@ -8,7 +8,6 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
  * Condition to exclude configurations from profiles
- * @author Anton Troshin
  */
 public class NotLocalEnvironment implements Condition {
 

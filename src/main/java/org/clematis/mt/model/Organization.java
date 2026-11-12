@@ -41,7 +41,6 @@ import lombok.Setter;
  * );
  * {code}
  *
- * @author Anton Troshin
  */
 @Entity
 @Table(name = "ORGANIZATION")

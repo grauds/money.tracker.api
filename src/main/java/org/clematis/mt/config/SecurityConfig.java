@@ -34,7 +34,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
- * @author  Anton Troshin
+ * Security configuration for production (OAuth2 JWT authentication).
  */
 @Configuration
 @EnableWebSecurity

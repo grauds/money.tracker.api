@@ -9,12 +9,20 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+
+/**
+ * Provides CORS configuration source for Spring Web MVC.
+ */
 @Configuration
 public class SpringWebCorsConfig {
 
     public static final String ALL_REGEXP = "/**";
     public static final String ORIGINS = "*";
 
+    /**
+     * Returns the CORS configuration source bean.
+     * @return CORS configuration source
+     */
     @Bean(name = "corsConfigurationSource")
     public CorsConfigurationSource corsConfigurationSource() {
 

@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Anton Troshin
+ * DTO representing a date range with start and end dates.
  */
 @Getter
 @Setter

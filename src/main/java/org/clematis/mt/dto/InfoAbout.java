@@ -4,7 +4,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Data;
 
 /**
- * @author Anton Troshin
+ * DTO containing application-wide statistics and information.
  */
 @Data
 @SuppressFBWarnings

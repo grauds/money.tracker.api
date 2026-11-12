@@ -16,8 +16,15 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for OperationEntry endpoints.
+ */
 public class OperationEntryTests extends HateoasApiTests {
 
+    /**
+     * Verifies sorting of operation entries via the REST API.
+     */
     @Test
     public void testSorting() {
 

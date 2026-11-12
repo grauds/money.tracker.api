@@ -10,6 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
+/**
+ * REST controller for currency statistics endpoints.
+ * Provides methods for retrieving income and expense totals and breakdowns by currency.
+ */
 @RepositoryRestController
 public class StatsCurrencyController {
 
@@ -24,11 +29,23 @@ public class StatsCurrencyController {
         this.expenseRepository = expenseRepository;
     }
 
+    /**
+     * Retrieves the total income amount converted to the specified currency.
+     *
+     * @param code target currency code for conversion
+     * @return response containing the total income in the specified currency
+     */
     @GetMapping("/income/search/total")
     public ResponseEntity<Double> getIncomeTotal(@RequestParam("code") String code) {
         return ResponseEntity.ok(incomeRepository.sumTotalInCurrency(code));
     }
 
+    /**
+     * Retrieves income breakdown by each currency, converted to the target currency.
+     *
+     * @param code target currency code for conversion
+     * @return response containing income shares per currency
+     */
     @GetMapping("/income/search/totalByCurrency")
     public ResponseEntity<List<MoneyShareInCurrency>> getIncomeByCurrency(
         @RequestParam("code") String code
@@ -36,11 +53,23 @@ public class StatsCurrencyController {
         return ResponseEntity.ok(incomeRepository.getIncomeByCurrency(code));
     }
 
+    /**
+     * Retrieves the total expense amount converted to the specified currency.
+     *
+     * @param code target currency code for conversion
+     * @return response containing the total expenses in the specified currency
+     */
     @GetMapping("/expenses/search/total")
     public ResponseEntity<Double> getExpenseTotal(@RequestParam("code") String code) {
         return ResponseEntity.ok(expenseRepository.sumTotalInCurrency(code));
     }
 
+    /**
+     * Retrieves expense breakdown by each currency, converted to the target currency.
+     *
+     * @param code target currency code for conversion
+     * @return response containing expense shares per currency
+     */
     @GetMapping("/expenses/search/totalByCurrency")
     public ResponseEntity<List<MoneyShareInCurrency>> getExpenseByCurrency(
         @RequestParam("code") String code

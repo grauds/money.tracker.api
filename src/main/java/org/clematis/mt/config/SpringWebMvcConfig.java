@@ -6,6 +6,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
+/**
+ * Configures CORS mappings for Spring Web MVC.
+ */
 @Configuration
 @EnableWebMvc
 public class SpringWebMvcConfig implements WebMvcConfigurer {
@@ -13,6 +17,10 @@ public class SpringWebMvcConfig implements WebMvcConfigurer {
     public static final String ALL_REGEXP = "/**";
     public static final String ORIGINS = "*";
 
+    /**
+     * Configures CORS mappings for all endpoints.
+     * @param registry cors registry
+     */
     @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public void addCorsMappings(CorsRegistry registry) {

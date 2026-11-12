@@ -1,6 +1,5 @@
 package org.clematis.mt.rest;
 
-import org.clematis.mt.model.CommodityGroup;
 import org.clematis.mt.model.Organization;
 import org.clematis.mt.model.OrganizationGroup;
 import org.junit.jupiter.api.Assertions;
@@ -16,9 +15,16 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for Organization endpoints.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrganizationTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving organizations, organization groups, and paths via the REST API with authentication.
+     */
     @Test
     public void testOrganizations() {
         HttpHeaders headers = new HttpHeaders();

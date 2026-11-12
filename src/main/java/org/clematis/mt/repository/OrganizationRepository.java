@@ -12,12 +12,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 /**
- * @author Anton Troshin
+ * Repository for Organization data access.
  */
 @RepositoryRestResource(path = "organizations")
 @SecurityRequirement(name = "bearer")
 public interface OrganizationRepository extends PagingAndSortingAndFilteringByNameRepository<Organization, Integer> {
 
+    /**
+     * Find all organizations recursively by parent group ID.
+     */
     @Query(value = """
                 SELECT * FROM (WITH recursive w1(id, parent, name) AS
                 (

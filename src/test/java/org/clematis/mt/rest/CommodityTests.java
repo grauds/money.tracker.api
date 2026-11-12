@@ -15,9 +15,16 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for Commodity endpoints.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CommodityTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving commodities, commodity groups, and paths via the REST API with authentication.
+     */
     @Test
     public void testCommodities() {
         HttpHeaders headers = new HttpHeaders();

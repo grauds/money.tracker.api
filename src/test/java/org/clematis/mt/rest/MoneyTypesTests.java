@@ -16,8 +16,15 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+
+/**
+ * REST API tests for MoneyType endpoints.
+ */
 public class MoneyTypesTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving all money types via the REST API with authentication.
+     */
     @Test
     public void testMoneyTypes() {
         HttpHeaders headers = new HttpHeaders();
@@ -34,6 +41,9 @@ public class MoneyTypesTests extends HateoasApiTests {
         Assertions.assertEquals(5, Objects.requireNonNull(exchange.getBody()).getContent().size());
     }
 
+    /**
+     * Verifies finding a money type by its code via the REST API.
+     */
     @Test
     public void testFindByCode() {
 

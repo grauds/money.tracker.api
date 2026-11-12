@@ -18,10 +18,17 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for MonthlyDelta endpoints.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MonthlyDeltaTests extends HateoasApiTests {
 
 
+    /**
+     * Verifies retrieving monthly deltas via the REST API with authentication.
+     */
     @Test
     public void testAccountsTotals() {
         HttpHeaders headers = new HttpHeaders();
@@ -34,6 +41,9 @@ public class MonthlyDeltaTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, monthlyDeltas.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving the balance for a specific month and year.
+     */
     @Test
     public void testBalances() {
         HttpHeaders headers = new HttpHeaders();
@@ -56,6 +66,9 @@ public class MonthlyDeltaTests extends HateoasApiTests {
 
     // http://192.168.1.2:18081/api/monthlyDeltas/search/balance?an=1997&mois=3&code=RUB
 
+    /**
+     * Verifies retrieving the balance for an edge case month.
+     */
     @Test
     public void testEdgeCaseBalances() {
         HttpHeaders headers = new HttpHeaders();
@@ -74,6 +87,9 @@ public class MonthlyDeltaTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, balance.getStatusCode());
     }
 
+    /**
+     * Verifies sorting of monthly deltas via the REST API.
+     */
     @Test
     public void testSorting() {
 

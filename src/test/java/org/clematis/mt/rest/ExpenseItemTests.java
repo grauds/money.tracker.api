@@ -16,8 +16,15 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for ExpenseItem endpoints.
+ */
 public class ExpenseItemTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving expense items via the REST API with authentication and pagination.
+     */
     @Test
     public void testExpenseItems() {
 
@@ -41,6 +48,9 @@ public class ExpenseItemTests extends HateoasApiTests {
 
     }
 
+    /**
+     * Verifies retrieving expense items filtered by commodity ID.
+     */
     @Test
     public void testCommodityExpenseItems() {
 
@@ -77,6 +87,9 @@ public class ExpenseItemTests extends HateoasApiTests {
         Assertions.assertEquals(345, count.getBody());
     }*/
 
+    /**
+     * Verifies retrieving the commodity expense total via the REST API.
+     */
     @Test
     public void testCommodityTotalSum() {
 
@@ -94,6 +107,9 @@ public class ExpenseItemTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, sum.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving the commodity quantity total via the REST API.
+     */
     @Test
     public void testCommodityTotalQty() {
 
@@ -112,6 +128,9 @@ public class ExpenseItemTests extends HateoasApiTests {
     }
 
 
+    /**
+     * Verifies retrieving the commodity group expense total via the REST API.
+     */
     @Test
     public void testCommodityGroupTotalSum() {
 
@@ -129,6 +148,9 @@ public class ExpenseItemTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, sum.getStatusCode());
     }
 
+    /**
+     * Verifies handling of invalid date ranges for agent/commodity group expenses.
+     */
     @Test
     public void testAgentCommodityGroupTotalSumInvalidDates() {
 

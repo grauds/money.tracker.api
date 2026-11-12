@@ -9,7 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
- * @author  Anton Troshin
+ * Security configuration for local development (no authentication).
  */
 @Configuration
 @EnableWebSecurity
@@ -24,6 +24,12 @@ public class NoSecurityConfig {
         this.corsConfigurationSource = corsConfigurationSource;
     }
 
+    /**
+     * Creates the security filter chain permitting all requests.
+     * @param http http security
+     * @return security filter chain
+     * @throws Exception if configuration fails
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http

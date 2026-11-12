@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author Anton Troshin
+ * Composite key for MonthlyDelta entity.
  */
 @Embeddable
 @Data

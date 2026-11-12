@@ -6,11 +6,14 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for MoneyType data access.
  */
 @RepositoryRestResource(path = "moneyTypes")
 public interface MoneyTypeRepository extends PagingAndSortingAndFilteringByNameRepository<MoneyType, Integer> {
 
+    /**
+     * Find a MoneyType by its currency code.
+     */
     @RestResource(path = "findByCode")
     MoneyType findMoneyTypeByCode(@Param("code") String code);
 }

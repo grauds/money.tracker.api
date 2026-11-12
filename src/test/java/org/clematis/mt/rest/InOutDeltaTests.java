@@ -17,9 +17,16 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for InOutDelta endpoints.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class InOutDeltaTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving in/out deltas via the REST API with authentication.
+     */
     @Test
     public void testInOutDeltas() {
         HttpHeaders headers = new HttpHeaders();
@@ -32,6 +39,9 @@ public class InOutDeltaTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, inOutDeltas.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving in/out deltas filtered by currency code.
+     */
     @Test
     public void testDeltasInCode() {
         HttpHeaders headers = new HttpHeaders();

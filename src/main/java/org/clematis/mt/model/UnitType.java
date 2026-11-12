@@ -8,8 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
- * @author Anton Troshin
+ * Entity representing a unit of measurement type.
  */
 @Entity
 @Table(name = "UNITTYPE")

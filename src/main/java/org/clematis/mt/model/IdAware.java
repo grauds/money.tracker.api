@@ -10,7 +10,6 @@ import lombok.Setter;
 /**
  * Base class for entities with identifier and version
  *
- * @author Anton Troshin
  */
 @Getter
 @Setter

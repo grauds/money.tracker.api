@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 /**
- * @author Anton Troshin
+ * Entity representing monthly financial delta (income minus expenses).
  */
 @Entity
 @Table(name = "MONTHLY_DELTA")

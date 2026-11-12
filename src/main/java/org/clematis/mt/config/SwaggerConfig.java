@@ -14,8 +14,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 
 /**
- *
- * @author Anton Troshin
+ * Swagger/OpenAPI configuration for API documentation.
  */
 @Configuration
 @ComponentScan(
@@ -35,11 +34,19 @@ public class SwaggerConfig {
         this.buildProperties = buildProperties;
     }
 
+    /**
+     * Creates the OpenAPI specification.
+     * @return OpenAPI instance
+     */
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI().info(getInfo());
     }
 
+    /**
+     * Returns API information from build properties.
+     * @return Info instance
+     */
     public Info getInfo() {
         return new Info().title("Clematis Money Tracker API")
             .summary("Hateoas Restful API for Dominsoft Money Tracker DB")
@@ -47,6 +54,10 @@ public class SwaggerConfig {
             .version(buildProperties.getVersion());
     }
 
+    /**
+     * Creates the Accounts API group definition.
+     * @return GroupedOpenApi for accounts
+     */
     @Bean
     public GroupedOpenApi accountsApi() {
         return GroupedOpenApi.builder()
@@ -60,6 +71,10 @@ public class SwaggerConfig {
             .build();
     }
 
+    /**
+     * Creates the Commodities API group definition.
+     * @return GroupedOpenApi for commodities
+     */
     @Bean
     public GroupedOpenApi commoditiesApi() {
         return GroupedOpenApi.builder()
@@ -73,6 +88,10 @@ public class SwaggerConfig {
             .build();
     }
 
+    /**
+     * Creates the Expenses API group definition.
+     * @return GroupedOpenApi for expenses
+     */
     @Bean
     public GroupedOpenApi expensesApi() {
         return GroupedOpenApi.builder()
@@ -86,6 +105,10 @@ public class SwaggerConfig {
             .build();
     }
 
+    /**
+     * Creates the Income API group definition.
+     * @return GroupedOpenApi for income
+     */
     @Bean
     public GroupedOpenApi incomeApi() {
         return GroupedOpenApi.builder()
@@ -99,6 +122,10 @@ public class SwaggerConfig {
             .build();
     }
 
+    /**
+     * Creates the Money Types API group definition.
+     * @return GroupedOpenApi for money types
+     */
     @Bean
     public GroupedOpenApi moneytypesApi() {
         return GroupedOpenApi.builder()
@@ -112,6 +139,10 @@ public class SwaggerConfig {
             .build();
     }
 
+    /**
+     * Creates the Operations API group definition.
+     * @return GroupedOpenApi for operations
+     */
     @Bean
     public GroupedOpenApi operationsApi() {
         return GroupedOpenApi.builder()
@@ -125,6 +156,10 @@ public class SwaggerConfig {
             .build();
     }
 
+    /**
+     * Creates the Money Exchange API group definition.
+     * @return GroupedOpenApi for money exchange
+     */
     @Bean
     public GroupedOpenApi exchangeApi() {
         return GroupedOpenApi.builder()
@@ -138,6 +173,10 @@ public class SwaggerConfig {
             .build();
     }
 
+    /**
+     * Creates the Organizations API group definition.
+     * @return GroupedOpenApi for organizations
+     */
     @Bean
     public GroupedOpenApi organizationsApi() {
         return GroupedOpenApi.builder()
@@ -151,6 +190,11 @@ public class SwaggerConfig {
             .build();
     }
 
+    /**
+     * Creates the Actuator API group definition.
+     * @param endpointProperties web endpoint properties
+     * @return GroupedOpenApi for actuator
+     */
     @Bean
     public GroupedOpenApi actuatorApi(WebEndpointProperties endpointProperties) {
         return GroupedOpenApi.builder()

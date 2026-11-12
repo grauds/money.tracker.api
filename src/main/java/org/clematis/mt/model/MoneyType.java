@@ -11,7 +11,7 @@ import lombok.Setter;
 
 /**
  * For the table
- *
+ * <p>
  * {code}
  * create table MONEYTYPE
  * (
@@ -28,7 +28,6 @@ import lombok.Setter;
  * );
  * {code}
  *
- * @author Anton Troshin
  */
 @Entity
 @Getter

@@ -11,9 +11,22 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+
+/**
+ * Repository for in/out delta data access with Firebird database queries.
+ * Provides methods for retrieving balance deltas between income and expenses by commodity.
+ */
 @RepositoryRestResource(path = "inOutDeltas", excerptProjection = InOutDeltaEntry.class)
 public interface InOutDeltaRepository extends PagingAndSortingRepository<InOutDelta, InOutDeltaKey> {
 
+    /**
+     * Retrieves balance deltas between income and expenses for commodities, converted to the specified currency.
+     * Results are ordered by delta in descending order.
+     *
+     * @param code target currency code for conversion
+     * @param pageable pagination information
+     * @return page of in/out deltas converted to the target currency
+     */
     @Query(value = """
         SELECT COMM_ID, SUM(ETOTAL) AS ETOTAL, SUM(ITOTAL) AS ITOTAL,
                ROUND(SUM(DELTA), 2) AS DELTA,

@@ -16,9 +16,17 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+
+/**
+ * REST API tests for CommodityGroup endpoints.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CommodityGroupTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving commodity groups with recursive commodities by parent ID.
+     * Note: This test expects a 500 error due to a known Spring Data REST issue.
+     */
     @Test
     public void testCommodityGroups() {
         HttpHeaders headers = new HttpHeaders();

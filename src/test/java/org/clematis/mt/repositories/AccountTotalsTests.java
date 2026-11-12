@@ -9,19 +9,26 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 /**
- * @author Anton Troshin
+ * Repository tests for AccountTotal data access.
  */
 public class AccountTotalsTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
     private AccountTotalRepository accountTotalRepository;
 
+    /**
+     * Verifies the total count of account totals in the database.
+     */
     @Test
     public void countAccounts() {
         Assertions.assertEquals(17, accountTotalRepository.count());
     }
 
+    /**
+     * Verifies the account totals are retrieved correctly with expected names.
+     */
     @Test
     public void getBalances() {
         List<AccountTotal> totals = accountTotalRepository.findAll();
@@ -47,6 +54,9 @@ public class AccountTotalsTests extends ClematisMoneyTrackerApplicationTests {
 
     }
 
+    /**
+     * Verifies account totals are retrieved and converted to the specified currency.
+     */
     @Test
     public void getBalancesInCode() {
         List<AccountTotal> totals = accountTotalRepository.getAccountTotals("RUB");
@@ -71,11 +81,17 @@ public class AccountTotalsTests extends ClematisMoneyTrackerApplicationTests {
         Assertions.assertEquals(289019.27, totals.get(16).getBalance());
     }
 
+    /**
+     * Verifies the total balance is correctly calculated in the specified currency.
+     */
     @Test
     public void getTotalBalanceInCode() {
         Assertions.assertEquals(586635, accountTotalRepository.getBalanceForCurrency("RUB"));
     }
 
+    /**
+     * Verifies the historical balance is correctly calculated for a specified number of days ago.
+     */
     @Test
     public void getTotalBalanceInCodeDaysAgo() {
         Assertions.assertEquals(586635, accountTotalRepository.getBalanceForCurrency("RUB", 7));

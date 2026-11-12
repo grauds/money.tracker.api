@@ -12,12 +12,15 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for CommodityGroup data access.
  */
 @RepositoryRestResource(path = "commodityGroups")
 public interface CommodityGroupRepository
         extends PagingAndSortingAndFilteringByNameRepository<CommodityGroup, Integer> {
 
+    /**
+     * Find all child CommodityGroups recursively by parent ID.
+     */
     @Query(
         value = """
             SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS
@@ -44,6 +47,9 @@ public interface CommodityGroupRepository
     @RestResource(path = "recursiveByParentId")
     Page<CommodityGroup> findRecursiveByParentId(@Param("id") Integer id, Pageable pageable);
 
+    /**
+     * Find all children (groups and commodities) recursively by parent ID.
+     */
     @Query(
         value = """
             SELECT * FROM (WITH RECURSIVE w1(id, type, parent, name) AS
@@ -79,6 +85,9 @@ public interface CommodityGroupRepository
     @RestResource(path = "recursiveWithCommoditiesByParentId")
     Page<NamedEntityLink> getCommodityGroupChildren(@Param("id") Integer id, Pageable pageable);
 
+    /**
+     * Find the path of CommodityGroups from root to the given ID.
+     */
     @Query(
             value = """
                 SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS

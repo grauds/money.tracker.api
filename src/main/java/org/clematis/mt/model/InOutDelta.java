@@ -13,8 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 /**
- *
- * @author Anton Troshin
+ * Entity representing delta between income and expenses for a commodity and money type.
  */
 @Entity
 @Table(name = "IN_OUT_DELTA")

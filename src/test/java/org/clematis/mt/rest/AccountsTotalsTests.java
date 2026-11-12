@@ -17,9 +17,16 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for AccountTotals endpoints.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AccountsTotalsTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving account totals via the REST API with authentication.
+     */
     @Test
     public void testAccountsTotals() {
         HttpHeaders headers = new HttpHeaders();
@@ -34,6 +41,9 @@ public class AccountsTotalsTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, accountsTotals.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving account totals filtered by currency code.
+     */
     @Test
     public void testTotalsBalanceInCode() {
         HttpHeaders headers = new HttpHeaders();
@@ -52,6 +62,9 @@ public class AccountsTotalsTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, accountsTotals.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving the total balance for a specific currency.
+     */
     @Test
     public void testBalanceInCode() {
         HttpHeaders headers = new HttpHeaders();
@@ -70,6 +83,9 @@ public class AccountsTotalsTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, total.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving the historical balance for a specific currency and number of days.
+     */
     @Test
     public void testBalanceHistoryInCode() {
         HttpHeaders headers = new HttpHeaders();

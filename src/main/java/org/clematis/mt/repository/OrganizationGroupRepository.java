@@ -11,12 +11,15 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for OrganizationGroup data access.
  */
 @RepositoryRestResource(path = "organizationGroups")
 public interface OrganizationGroupRepository
         extends PagingAndSortingAndFilteringByNameRepository<OrganizationGroup, Integer> {
 
+    /**
+     * Find all child OrganizationGroups recursively by parent ID.
+     */
     @Query(
             value = """
                 SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS
@@ -43,6 +46,9 @@ public interface OrganizationGroupRepository
     @RestResource(path = "recursiveByParentId")
     Page<OrganizationGroup> findRecursiveByParentId(@Param("id") Integer id, Pageable pageable);
 
+    /**
+     * Find the path of OrganizationGroups from root to the given ID.
+     */
     @Query(
             value = """
                 WITH RECURSIVE w1(id, parent, name) AS

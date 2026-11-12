@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 /**
  * For the table
- *
+ * <p>
  * {code}
  * create table ORGANIZATIONGROUP
  * (
@@ -31,8 +31,6 @@ import lombok.Setter;
  * 		unique (NAME_MIR, PARENT)
  * );
  * {code}
- *
- * @author Anton Troshin
  */
 @Entity
 @Table(name = "ORGANIZATIONGROUP")

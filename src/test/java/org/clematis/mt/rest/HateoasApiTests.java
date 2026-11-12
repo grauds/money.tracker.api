@@ -15,6 +15,11 @@ import static com.tngtech.keycloakmock.api.ServerConfig.aServerConfig;
 
 import com.tngtech.keycloakmock.junit5.KeycloakMockExtension;
 
+
+/**
+ * Abstract base class for HATEOAS REST API tests.
+ * Provides a shared Keycloak mock and configured RestTemplate with HAL message converter.
+ */
 abstract class HateoasApiTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -29,6 +34,11 @@ abstract class HateoasApiTests extends ClematisMoneyTrackerApplicationTests {
     @Qualifier("halJacksonHttpMessageConverter")
     private TypeConstrainedMappingJackson2HttpMessageConverter halJacksonHttpMessageConverter;
 
+    /**
+     * Returns a RestTemplate configured with the HAL message converter.
+     *
+     * @return RestTemplate with HAL support
+     */
     public TestRestTemplate getRestTemplateWithHalMessageConverter() {
         List<HttpMessageConverter<?>> existingConverters = testRestTemplate.getRestTemplate().getMessageConverters();
         List<HttpMessageConverter<?>> newConverters = new ArrayList<>();

@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 /**
  * For the table
- *
+ * <p>
  * {code}
  * create table COMMGROUP
  * (
@@ -33,7 +33,6 @@ import lombok.Setter;
  * );
  * {code}
  *
- * @author Anton Troshin
  */
 @Entity
 @Getter

@@ -17,7 +17,7 @@ import lombok.Setter;
 
 /**
  * For the table
- *
+ * <p>
  * {code}
  * create table EXPENSE
  * (
@@ -58,16 +58,15 @@ import lombok.Setter;
  * 	TOTAL DOUBLE PRECISION(15),
  * 	REMARKS VARCHAR(512)
  * );
- *
+ * <p>
  * create unique index RDB$PRIMARY19
  * 	on EXPENSE (ID);
- *
+ * <p>
  * alter table EXPENSE
  * 	add constraint INTEG_111
  * 		primary key (ID);
  * {code}
  *
- * @author Anton Troshin
  */
 @Entity
 @Getter

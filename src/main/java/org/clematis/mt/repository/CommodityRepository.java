@@ -9,10 +9,13 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for Commodity data access.
  */
 @RepositoryRestResource(path = "commodities")
 public interface CommodityRepository extends PagingAndSortingAndFilteringByNameRepository<Commodity, Integer> {
+    /**
+     * Find all commodities recursively by parent group ID.
+     */
     @Query(
         value = """
             SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS

@@ -13,11 +13,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+
+/**
+ * Repository tests for ExpenseItem data access.
+ */
 public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
     private ExpenseItemRepository expenseItemRepository;
 
+    /**
+     * Verifies the total count of expense items.
+     */
     @Test
     public void testExpenses() {
         Iterable<ExpenseItem> result
@@ -25,6 +32,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(2291, result.spliterator().estimateSize());
     }
 
+    /**
+     * Verifies sorting of expense items by commodity ID and transfer date.
+     */
     @Test
     public void testSorting() {
         Page<ExpenseItem> result = expenseItemRepository
@@ -33,6 +43,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(323, result.getTotalElements());
     }
 
+    /**
+     * Verifies sorting of expense items by commodity name.
+     */
     @Test
     public void testNameSorting() {
         Page<ExpenseItem> result = expenseItemRepository
@@ -41,6 +54,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(323, result.getTotalElements());
     }
 
+    /**
+     * Verifies filtering expense items by commodity ID.
+     */
     @Test
     public void testCommodityExpenses() {
         Page<ExpenseItem> result = expenseItemRepository
@@ -48,6 +64,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(323, result.getTotalElements());
     }
 
+    /**
+     * Verifies the daily expense total is correctly calculated.
+     */
     @Test
     public void testDayTotalSum() {
         Double result = expenseItemRepository.sumDailyExpenses(
@@ -56,6 +75,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(335.0, result);
     }
 
+    /**
+     * Verifies the commodity expense total is correctly calculated.
+     */
     @Test
     public void testCommodityTotalSum() {
         Double result = expenseItemRepository.sumCommodityExpenses(258, String.valueOf(MoneyTypeCode.RUB));
@@ -63,6 +85,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
     }
 
 
+    /**
+     * Verifies the commodity group expense total is correctly calculated.
+     */
     @Test
     public void testCommodityGroupTotalSum() {
         Long result = expenseItemRepository.sumCommodityGroupExpenses(287,
@@ -70,6 +95,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(16254, result);
     }
 
+    /**
+     * Verifies the organization group expense total is correctly calculated.
+     */
     @Test
     public void testOrganizationGroupTotalSum() {
         Long result = expenseItemRepository.sumOrganizationGroupExpenses(264,
@@ -77,12 +105,18 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(15561, result);
     }
 
+    /**
+     * Verifies the commodity quantity total is correctly calculated.
+     */
     @Test
     public void testCommodityTotalQty() {
         Long result = expenseItemRepository.sumCommodityQuantity(258);
         Assertions.assertEquals(729, result);
     }
 
+    /**
+     * Verifies filtering expense items by tradeplace (organization) ID and summing expenses.
+     */
     @Test
     public void testOrganizationExpenses() {
         Page<ExpenseItem> result = expenseItemRepository
@@ -96,6 +130,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(result.get().mapToDouble(ExpenseItem::getTotal).sum(), sum);
     }
 
+    /**
+     * Verifies filtering expense items by account ID and summing expenses with currency conversion.
+     */
     @Test
     public void testAccountIncome() {
         Page<ExpenseItem> result = expenseItemRepository
@@ -118,6 +155,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         );
     }
 
+    /**
+     * Verifies the organization expense total is correctly calculated.
+     */
     @Test
     public void testOrganizationTotalSum() {
         Double result = expenseItemRepository.sumOrganizationExpenses(316,
@@ -125,24 +165,36 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(661, result);
     }
 
+    /**
+     * Verifies counting expense items with a tradeplace (organization) assigned.
+     */
     @Test
     public void testCountItemsWithTradeplace() {
         Long result = expenseItemRepository.countItemsWithTradeplace();
         Assertions.assertEquals(2291, result);
     }
 
+    /**
+     * Verifies counting expense items with no tradeplace (organization) assigned.
+     */
     @Test
     public void testCountItemsWithNoTradeplace() {
         Long result = expenseItemRepository.countItemsWithNoTradeplace();
         Assertions.assertEquals(0, result);
     }
 
+    /**
+     * Verifies counting expense items with no commodity assigned.
+     */
     @Test
     public void testCountItemsWithNoCommodity() {
         Long result = expenseItemRepository.countItemsWithNoCommodity();
         Assertions.assertEquals(0, result);
     }
 
+    /**
+     * Verifies the account expense total is correctly calculated.
+     */
     @Test
     public void testAccountTotalSum() {
         Double result = expenseItemRepository.sumAccountExpenses(257,
@@ -150,6 +202,9 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
         Assertions.assertEquals(1026166.159995079, result);
     }
 
+    /**
+     * Verifies the account group expense total is correctly calculated.
+     */
     @Test
     public void testAccountGroupTotalSum() {
         Long result = expenseItemRepository.sumAccountGroupExpenses(257,

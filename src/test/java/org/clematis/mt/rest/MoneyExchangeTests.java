@@ -16,8 +16,15 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for MoneyExchange endpoints.
+ */
 public class MoneyExchangeTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving the average exchange rate via the REST API.
+     */
     @Test
     public void testAverageExhangeRate() {
         HttpHeaders headers = new HttpHeaders();
@@ -36,6 +43,9 @@ public class MoneyExchangeTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, exchange.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving all money exchange records via the REST API.
+     */
     @Test
     public void testAllFields() {
         HttpHeaders headers = new HttpHeaders();
@@ -50,6 +60,9 @@ public class MoneyExchangeTests extends HateoasApiTests {
 
     }
 
+    /**
+     * Verifies retrieving the money exchange report via the REST API.
+     */
     @Test
     public void testExchangeReport() {
         HttpHeaders headers = new HttpHeaders();

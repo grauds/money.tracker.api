@@ -18,6 +18,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+
+/**
+ * Repository tests for IncomeItem data access.
+ */
 public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -26,6 +30,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
     @Autowired
     private IncomeMonthlyRepository incomeMonthlyRepository;
 
+    /**
+     * Verifies the total count of income items.
+     */
     @Test
     public void testIncome() {
         Iterable<IncomeItem> result
@@ -33,6 +40,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(721, result.spliterator().estimateSize());
     }
 
+    /**
+     * Verifies sorting of income items by commodity ID and transfer date.
+     */
     @Test
     public void testSorting() {
         Page<IncomeItem> result = incomeItemRepository
@@ -41,6 +51,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(576, result.getTotalElements());
     }
 
+    /**
+     * Verifies sorting of income items by commodity name.
+     */
     @Test
     public void testNameSorting() {
         Page<IncomeItem> result = incomeItemRepository
@@ -49,6 +62,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(576, result.getTotalElements());
     }
 
+    /**
+     * Verifies filtering income items by commodity ID.
+     */
     @Test
     public void testCommodityIncome() {
         Page<IncomeItem> result = incomeItemRepository
@@ -56,6 +72,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(576, result.getTotalElements());
     }
 
+    /**
+     * Verifies the daily income total is correctly calculated.
+     */
     @Test
     public void testDayTotalSum() {
         Double result = incomeItemRepository.sumDailyIncome(
@@ -64,18 +83,27 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(2100.0, result);
     }
 
+    /**
+     * Verifies the commodity income total is correctly calculated.
+     */
     @Test
     public void testCommodityTotalSum() {
         Double result = incomeItemRepository.sumCommodityIncome(654, String.valueOf(MoneyTypeCode.RUB));
         Assertions.assertEquals(246436.4580530461, result);
     }
 
+    /**
+     * Verifies the commodity quantity total is correctly calculated.
+     */
     @Test
     public void testCommodityTotalQty() {
         Long result = incomeItemRepository.sumCommodityQuantity(654);
         Assertions.assertEquals(576, result);
     }
 
+    /**
+     * Verifies the commodity group income total is correctly calculated.
+     */
     @Test
     public void testCommodityGroupTotalSum() {
         Long result = incomeItemRepository.sumCommodityGroupIncome(278,
@@ -83,6 +111,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(246436, result);
     }
 
+    /**
+     * Verifies the organization group income total is correctly calculated.
+     */
     @Test
     public void testOrganizationGroupTotalSum() {
         Long result = incomeItemRepository.sumOrganizationGroupIncome(268,
@@ -90,6 +121,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(769069, result);
     }
 
+    /**
+     * Verifies filtering income items by account ID and summing income with currency conversion.
+     */
     @Test
     public void testAccountIncome() {
         Page<IncomeItem> result = incomeItemRepository
@@ -112,12 +146,18 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         );
     }
 
+    /**
+     * Verifies the account income total is correctly calculated.
+     */
     @Test
     public void testAccountTotalSum() {
         Double result = incomeItemRepository.sumAccountIncome(257, String.valueOf(MoneyTypeCode.RUB));
         Assertions.assertEquals(398795.0, result);
     }
 
+    /**
+     * Verifies the account group income total is correctly calculated.
+     */
     @Test
     public void testAccountGroupTotalSum() {
         Long result = incomeItemRepository.sumAccountGroupIncome(257,
@@ -125,6 +165,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(433107, result);
     }
 
+    /**
+     * Verifies filtering income items by tradeplace (organization) ID and summing income.
+     */
     @Test
     public void testOrganizationIncome() {
         Page<IncomeItem> result = incomeItemRepository
@@ -143,6 +186,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         );
     }
 
+    /**
+     * Verifies the organization income total is correctly calculated.
+     */
     @Test
     public void testOrganizationTotalSum() {
         Double result = incomeItemRepository.sumOrganizationIncome(289,
@@ -150,6 +196,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(271886.4580530461, result);
     }
 
+    /**
+     * Verifies the monthly income reports are correctly generated.
+     */
     @Test
     public void testIncomeReports() {
         Page<IncomeMonthlyReport> reports
@@ -164,6 +213,9 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
         Assertions.assertEquals(9.19, reports.getContent().get(0).getTotal());
     }
 
+    /**
+     * Verifies the income reports from IncomeMonthlyRepository.
+     */
     @Test
     public void testIncomeReportsTwo() {
         List<IncomeMonthly> reports

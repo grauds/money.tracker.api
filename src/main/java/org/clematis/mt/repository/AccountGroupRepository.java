@@ -11,10 +11,13 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for AccountGroup data access.
  */
 @RepositoryRestResource(path = "accountGroups")
 public interface AccountGroupRepository extends PagingAndSortingAndFilteringByNameRepository<AccountGroup, Integer> {
+    /**
+     * Find all child AccountGroups recursively by parent ID.
+     */
     @Query(
         value = """
             SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS
@@ -41,6 +44,9 @@ public interface AccountGroupRepository extends PagingAndSortingAndFilteringByNa
     @RestResource(path = "recursiveByParentId")
     Page<AccountGroup> findRecursiveByParentId(@Param("id") Integer id, Pageable pageable);
 
+    /**
+     * Find the path of AccountGroups from root to the given ID.
+     */
     @Query(
         value = """
                 SELECT * FROM (WITH RECURSIVE w1(id, parent, name) AS

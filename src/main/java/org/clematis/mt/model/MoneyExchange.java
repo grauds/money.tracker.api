@@ -15,7 +15,6 @@ import lombok.Setter;
 
 /**
  * Money exchange event
- * @author Anton Troshin
  */
 @Entity
 @Getter

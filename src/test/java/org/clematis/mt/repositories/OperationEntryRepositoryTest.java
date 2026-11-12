@@ -10,11 +10,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+
+/**
+ * Repository tests for OperationEntry data access.
+ */
 public class OperationEntryRepositoryTest extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
     private OperationEntryRepository operationEntryRepository;
 
+    /**
+     * Verifies sorting of operation entries by amount in descending and ascending order.
+     */
     @Test
     void testSorting() {
         Assertions.assertEquals(1517, operationEntryRepository

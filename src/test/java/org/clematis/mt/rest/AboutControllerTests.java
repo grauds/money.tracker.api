@@ -13,12 +13,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+
 /**
- * @author Anton Troshin
+ * REST API tests for the About controller endpoint.
  */
 public class AboutControllerTests extends HateoasApiTests {
 
 
+    /**
+     * Verifies retrieving the about info via the REST API with authentication.
+     */
     @Test
     public void testAboutInfo() {
         HttpHeaders headers = new HttpHeaders();

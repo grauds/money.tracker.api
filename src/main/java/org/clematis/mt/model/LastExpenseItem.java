@@ -16,8 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * A record about one of the expenses, for logging purposes
- * @author Anton Troshin
+ * Entity representing the last expense item recorded for a commodity.
  */
 @Table(name = "LAST_EXPENSEITEMS")
 @Entity

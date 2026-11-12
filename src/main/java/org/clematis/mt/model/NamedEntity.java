@@ -8,7 +8,6 @@ import lombok.Setter;
 /**
  * Base class for entities with a name
  *
- * @author Anton Troshin
  */
 @Getter
 @Setter

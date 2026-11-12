@@ -20,6 +20,11 @@ import org.testcontainers.utility.MountableFile;
 
 import lombok.extern.java.Log;
 
+
+/**
+ * Base integration test class with Testcontainers setup for Firebird database.
+ * Provides a shared Firebird database container for all tests.
+ */
 @Testcontainers
 @SpringBootTest(
         classes = ClematisMoneyTrackerApplication.class,
@@ -51,6 +56,11 @@ public class ClematisMoneyTrackerApplicationTests {
         registry.add("spring.datasource.username", container::getUsername);
     }
 
+    /**
+     * Verifies that the test container Firebird database is accessible.
+     *
+     * @throws Exception if the connection fails
+     */
     @Test
     public void canConnectToContainer() throws Exception {
         try (Connection connection = DriverManager

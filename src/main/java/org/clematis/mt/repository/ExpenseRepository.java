@@ -13,9 +13,25 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 
+/**
+ * Repository for expense-related data access with Firebird database queries.
+ * Provides methods for retrieving expense aggregates by agent, commodity group,
+ * date range, and currency.
+ */
 @RepositoryRestResource(path = "expenses")
 public interface ExpenseRepository extends PagingAndSortingRepository<Expense, Integer> {
 
+    /**
+     * Retrieves expense aggregates grouped by agent and commodity group within a specified date range.
+     * Expenses are converted to the target currency using historical exchange rates.
+     *
+     * @param code       target currency code for conversion
+     * @param moisStart  starting month (1-12)
+     * @param anStart    starting year
+     * @param moisEnd    ending month (1-12)
+     * @param anEnd      ending year
+     * @return list of agent/commodity group expense aggregates
+     */
     @Query(value = """
         WITH RECURSIVE CATEGORY_TREE (ID, PARENT, NAME, ANCESTOR_ID, DEPTH) AS (
             -- Base case: Root categories (Level 1)
@@ -80,6 +96,11 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
                                                       @Param(value = "moisEnd") int moisEnd,
                                                       @Param(value = "anEnd") int anEnd);
 
+    /**
+     * Retrieves the date range (earliest and latest) of recorded expenses.
+     *
+     * @return date range containing the start and end dates of expense records
+     */
     @Query(value =
         """
             SELECT new org.clematis.mt.dto.DateRange(MIN(e.transferdate)
@@ -88,6 +109,12 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
     )
     DateRange getDatesRange();
 
+    /**
+     * Calculates the total expense amount converted to the specified currency.
+     *
+     * @param code target currency code
+     * @return total expense amount in the specified currency, or 0 if no expenses exist
+     */
     @RestResource(exported = false)
     @Query(value = """
             SELECT COALESCE(SUM(TOTALCONVERTED), 0)
@@ -95,6 +122,13 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
         """, nativeQuery = true)
     Double sumTotalInCurrency(@Param("code") String code);
 
+    /**
+     * Retrieves expense breakdown by each currency, including amounts in original currency
+     * and converted to the target currency.
+     *
+     * @param code target currency code for conversion
+     * @return list of expense shares per currency with original and converted totals
+     */
     @RestResource(exported = false)
     @Query(value = """
             SELECT CODE AS code, TOTAL AS total, TOTALCONVERTED AS totalConverted

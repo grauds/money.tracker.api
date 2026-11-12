@@ -15,8 +15,15 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+
+/**
+ * REST API tests for IncomeItem endpoints.
+ */
 public class IncomeItemTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving income items via the REST API with authentication and pagination.
+     */
     @Test
     public void testIncomeItems() {
 
@@ -40,6 +47,9 @@ public class IncomeItemTests extends HateoasApiTests {
 
     }
 
+    /**
+     * Verifies retrieving income items filtered by commodity ID.
+     */
     @Test
     public void testCommodityIncomeItems() {
 
@@ -58,6 +68,9 @@ public class IncomeItemTests extends HateoasApiTests {
 
     }
 
+    /**
+     * Verifies retrieving the commodity income total via the REST API.
+     */
     @Test
     public void testCommodityTotalSum() {
 
@@ -75,6 +88,9 @@ public class IncomeItemTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, sum.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving the commodity quantity total via the REST API.
+     */
     @Test
     public void testCommodityTotalQty() {
 
@@ -92,6 +108,9 @@ public class IncomeItemTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, sum.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving the commodity group income total via the REST API.
+     */
     @Test
     public void testCommodityGroupTotalSum() {
 
@@ -109,6 +128,9 @@ public class IncomeItemTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, sum.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving income monthly report via the REST API.
+     */
     @Test
     public void testIncomeIncomeItems() {
 

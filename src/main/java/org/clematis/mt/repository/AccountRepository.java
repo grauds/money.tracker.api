@@ -11,11 +11,14 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import io.swagger.v3.oas.annotations.Operation;
 
 /**
- * @author Anton Troshin
+ * Repository for Account data access.
  */
 @RepositoryRestResource(path = "accounts")
 public interface AccountRepository extends PagingAndSortingAndFilteringByNameRepository<Account, Integer> {
 
+    /**
+     * Find all accounts recursively by parent group ID.
+     */
     @Query(value = """
                 SELECT * FROM (WITH recursive w1(id, parent, name) AS
                 (

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author Anton Troshin
+ * REST controller providing application-wide statistics.
  */
 @RestController
 public class AboutController {
@@ -39,6 +39,10 @@ public class AboutController {
         this.accountRepository = accountRepository;
     }
 
+    /**
+     * Returns application-wide statistics.
+     * @return response entity with statistics
+     */
     @GetMapping("/about")
     public ResponseEntity<InfoAbout> getInfoAbout() {
         InfoAbout infoAbout = new InfoAbout();

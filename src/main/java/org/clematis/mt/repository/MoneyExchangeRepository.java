@@ -12,11 +12,14 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for MoneyExchange data access.
  */
 @RepositoryRestResource(path = "exchange", excerptProjection = MoneyExchangeEntry.class)
 public interface MoneyExchangeRepository extends PagingAndSortingRepository<MoneyExchange, Integer> {
 
+    /**
+     * Find all money exchanges by source and destination currency codes.
+     */
     @RestResource(path = "events")
     @SuppressWarnings("checkstyle:methodname")
     Page<MoneyExchange> findAllBySourcemoneytype_CodeAndDestmoneytype_Code(@Param(value = "source") String source,
@@ -32,7 +35,9 @@ public interface MoneyExchangeRepository extends PagingAndSortingRepository<Mone
     @RestResource(path = "average")
     Double getAverageExchangeRate(@Param(value = "source") String source, @Param(value = "dest") String dest);
 
-
+    /**
+     * Get exchange rate report with delta calculation for given currencies.
+     */
     @Query(value = """
         SELECT b.*, b.SOURCEAMOUNT * (b.AVGRATE - b.CURRATE) AS DELTA FROM
         (SELECT a.*, (SELECT * FROM CROSS_RATE_2(:dest, :source)) AS CURRATE FROM

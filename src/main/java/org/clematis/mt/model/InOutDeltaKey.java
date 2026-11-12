@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author Anton Troshin
+ * Composite key for InOutDelta entity.
  */
 @Embeddable
 @Data

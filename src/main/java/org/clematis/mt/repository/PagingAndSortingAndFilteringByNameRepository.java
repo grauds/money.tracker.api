@@ -9,7 +9,6 @@ import org.springframework.data.repository.NoRepositoryBean;
  *
  * @param <T>
  * @param <ID>
- * @author Anton Troshin
  */
 @NoRepositoryBean
 public interface PagingAndSortingAndFilteringByNameRepository<T extends NamedEntity, ID>

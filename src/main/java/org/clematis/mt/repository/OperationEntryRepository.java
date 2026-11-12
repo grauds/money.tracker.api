@@ -6,7 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for OperationEntry data access.
  */
 @RepositoryRestResource(path = "operations")
 public interface OperationEntryRepository extends PagingAndSortingRepository<OperationEntry, OperationEntryKey> {

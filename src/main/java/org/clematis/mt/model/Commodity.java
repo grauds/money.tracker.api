@@ -12,7 +12,7 @@ import lombok.Setter;
 
 /**
  * For the table
- *
+ * <p>
  * {code}
  * create table COMMODITY
  * (
@@ -56,7 +56,6 @@ import lombok.Setter;
  * );
  * {code}
  *
- * @author Anton Troshin
  */
 @Entity
 @Getter

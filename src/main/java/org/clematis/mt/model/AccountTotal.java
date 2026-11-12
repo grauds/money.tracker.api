@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Anton Troshin
+ * Entity representing the last known account totals per currency.
  */
 @Table(name = "ACCOUNTS_TOTAL_LAST")
 @Entity

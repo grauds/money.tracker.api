@@ -11,11 +11,14 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for IncomeMonthly data access.
  */
 @RepositoryRestResource(path = "incomeMonthly")
 public interface IncomeMonthlyRepository extends PagingAndSortingRepository<IncomeMonthly, IncomeMonthlyKey> {
 
+    /**
+     * Get income item reports for a given currency code and date range.
+     */
     @Query(value = """
             SELECT MOIS,
                    AN,

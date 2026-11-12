@@ -5,7 +5,6 @@ import org.springframework.data.rest.core.config.Projection;
 
 /**
  * This is a link for the lists of tree node objects
- * @author Anton Troshin
  */
 @Projection(name = "TreeNodeLink", types = {TreeNode.class})
 public interface TreeNodeLink {

@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Anton Troshin
+ * Entity representing a financial operation entry in the history.
  */
 @Table(name = "ALL_OPERATIONS_HISTORY")
 @Entity

@@ -20,10 +20,17 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for Accounts endpoints.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AccountsTests extends HateoasApiTests {
 
 
+    /**
+     * Verifies retrieving accounts via the REST API with authentication.
+     */
     @Test
     public void testAccounts() {
         HttpHeaders headers = new HttpHeaders();
@@ -34,6 +41,9 @@ public class AccountsTests extends HateoasApiTests {
         Assertions.assertEquals(HttpStatus.OK, accounts.getStatusCode());
     }
 
+    /**
+     * Verifies retrieving account groups via the REST API with authentication.
+     */
     @Test
     public void testAccountGroups() {
         HttpHeaders headers = new HttpHeaders();
@@ -46,6 +56,9 @@ public class AccountsTests extends HateoasApiTests {
 
     }
 
+    /**
+     * Verifies retrieving account totals via the REST API with authentication.
+     */
     @Test
     @SuppressFBWarnings
     public void getBalances() {

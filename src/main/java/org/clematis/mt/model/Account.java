@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 /**
  * For the table
- *
+ * <p>
  * {code}
  * create table ACCOUNT
  * (
@@ -57,7 +57,6 @@ import lombok.Setter;
  * );
  * {code}
  *
- * @author Anton Troshin
  */
 @Entity
 @Getter

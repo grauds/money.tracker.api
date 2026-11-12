@@ -16,18 +16,52 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+/**
+ * Repository for income item data access with Firebird database queries.
+ * Provides methods for retrieving income items by commodity, organization, account,
+ * and date range, as well as aggregate income calculations by various dimensions.
+ */
 @RepositoryRestResource(path = "incomeItems", excerptProjection = IncomeItemEntry.class)
 public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer> {
 
+    /**
+     * Retrieves income items filtered by commodity ID.
+     *
+     * @param commodityId the commodity identifier
+     * @param pageable pagination information
+     * @return page of income items for the specified commodity
+     */
     @RestResource(path = "commodity")
     Page<IncomeItem> findByCommodityId(@Param(value = "id") int commodityId, Pageable pageable);
 
+    /**
+     * Retrieves income items filtered by tradeplace (organization) ID.
+     *
+     * @param tradeplaceId the tradeplace identifier
+     * @param pageable pagination information
+     * @return page of income items for the specified tradeplace
+     */
     @RestResource(path = "tradeplace")
     Page<IncomeItem> findByTradeplaceId(@Param(value = "id") int tradeplaceId, Pageable pageable);
 
+    /**
+     * Retrieves income items filtered by income account ID.
+     *
+     * @param accountId the account identifier
+     * @param pageable pagination information
+     * @return page of income items for the specified account
+     */
     @RestResource(path = "account")
     Page<IncomeItem> findByIncomeAccountId(@Param(value = "id") int accountId, Pageable pageable);
 
+    /**
+     * Retrieves income items within the specified date range.
+     *
+     * @param startDate start date (inclusive), if null no lower bound is applied
+     * @param endDate end date (inclusive), if null no upper bound is applied
+     * @param pageable pagination information
+     * @return page of income items within the specified date range
+     */
     @RestResource(path = "filtered")
     Page<IncomeItem> findByTransferdateGreaterThanEqualAndTransferdateLessThanEqual(
         @RequestParam(value = "startDate", required = false)
@@ -37,6 +71,13 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
         Pageable pageable
     );
 
+    /**
+     * Calculates the total daily income converted to the specified currency.
+     *
+     * @param targetDate the date for which to calculate total income
+     * @param moneyCode the target currency code
+     * @return total income on the specified date converted to the target currency
+     */
     @Query(value = """
         SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM IncomeItem as ei
@@ -50,6 +91,13 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
         @Param(value = "moneyCode") String moneyCode
     );
 
+    /**
+     * Calculates the total income for a specific commodity converted to the specified currency.
+     *
+     * @param id the commodity identifier
+     * @param moneyCode the target currency code
+     * @return total income for the commodity converted to the target currency
+     */
     @Query(value = """
         SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM IncomeItem as ei
@@ -63,6 +111,13 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
         @Param(value = "moneyCode") String moneyCode
     );
 
+    /**
+     * Calculates the total income for a specific organization (tradeplace) converted to the specified currency.
+     *
+     * @param id the organization identifier
+     * @param moneyCode the target currency code
+     * @return total income for the organization converted to the target currency
+     */
     @Query(value = """
         SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM IncomeItem as ei
@@ -76,6 +131,13 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
         @Param(value = "moneyCode") String moneyCode
     );
 
+    /**
+     * Calculates the total income for a specific account converted to the specified currency.
+     *
+     * @param id the account identifier
+     * @param moneyCode the target currency code
+     * @return total income for the account converted to the target currency
+     */
     @Query(value = """
         SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM IncomeItem as ei
@@ -89,6 +151,13 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
         @Param(value = "moneyCode") String moneyCode
     );
 
+    /**
+     * Calculates the total income for a commodity group (including all subgroups) converted to the specified currency.
+     *
+     * @param id the commodity group identifier
+     * @param moneyCode the target currency code
+     * @return total income for the commodity group and all subgroups converted to the target currency
+     */
     @Query(value = """
             WITH RECURSIVE w1(id, parent, name) AS
             (
@@ -111,6 +180,14 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     Long sumCommodityGroupIncome(@Param(value = "id") int id,
                                  @Param(value = "moneyCode") String moneyCode);
 
+    /**
+     * Calculates the total income for an organization group (including all subgroups)
+     * converted to the specified currency.
+     *
+     * @param id the organization group identifier
+     * @param moneyCode the target currency code
+     * @return total income for the organization group and all subgroups converted to the target currency
+     */
     @Query(value = """
             WITH RECURSIVE w1(id, parent, name) AS
             (
@@ -133,6 +210,13 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     Long sumOrganizationGroupIncome(@Param(value = "id") int id,
                                     @Param(value = "moneyCode") String moneyCode);
 
+    /**
+     * Calculates the total income for an account group (including all subgroups) converted to the specified currency.
+     *
+     * @param id the account group identifier
+     * @param moneyCode the target currency code
+     * @return total income for the account group and all subgroups converted to the target currency
+     */
     @Query(value = """
             WITH RECURSIVE w1(id, parent, name) AS
             (
@@ -155,6 +239,12 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     Long sumAccountGroupIncome(@Param(value = "id") int id,
                                @Param(value = "moneyCode") String moneyCode);
 
+    /**
+     * Calculates the total quantity of a specific commodity from income items.
+     *
+     * @param id the commodity identifier
+     * @return total quantity of the commodity from income items
+     */
     @Query(value = """
         SELECT SUM(ei.qty)
             FROM IncomeItem as ei
@@ -166,6 +256,14 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     Long sumCommodityQuantity(@Param(value = "id") int id);
 
 
+    /**
+     * Retrieves monthly income reports grouped by commodity, converted to the specified currency.
+     *
+     * @param code target currency code for conversion
+     * @param pageable pagination information
+     * @return page of monthly income reports
+     * @deprecated This method is deprecated due to a Spring Data REST issue
+     */
     @Query(value =
         """
             SELECT * FROM (SELECT ROUND(SUM(INCOMEITEM.TOTAL *

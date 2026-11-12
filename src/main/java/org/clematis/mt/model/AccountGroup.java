@@ -12,7 +12,7 @@ import lombok.Setter;
 
 /**
  * For the table
- *
+ * <p>
  * {code}
  * create table ACCOUNTGROUP
  * (
@@ -32,8 +32,6 @@ import lombok.Setter;
  * 		unique (NAME_MIR, PARENT)
  * );
  * {code}
- *
- * @author Anton Troshin
  */
 @Entity
 @Getter

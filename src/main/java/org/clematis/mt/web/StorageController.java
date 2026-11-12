@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+
+/**
+ * REST controller for file storage operations.
+ */
 @RestController
 @RequestMapping("/api/storage")
 public class StorageController {
@@ -102,6 +106,14 @@ public class StorageController {
         }
     }
 
+    /**
+     * Delete the main file for an entity.
+     * @param root the root path
+     * @param entityName the entity name
+     * @param entityId the entity id
+     * @param extraPath optional extra path
+     * @return response entity
+     */
     @DeleteMapping("/{root}/{entityName}/{entityId}")
     public ResponseEntity<byte[]> deleteFile(
         @PathVariable("root") String root,

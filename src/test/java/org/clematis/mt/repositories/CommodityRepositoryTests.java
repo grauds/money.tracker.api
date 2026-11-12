@@ -1,9 +1,7 @@
 package org.clematis.mt.repositories;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
-import org.clematis.mt.model.Account;
 import org.clematis.mt.model.Commodity;
-import org.clematis.mt.model.Organization;
 import org.clematis.mt.repository.CommodityRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -15,16 +13,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+
+/**
+ * Repository tests for Commodity data access.
+ */
 public class CommodityRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
     private CommodityRepository commodityRepository;
 
+    /**
+     * Verifies the total count of commodities in the database.
+     */
     @Test
     void countCommodities() {
         Assertions.assertEquals(1369, commodityRepository.count());
     }
 
+    /**
+     * Tests finding commodities using example-based matching with case-insensitive contains.
+     */
     @Test
     @Disabled
     public void findCommodities() {
@@ -40,6 +48,9 @@ public class CommodityRepositoryTests extends ClematisMoneyTrackerApplicationTes
         Assertions.assertEquals(40, page.getTotalElements());
     }
 
+    /**
+     * Verifies the count of recursive commodities for a given commodity group ID.
+     */
     @Test
     void countRecursiveCommodities() {
         Assertions.assertEquals(5,

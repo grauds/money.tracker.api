@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
  * Class to convert a composite id to a string and back
  * Tailored for <code>org.clematis.mt.model.OperationEntry</code> to make it hunan readable
  *
- * @author Anton Troshin
  */
 @Component
 public class OperationEntryIdConverter implements BackendIdConverter {

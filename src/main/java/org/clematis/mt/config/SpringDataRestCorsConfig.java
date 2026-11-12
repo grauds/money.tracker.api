@@ -6,12 +6,21 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
+
+/**
+ * Configures CORS for Spring Data REST endpoints.
+ */
 @Component
 public class SpringDataRestCorsConfig implements RepositoryRestConfigurer {
 
     public static final String ALL_REGEXP = "/**";
     public static final String ORIGINS = "*";
 
+    /**
+     * Configures CORS mappings for all REST endpoints.
+     * @param config repository rest configuration
+     * @param cors cors registry
+     */
     @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {

@@ -14,7 +14,6 @@ import lombok.Setter;
 /**
  * Class to support tree like structures
  *
- * @author Anton Troshin
  * @param <T>
  */
 @MappedSuperclass

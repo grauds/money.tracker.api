@@ -15,7 +15,7 @@ import lombok.Setter;
 
 /**
  * For the table
- *
+ * <p>
  * {code}
  * create table INCOMEITEM
  * (
@@ -49,16 +49,15 @@ import lombok.Setter;
  * 	constraint INCOME_ITEM_LAST_PRICE
  * 		unique (COMM, TRADEPLACE, TRANSFERDATE, ID)
  * );
- *
+ * <p>
  * create unique index RDB$PRIMARY23
  * 	on INCOMEITEM (ID);
- *
+ * <p>
  * alter table INCOMEITEM
  * 	add constraint INTEG_122
  * 		primary key (ID);
  * {code}
  *
- * @author Anton Troshin
  */
 @Entity
 @Getter

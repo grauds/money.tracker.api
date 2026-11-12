@@ -1,5 +1,6 @@
 package org.clematis.mt.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -11,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author Anton Troshin
+ * Composite key for IncomeMonthly entity.
  */
 @Embeddable
 @Data
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 @SuppressFBWarnings
 public class IncomeMonthlyKey implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -3952895633364699023L;
 
     private int mois;

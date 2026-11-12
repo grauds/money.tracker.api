@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Anton Troshin
+ * Entity representing monthly income summary for a commodity and money type.
  */
 @Entity
 @Table(name = "MONTHLY_INCOME")

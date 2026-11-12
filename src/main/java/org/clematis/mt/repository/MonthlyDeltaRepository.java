@@ -11,11 +11,14 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for MonthlyDelta data access.
  */
 @RepositoryRestResource(path = "monthlyDeltas")
 public interface MonthlyDeltaRepository extends PagingAndSortingRepository<MonthlyDelta, MonthlyDeltaKey> {
 
+    /**
+     * Get the total balance for a given currency up to the specified month and year.
+     */
     @Query(value =
         """
             SELECT ROUND(COALESCE(SUM(MD.DELTA), 0), 2)
@@ -27,7 +30,9 @@ public interface MonthlyDeltaRepository extends PagingAndSortingRepository<Month
                                @Param(value = "mois") int mois,
                                @Param(value = "code") String code);
 
-
+    /**
+     * Find monthly deltas paginated by currency code.
+     */
     @RestResource(path = "history")
     @SuppressWarnings("checkstyle:methodname")
     Page<MonthlyDelta> findMonthlyDeltasByKey_Code(@Param(value = "code") String code, Pageable pageable);

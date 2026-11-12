@@ -20,8 +20,15 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+
+/**
+ * REST API tests for LastExpenseItem endpoints.
+ */
 public class LastExpenseItemTests extends HateoasApiTests {
 
+    /**
+     * Verifies retrieving last expense items via the REST API with authentication.
+     */
     @Test
     public void testLastExpenseItems() {
 
@@ -38,6 +45,9 @@ public class LastExpenseItemTests extends HateoasApiTests {
 
     }
 
+    /**
+     * Verifies searching last expense items by name prefix via the REST API.
+     */
     @Test
     @SuppressFBWarnings
     public void testSearchLastExpenseItems() {

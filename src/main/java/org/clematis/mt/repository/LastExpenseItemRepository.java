@@ -12,11 +12,14 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * @author Anton Troshin
+ * Repository for LastExpenseItem data access.
  */
 @RepositoryRestResource(path = "lastExpenseItems", excerptProjection = LastExpenseEntry.class)
 public interface LastExpenseItemRepository extends PagingAndSortingRepository<LastExpenseItem, Integer> {
 
+    /**
+     * Find expense items by commodity name starting with the given value (case-insensitive).
+     */
     // not working with projections due to https://github.com/spring-projects/spring-data-rest/issues/1213
     @SuppressWarnings("checkstyle:methodname")
     @RestResource(path = "findByNameStarting")

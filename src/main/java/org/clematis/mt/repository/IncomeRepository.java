@@ -11,9 +11,17 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 
+/**
+ * Repository for income data access with Firebird database queries.
+ */
 @RepositoryRestResource(path = "income")
 public interface IncomeRepository extends PagingAndSortingRepository<Income, Integer> {
 
+    /**
+     * Calculates total income converted to the specified currency.
+     * @param code target currency code
+     * @return total income in the specified currency
+     */
     @RestResource(exported = false)
     @Query(value = """
             SELECT COALESCE(SUM(TOTALCONVERTED), 0)
@@ -21,6 +29,11 @@ public interface IncomeRepository extends PagingAndSortingRepository<Income, Int
         """, nativeQuery = true)
     Double sumTotalInCurrency(@Param("code") String code);
 
+    /**
+     * Retrieves income breakdown by currency with converted totals.
+     * @param code target currency code
+     * @return income shares per currency
+     */
     @RestResource(exported = false)
     @Query(value = """
             SELECT CODE AS code, TOTAL AS total, TOTALCONVERTED AS totalConverted

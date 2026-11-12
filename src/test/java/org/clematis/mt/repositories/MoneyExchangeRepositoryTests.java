@@ -7,16 +7,26 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
+/**
+ * Repository tests for MoneyExchange data access.
+ */
 public class MoneyExchangeRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
     private MoneyExchangeRepository moneyExchangeRepository;
 
+    /**
+     * Verifies the total count of money exchange records.
+     */
     @Test
     void findAll() {
         Assertions.assertEquals(5, this.moneyExchangeRepository.count());
     }
 
+    /**
+     * Verifies the average exchange rate calculation.
+     */
     @Test
     void getAverageRate() {
 
@@ -27,6 +37,9 @@ public class MoneyExchangeRepositoryTests extends ClematisMoneyTrackerApplicatio
                 this.moneyExchangeRepository.getAverageExchangeRate("EUR", "RUB"));
     }
 
+    /**
+     * Verifies the money exchange report data.
+     */
     @Test
     void testExchangeReport() {
         //334.4599981117249,8385.19,0.03988699100577624,0.033166395807768,-1247685.6220242358
