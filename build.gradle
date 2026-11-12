@@ -12,6 +12,15 @@ plugins {
     id "org.asciidoctor.jvm.convert" version "4.0.4"
 }
 
+// ------------ Java version check ------------
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+    throw new GradleException(
+        "Project requires JDK 17+. Current JDK: ${JavaVersion.current()} " +
+        "(JAVA_HOME=${System.getenv('JAVA_HOME')}). " +
+        "See .java-version for required version."
+    )
+}
+
 group = 'org.clematis'
 version = '1.0.0'
 

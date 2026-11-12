@@ -47,3 +47,5 @@ docker/.devcontainer/
 /jacoco/
 /jacocoHtml/
 /jenkins/keycloak.pem
+/qodana.yaml
+/.gigacode/

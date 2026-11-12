@@ -12,6 +12,22 @@ This is a Spring Data REST API service for a database from MoneyTracker applicat
 Swagger JSON is available at [here](./docs/swagger.json)
 
 
+## Requirements
+
+- **JDK 17** (Temurin recommended) — see `.java-version`
+- **Gradle 8.x** (wrapper included)
+- **Firebird 2.5.9** database
+
+### Set up JDK 17
+
+```bash
+# Using installed Temurin 17
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+
+# Or using SDKMAN
+sdk use java 17.0.20-tem
+```
+
 ## Quick Start
 
 ### Check out the code

@@ -1,4 +1,10 @@
 spring:
+  sql:
+    init:
+      mode: always
+      separator: ^
+      continue-on-error: true
+      schema-locations: classpath*:db/schema/*.sql
   security:
     oauth2:
       resourceserver:
