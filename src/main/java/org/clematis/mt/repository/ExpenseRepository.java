@@ -54,7 +54,7 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
             u.NAME AS AGENT,
             cm.FINAL_GROUP_NAME AS COMMODITYGROUP,
             ROUND(SUM(COALESCE(ex.TOTAL, 0) * COALESCE(
-                    (SELECT FIRST 1 rate FROM CROSS_RATE(:code, m.CODE, e.TRANSFERDATE)), 0
+                    (SELECT FIRST 1 rate FROM CROSS_RATE_2(:code, m.CODE, e.TRANSFERDATE)), 0
             )), 2) AS TOTAL,
             EXTRACT(MONTH FROM e.TRANSFERDATE) AS MOIS,
             EXTRACT(YEAR FROM e.TRANSFERDATE) AS AN
@@ -88,39 +88,18 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
     )
     DateRange getDatesRange();
 
-    @RestResource(path = "total")
+    @RestResource(exported = false)
     @Query(value = """
-        SELECT SUM(e.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :code, e.transferdate)), 0))
-        FROM Expense as e
-             JOIN MoneyType m ON m.id = e.moneyType
+            SELECT COALESCE(SUM(TOTALCONVERTED), 0)
+            FROM GET_EXPENSE_BY_CURRENCY(:code)
         """, nativeQuery = true)
     Double sumTotalInCurrency(@Param("code") String code);
 
-    @RestResource(path = "totalByCurrency")
+    @RestResource(exported = false)
     @Query(value = """
-        WITH DailyExpenses AS (
-            SELECT
-                e.moneyType,
-                e.transferdate,
-                SUM(e.total) AS daily_total
-            FROM Expense e
-            GROUP BY e.moneyType, e.transferdate
-        )
-        SELECT
-            m.CODE AS CODE,
-            ROUND(SUM(d.daily_total), 2) AS TOTAL,
-            ROUND(
-                SUM(
-                    d.daily_total * COALESCE(
-                        (SELECT RATE FROM CROSS_RATE_2(m.CODE, :code, d.transferdate)),
-                        1
-                    )
-                ),
-                2
-            ) AS TOTALCONVERTED
-        FROM DailyExpenses d
-        JOIN MoneyType m ON m.id = d.moneyType
-        GROUP BY m.CODE
+            SELECT CODE AS code, TOTAL AS total, TOTALCONVERTED AS totalConverted
+            FROM GET_EXPENSE_BY_CURRENCY(:code)
         """, nativeQuery = true)
     List<MoneyShareInCurrency> getExpensesByCurrency(@Param("code") String code);
+
 }

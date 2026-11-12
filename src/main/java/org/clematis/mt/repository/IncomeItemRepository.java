@@ -38,7 +38,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     );
 
     @Query(value = """
-        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM IncomeItem as ei
                  JOIN Income as e ON e.id = ei.income
                  JOIN MoneyType m ON m.id = e.moneyType
@@ -51,7 +51,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     );
 
     @Query(value = """
-        SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+        SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM IncomeItem as ei
                 JOIN Income as e ON e.id=ei.income
                 JOIN MoneyType m ON m.id = e.moneyType
@@ -64,7 +64,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     );
 
     @Query(value = """
-        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM IncomeItem as ei
                  JOIN Income as e ON e.id = ei.income
                  JOIN MoneyType m ON m.id = e.moneyType
@@ -77,7 +77,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     );
 
     @Query(value = """
-        SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+        SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM IncomeItem as ei
                 JOIN Income as e ON e.id=ei.income
                 JOIN MoneyType m ON m.id = e.moneyType
@@ -99,7 +99,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
                 SELECT c2.id, c2.parent, c2.name
                 FROM w1 JOIN COMMGROUP as c2 ON c2.parent = w1.id
             )
-            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM INCOMEITEM as ei
                  JOIN INCOME as e ON e.id = ei.INCOME
                  JOIN MONEYTYPE m ON m.id = e.moneyType
@@ -121,7 +121,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
                 SELECT c2.id, c2.parent, c2.name
                 FROM w1 JOIN ORGANIZATIONGROUP as c2 ON c2.parent = w1.id
             )
-            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM INCOMEITEM as ei
                  JOIN INCOME as e ON e.id = ei.INCOME
                  JOIN MONEYTYPE m ON m.id = e.moneyType
@@ -143,7 +143,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
                 SELECT c2.id, c2.parent, c2.name
                 FROM w1 JOIN ACCOUNTGROUP as c2 ON c2.parent = w1.id
             )
-            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM INCOMEITEM as ei
                  JOIN INCOME as e ON e.id = ei.INCOME
                  JOIN MONEYTYPE m ON m.id = e.moneyType
@@ -169,7 +169,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
     @Query(value =
         """
             SELECT * FROM (SELECT ROUND(SUM(INCOMEITEM.TOTAL *
-             (SELECT * FROM CROSS_RATE(:code, M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,
+             (SELECT * FROM CROSS_RATE_2(:code, M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,
                 EXTRACT(YEAR FROM INCOMEITEM.TRANSFERDATE) as AN,
                 EXTRACT(MONTH FROM INCOMEITEM.TRANSFERDATE) as MOIS,
                 C.NAME AS COMMODITY
@@ -181,7 +181,7 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
              GROUP BY AN, MOIS, COMMODITY)""",
         countQuery = """
             SELECT COUNT(*) FROM (SELECT ROUND(SUM(INCOMEITEM.TOTAL *
-             (SELECT * FROM CROSS_RATE(:code, M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,
+             (SELECT * FROM CROSS_RATE_2(:code, M.CODE, INCOMEITEM.TRANSFERDATE))), 2) AS TOTAL,
                 EXTRACT(YEAR FROM INCOMEITEM.TRANSFERDATE) as AN,
                 EXTRACT(MONTH FROM INCOMEITEM.TRANSFERDATE) as MOIS,
                 C.NAME AS COMMODITY

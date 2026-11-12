@@ -35,7 +35,7 @@ public interface MoneyExchangeRepository extends PagingAndSortingRepository<Mone
 
     @Query(value = """
         SELECT b.*, b.SOURCEAMOUNT * (b.AVGRATE - b.CURRATE) AS DELTA FROM
-        (SELECT a.*, (SELECT * FROM CROSS_RATE(:dest, :source)) AS CURRATE FROM
+        (SELECT a.*, (SELECT * FROM CROSS_RATE_2(:dest, :source)) AS CURRATE FROM
             (SELECT SUM(SOURCEAMOUNT) AS SOURCEAMOUNT,
                     SUM(DESTAMOUNT) AS DESTAMOUNT,
                     (SUM(DESTAMOUNT) / SUM(SOURCEAMOUNT)) AS AVGRATE

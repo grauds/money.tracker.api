@@ -20,7 +20,7 @@ public interface InOutDeltaRepository extends PagingAndSortingRepository<InOutDe
                MID, MCODE
         FROM
             (SELECT COMM_ID, ETOTAL, ITOTAL,
-               DELTA * (SELECT * FROM CROSS_RATE(:code, MCODE)) AS DELTA,
+               DELTA * (SELECT * FROM CROSS_RATE_2(:code, MCODE)) AS DELTA,
                M.ID as MID, M.CODE AS MCODE
              FROM IN_OUT_DELTA as IOD
              LEFT JOIN MONEYTYPE M on M.CODE=:code WHERE IOD.EXPENCES = 1 AND IOD.INCOMES = 1

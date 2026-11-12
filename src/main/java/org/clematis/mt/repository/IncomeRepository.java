@@ -14,24 +14,18 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @RepositoryRestResource(path = "income")
 public interface IncomeRepository extends PagingAndSortingRepository<Income, Integer> {
 
-    @RestResource(path = "total")
+    @RestResource(exported = false)
     @Query(value = """
-        SELECT SUM(e.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :code, e.transferdate)), 0))
-        FROM Income as e
-             JOIN MoneyType m ON m.id = e.moneyType
+            SELECT COALESCE(SUM(TOTALCONVERTED), 0)
+            FROM GET_INCOME_BY_CURRENCY(:code)
         """, nativeQuery = true)
     Double sumTotalInCurrency(@Param("code") String code);
 
-    @RestResource(path = "totalByCurrency")
+    @RestResource(exported = false)
     @Query(value = """
-        SELECT m.CODE as CODE,
-               ROUND(SUM(e.total), 2) as TOTAL,
-               ROUND(SUM(
-                       e.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :code, e.transferdate)), 0)
-               ), 2) as TOTALCONVERTED
-        FROM Income as e
-             JOIN MoneyType m ON m.id = e.moneyType
-        GROUP BY m.CODE
+            SELECT CODE AS code, TOTAL AS total, TOTALCONVERTED AS totalConverted
+            FROM GET_INCOME_BY_CURRENCY(:code)
         """, nativeQuery = true)
     List<MoneyShareInCurrency> getIncomeByCurrency(@Param("code") String code);
+
 }

@@ -7,15 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
-/**
- * @author Anton Troshin
- */
+
 @RepositoryRestResource(path = "accountsTotals")
 public interface AccountTotalRepository extends ReadOnlyRepository<AccountTotal, Integer> {
 
     @Query(value = """
             select atl.ID, atl.NAME, atl.CODE, atl.TOTAL,
-            ROUND(atl.TOTAL / (SELECT * FROM CROSS_RATE(mt.CODE, :code)), 2) as BALANCE
+            ROUND(atl.TOTAL / (SELECT * FROM CROSS_RATE_2(mt.CODE, :code)), 2) as BALANCE
             FROM ACCOUNTS_TOTAL_LAST as atl LEFT JOIN MONEYTYPE as mt on atl.CODE = mt.CODE
             ORDER BY BALANCE
         """, nativeQuery = true)
@@ -24,7 +22,7 @@ public interface AccountTotalRepository extends ReadOnlyRepository<AccountTotal,
 
 
     @Query(value = """
-            select ROUND(sum(atl.TOTAL / (SELECT * FROM CROSS_RATE(mt.CODE, :code))), 2) as BALANCE  \
+            select ROUND(sum(atl.TOTAL / (SELECT * FROM CROSS_RATE_2(mt.CODE, :code))), 2) as BALANCE  \
             FROM ACCOUNTS_TOTAL_LAST as atl LEFT JOIN MONEYTYPE as mt on atl.CODE = mt.CODE
         """, nativeQuery = true)
     @RestResource(path = "balance")
@@ -33,7 +31,7 @@ public interface AccountTotalRepository extends ReadOnlyRepository<AccountTotal,
 
     @Query(//https://github.com/FirebirdSQL/firebird/issues/5668
         value = """
-            SELECT ROUND(sum(atl.TOTAL / (SELECT * FROM CROSS_RATE(mt.CODE, :code))), 2) as BALANCE
+            SELECT ROUND(sum(atl.TOTAL / (SELECT * FROM CROSS_RATE_2(mt.CODE, :code))), 2) as BALANCE
             FROM (
                    SELECT ACCOUNT as ID, acc.NAME, BALANCE, ROUND(TOTAL, 2) as TOTAL, CODE
                    FROM (SELECT ACCOUNT, SUM (CASE WHEN MONEY_SIGN = 1

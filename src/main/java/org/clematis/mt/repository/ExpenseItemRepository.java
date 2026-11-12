@@ -35,7 +35,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
     );
 
     @Query(value = """
-        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM ExpenseItem as ei
                  JOIN Expense as e ON e.id = ei.expense
                  JOIN MoneyType m ON m.id = e.moneyType
@@ -48,7 +48,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
     );
 
     @Query(value = """
-        SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+        SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM ExpenseItem as ei
                 JOIN Expense as e ON e.id=ei.expense
                 JOIN MoneyType m ON m.id = e.moneyType
@@ -61,7 +61,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
     );
 
     @Query(value = """
-        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM ExpenseItem as ei
                  JOIN Expense as e ON e.id = ei.expense
                  JOIN MoneyType m ON m.id = e.moneyType
@@ -74,7 +74,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
     );
 
     @Query(value = """
-        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+        SELECT SUM(ei.total / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM ExpenseItem as ei
                  JOIN Expense as e ON e.id = ei.expense
                  JOIN MoneyType m ON m.id = e.moneyType
@@ -96,7 +96,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
                 SELECT c2.id, c2.parent, c2.name
                 FROM w1 JOIN COMMGROUP as c2 ON c2.parent = w1.id
             )
-            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM EXPENSEITEM as ei
                  JOIN EXPENSE as e ON e.id = ei.expense
                  JOIN MONEYTYPE m ON m.id = e.moneyType
@@ -119,7 +119,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
                 SELECT c2.id, c2.parent, c2.name
                 FROM w1 JOIN ORGANIZATIONGROUP as c2 ON c2.parent = w1.id
             )
-            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM EXPENSEITEM as ei
                  JOIN EXPENSE as e ON e.id = ei.expense
                  JOIN MONEYTYPE m ON m.id = e.moneyType
@@ -142,7 +142,7 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
                 SELECT c2.id, c2.parent, c2.name
                 FROM w1 JOIN ACCOUNTGROUP as c2 ON c2.parent = w1.id
             )
-            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE(m.code, :moneyCode, e.TRANSFERDATE)), 0))
+            SELECT SUM(ei.TOTAL / NULLIF((SELECT RATE FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
             FROM EXPENSEITEM as ei
                  JOIN EXPENSE as e ON e.id = ei.expense
                  JOIN MONEYTYPE m ON m.id = e.moneyType
