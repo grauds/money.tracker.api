@@ -33,7 +33,7 @@ BEGIN
     FOR
         SELECT o.ID, COALESCE(o.NAME, 'Unknown')
         FROM Organization o
-        WHERE EXISTS (SELECT 1 FROM Income e WHERE e.commontradeplace = o.ID)
+        WHERE EXISTS (SELECT 1 FROM IncomeItem e WHERE e.tradeplace = o.ID)
         INTO :V_ORG_ID, :V_ORG_NAME
     DO
     BEGIN
