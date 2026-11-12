@@ -179,9 +179,10 @@ BEGIN
         BEGIN
             -- Walk daily totals in chronological order
             FOR
-                SELECT CAST(e.transferdate AS DATE) AS tx_date, SUM(e.total)
-                FROM Expense e
-                WHERE e.moneyType = :V_CURR_ID
+                SELECT CAST(ex.transferdate AS DATE) AS tx_date, SUM(e.total)
+                FROM ExpenseItem e
+                JOIN Expense ex ON ex.ID = e.expense
+                WHERE ex.moneyType = :V_CURR_ID
                 GROUP BY 1
                 ORDER BY 1 ASC
                 INTO :V_TX_DATE, :V_DAILY_TOTAL

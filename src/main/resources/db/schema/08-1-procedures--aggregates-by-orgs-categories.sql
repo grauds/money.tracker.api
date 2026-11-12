@@ -49,7 +49,7 @@ BEGIN
             FROM IncomeItem e
             JOIN Income ex ON ex.ID = e.income
             JOIN MONEYTYPE m ON m.ID = ex.moneyType
-            WHERE ex.commontradeplace = :V_ORG_ID
+            WHERE e.tradeplace = :V_ORG_ID
             GROUP BY 1, 2, 3
             INTO :V_CURR_ID, :V_CURR_CODE, :V_TX_DATE, :V_DAILY_TOTAL, :V_DAILY_COUNT
         DO
