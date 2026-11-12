@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.clematis.mt.dto.AgentCommodityGroup;
 import org.clematis.mt.dto.DateRange;
+import org.clematis.mt.dto.EntityAmountProjection;
 import org.clematis.mt.dto.MoneyShareInCurrency;
 import org.clematis.mt.model.Expense;
 import org.springframework.data.jpa.repository.Query;
@@ -135,5 +136,18 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
             FROM GET_EXPENSE_BY_CURRENCY(:code)
         """, nativeQuery = true)
     List<MoneyShareInCurrency> getExpensesByCurrency(@Param("code") String code);
+
+    /**
+     * Retrieves expense breakdown by commodity categories
+     * @param code target currency code
+     * @return list of expense shares per commodity categories
+     */
+    @RestResource(exported = false)
+    @Query(value = """
+            SELECT *
+            FROM GET_EXPENSE_BY_CATEGORIES(:code)
+            ORDER BY TOTAL DESC
+        """, nativeQuery = true)
+    List<EntityAmountProjection> getExpenseByCategories(@Param("code") String code);
 
 }

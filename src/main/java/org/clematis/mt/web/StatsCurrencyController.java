@@ -2,6 +2,7 @@ package org.clematis.mt.web;
 
 import java.util.List;
 
+import org.clematis.mt.dto.EntityAmountProjection;
 import org.clematis.mt.dto.MoneyShareInCurrency;
 import org.clematis.mt.repository.ExpenseRepository;
 import org.clematis.mt.repository.IncomeRepository;
@@ -54,6 +55,18 @@ public class StatsCurrencyController {
     }
 
     /**
+     * Retrieves income breakdown by organizations.
+     * @param code target currency code
+     * @return income shares per organization
+     */
+    @GetMapping("/income/search/totalByOrganizations")
+    public ResponseEntity<List<EntityAmountProjection>> getIncomeByOrganizations(
+        @RequestParam("code") String code
+    ) {
+        return ResponseEntity.ok(incomeRepository.getIncomeByOrganizations(code));
+    }
+
+    /**
      * Retrieves the total expense amount converted to the specified currency.
      *
      * @param code target currency code for conversion
@@ -75,5 +88,17 @@ public class StatsCurrencyController {
         @RequestParam("code") String code
     ) {
         return ResponseEntity.ok(expenseRepository.getExpensesByCurrency(code));
+    }
+
+    /**
+     * Retrieves expense breakdown by commodity categories
+     * @param code target currency code
+     * @return list of expense shares per commodity categories
+     */
+    @GetMapping("/expenses/search/totalByCategories")
+    public ResponseEntity<List<EntityAmountProjection>> getExpenseByCategories(
+        @RequestParam("code") String code
+    ) {
+        return ResponseEntity.ok(expenseRepository.getExpenseByCategories(code));
     }
 }
