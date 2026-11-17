@@ -150,4 +150,17 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
         """, nativeQuery = true)
     List<EntityAmountProjection> getExpenseByCategories(@Param("code") String code);
 
+    /**
+     * Retrieves expense breakdown by commodity trade place
+     * @param code target currency code
+     * @return list of expense shares per commodity  trade place
+     */
+    @RestResource(exported = false)
+    @Query(value = """
+            SELECT *
+            FROM GET_EXPENSE_BY_TRADE_PLACE(:code)
+            ORDER BY TOTAL DESC
+        """, nativeQuery = true)
+    List<EntityAmountProjection> getExpenseByTradePlace(@Param("code") String code);
+
 }

@@ -101,4 +101,16 @@ public class StatsCurrencyController {
     ) {
         return ResponseEntity.ok(expenseRepository.getExpenseByCategories(code));
     }
+
+    /**
+     * Retrieves expense breakdown by commodity categories
+     * @param code target currency code
+     * @return list of expense shares per commodity categories
+     */
+    @GetMapping("/expenses/search/totalByOrganizations")
+    public ResponseEntity<List<EntityAmountProjection>> getExpenseByOrganizations(
+        @RequestParam("code") String code
+    ) {
+        return ResponseEntity.ok(expenseRepository.getExpenseByTradePlace(code));
+    }
 }
