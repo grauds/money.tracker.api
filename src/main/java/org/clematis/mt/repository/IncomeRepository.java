@@ -31,6 +31,19 @@ public interface IncomeRepository extends PagingAndSortingRepository<Income, Int
     Double sumTotalInCurrency(@Param("code") String code);
 
     /**
+     * Retrieves income breakdown by commodity categories
+     * @param code target currency code
+     * @return list of expense shares per commodity categories
+     */
+    @RestResource(exported = false)
+    @Query(value = """
+            SELECT *
+            FROM GET_INCOME_BY_CATEGORIES(:code)
+            ORDER BY TOTAL DESC
+        """, nativeQuery = true)
+    List<EntityAmountProjection> getIncomeByCategories(@Param("code") String code);
+
+    /**
      * Retrieves income breakdown by currency with converted totals.
      * @param code target currency code
      * @return income shares per currency

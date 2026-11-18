@@ -1,0 +1,155 @@
+
+CREATE OR ALTER PROCEDURE GET_INCOME_BY_CATEGORIES (
+    DEST_CODE VARCHAR(16)
+)
+RETURNS (
+    NAME VARCHAR(255),
+    TOTAL NUMERIC(18, 2),
+    TXCOUNT INTEGER
+)
+AS
+DECLARE VARIABLE V_RUB_ID INTEGER;
+DECLARE VARIABLE V_DEST_ID INTEGER;
+DECLARE VARIABLE V_CAT_ID INTEGER;
+DECLARE VARIABLE V_CAT_NAME VARCHAR(255);
+DECLARE VARIABLE V_CURR_ID INTEGER;
+DECLARE VARIABLE V_CURR_CODE VARCHAR(16);
+DECLARE VARIABLE V_TX_DATE DATE;
+DECLARE VARIABLE V_CONV_DAILY DOUBLE PRECISION;
+DECLARE VARIABLE V_DAILY_TOTAL DOUBLE PRECISION;
+DECLARE VARIABLE V_DAILY_COUNT INTEGER;
+DECLARE VARIABLE V_RATE_SRC DOUBLE PRECISION;
+DECLARE VARIABLE V_RATE_DEST DOUBLE PRECISION;
+DECLARE VARIABLE V_SUM_CONV DOUBLE PRECISION;
+DECLARE VARIABLE V_SUM_COUNT INTEGER;
+BEGIN
+    SELECT ID FROM MONEYTYPE WHERE CODE = 'RUB' INTO :V_RUB_ID;
+    SELECT ID FROM MONEYTYPE WHERE CODE = :DEST_CODE INTO :V_DEST_ID;
+
+    -- 1. Iterate through each COMMGROUP that has at least one IncomeItem via COMMODITY
+    FOR
+        SELECT c.ID, COALESCE(c.NAME, 'Uncategorized')
+        FROM COMMGROUP c
+        WHERE EXISTS (
+            SELECT 1
+            FROM IncomeItem e
+            JOIN COMMODITY cm ON cm.ID = e.comm
+            WHERE cm.PARENT = c.ID
+        )
+        INTO :V_CAT_ID, :V_CAT_NAME
+    DO
+    BEGIN
+        V_SUM_CONV = 0;
+        V_SUM_COUNT = 0;
+
+        -- 2. Group daily totals across all commodities belonging to this COMMGROUP
+        FOR
+            SELECT ex.moneyType,
+                   m.CODE,
+                   CAST(e.transferdate AS DATE) AS tx_date,
+                   SUM(e.total),
+                   COUNT(*)
+            FROM IncomeItem e
+            JOIN Income ex ON ex.ID = e.income
+            JOIN COMMODITY cm ON cm.ID = e.comm
+            JOIN MONEYTYPE m ON m.ID = ex.moneyType
+            WHERE cm.PARENT = :V_CAT_ID
+            GROUP BY 1, 2, 3
+            INTO :V_CURR_ID, :V_CURR_CODE, :V_TX_DATE, :V_DAILY_TOTAL, :V_DAILY_COUNT
+        DO
+        BEGIN
+            V_SUM_COUNT = :V_SUM_COUNT + :V_DAILY_COUNT;
+
+            EXECUTE PROCEDURE CONVERT_AMOUNT_ON_DATE(
+                :V_DAILY_TOTAL, :V_CURR_ID, :V_CURR_CODE, :V_DEST_ID, :DEST_CODE, :V_RUB_ID, :V_TX_DATE
+            ) RETURNING_VALUES :V_CONV_DAILY;
+
+            V_SUM_CONV = :V_SUM_CONV + COALESCE(:V_CONV_DAILY, 0);
+        END
+
+        NAME = :V_CAT_NAME;
+        TOTAL = ROUND(COALESCE(:V_SUM_CONV, 0), 2);
+        TXCOUNT = :V_SUM_COUNT;
+        SUSPEND;
+    END
+END^
+
+---------------------------------------------------------
+
+CREATE OR ALTER PROCEDURE GET_EXPENSE_BY_CATEGORIES (
+    DEST_CODE VARCHAR(16)
+)
+RETURNS (
+    NAME VARCHAR(255),
+    TOTAL NUMERIC(18, 2),
+    TXCOUNT INTEGER
+)
+AS
+DECLARE VARIABLE V_RUB_ID INTEGER;
+DECLARE VARIABLE V_DEST_ID INTEGER;
+DECLARE VARIABLE V_CAT_ID INTEGER;
+DECLARE VARIABLE V_CAT_NAME VARCHAR(255);
+DECLARE VARIABLE V_CURR_ID INTEGER;
+DECLARE VARIABLE V_CURR_CODE VARCHAR(16);
+DECLARE VARIABLE V_TX_DATE DATE;
+DECLARE VARIABLE V_CONV_DAILY DOUBLE PRECISION;
+DECLARE VARIABLE V_DAILY_TOTAL DOUBLE PRECISION;
+DECLARE VARIABLE V_DAILY_COUNT INTEGER;
+DECLARE VARIABLE V_RATE_SRC DOUBLE PRECISION;
+DECLARE VARIABLE V_RATE_DEST DOUBLE PRECISION;
+DECLARE VARIABLE V_SUM_CONV DOUBLE PRECISION;
+DECLARE VARIABLE V_SUM_COUNT INTEGER;
+BEGIN
+    SELECT ID FROM MONEYTYPE WHERE CODE = 'RUB' INTO :V_RUB_ID;
+    SELECT ID FROM MONEYTYPE WHERE CODE = :DEST_CODE INTO :V_DEST_ID;
+
+    -- 1. Iterate through each COMMGROUP that has at least one ExpenseItem via COMMODITY
+    FOR
+        SELECT c.ID, COALESCE(c.NAME, 'Uncategorized')
+        FROM COMMGROUP c
+        WHERE EXISTS (
+            SELECT 1
+            FROM ExpenseItem e
+            JOIN COMMODITY cm ON cm.ID = e.comm
+            WHERE cm.PARENT = c.ID
+        )
+        INTO :V_CAT_ID, :V_CAT_NAME
+    DO
+    BEGIN
+        V_SUM_CONV = 0;
+        V_SUM_COUNT = 0;
+
+        -- 2. Group daily totals across all commodities belonging to this COMMGROUP
+        FOR
+            SELECT ex.moneyType,
+                   m.CODE,
+                   CAST(e.transferdate AS DATE) AS tx_date,
+                   SUM(e.total),
+                   COUNT(*)
+            FROM ExpenseItem e
+            JOIN Expense ex ON ex.ID = e.expense
+            JOIN COMMODITY cm ON cm.ID = e.comm
+            JOIN MONEYTYPE m ON m.ID = ex.moneyType
+            WHERE cm.PARENT = :V_CAT_ID
+            GROUP BY 1, 2, 3
+            INTO :V_CURR_ID, :V_CURR_CODE, :V_TX_DATE, :V_DAILY_TOTAL, :V_DAILY_COUNT
+        DO
+        BEGIN
+            V_SUM_COUNT = :V_SUM_COUNT + :V_DAILY_COUNT;
+
+            EXECUTE PROCEDURE CONVERT_AMOUNT_ON_DATE(
+                :V_DAILY_TOTAL, :V_CURR_ID, :V_CURR_CODE, :V_DEST_ID, :DEST_CODE, :V_RUB_ID, :V_TX_DATE
+            ) RETURNING_VALUES :V_CONV_DAILY;
+
+            V_SUM_CONV = :V_SUM_CONV + COALESCE(:V_CONV_DAILY, 0);
+        END
+
+        NAME = :V_CAT_NAME;
+        TOTAL = ROUND(COALESCE(:V_SUM_CONV, 0), 2);
+        TXCOUNT = :V_SUM_COUNT;
+        SUSPEND;
+    END
+END^
+
+
+

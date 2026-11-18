@@ -42,16 +42,29 @@ public class StatsCurrencyController {
     }
 
     /**
-     * Retrieves income breakdown by each currency, converted to the target currency.
+     * Retrieves income breakdown by categories, converted to the target currency.
      *
      * @param code target currency code for conversion
-     * @return response containing income shares per currency
+     * @return response containing income shares per category
      */
     @GetMapping("/income/search/totalByCurrency")
     public ResponseEntity<List<MoneyShareInCurrency>> getIncomeByCurrency(
         @RequestParam("code") String code
     ) {
         return ResponseEntity.ok(incomeRepository.getIncomeByCurrency(code));
+    }
+
+    /**
+     * Retrieves income breakdown by each currency, converted to the target currency.
+     *
+     * @param code target currency code for conversion
+     * @return response containing income shares per currency
+     */
+    @GetMapping("/income/search/totalByCategories")
+    public ResponseEntity<List<EntityAmountProjection>> getIncomeByCategories(
+        @RequestParam("code") String code
+    ) {
+        return ResponseEntity.ok(incomeRepository.getIncomeByCategories(code));
     }
 
     /**

@@ -9,6 +9,3 @@ CREATE INDEX IDX_INCOME_CTP_TYPE_DATE ON Income (commontradeplace, moneyType, tr
 
 -- Finds all commodities belonging to a COMMGROUP
 CREATE INDEX IDX_COMMODITY_PARENT ON COMMODITY (PARENT, ID) ^
-
--- Finds all ExpenseItems for each commodity and covers moneyType + transferdate
-CREATE INDEX IDX_EXPITEM_COMM_TYPE_DATE ON ExpenseItem (comm, moneyType, transferdate) ^
