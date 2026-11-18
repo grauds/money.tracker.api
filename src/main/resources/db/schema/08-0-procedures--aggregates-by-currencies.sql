@@ -39,8 +39,9 @@ BEGIN
         IF (:V_CURR_CODE = :DEST_CODE) THEN
         BEGIN
             SELECT SUM(e.total)
-            FROM Income e
-            WHERE e.moneyType = :V_CURR_ID
+            FROM IncomeItem e
+            JOIN Income ex ON ex.ID = e.income
+            WHERE ex.moneyType = :V_CURR_ID
             INTO :V_SUM_TOTAL;
 
             V_SUM_CONV = COALESCE(:V_SUM_TOTAL, 0);
@@ -169,8 +170,9 @@ BEGIN
         IF (:V_CURR_CODE = :DEST_CODE) THEN
         BEGIN
             SELECT SUM(e.total)
-            FROM Expense e
-            WHERE e.moneyType = :V_CURR_ID
+            FROM ExpenseItem e
+            JOIN Expense ex ON ex.ID = e.expense
+            WHERE ex.moneyType = :V_CURR_ID
             INTO :V_SUM_TOTAL;
 
             V_SUM_CONV = COALESCE(:V_SUM_TOTAL, 0);

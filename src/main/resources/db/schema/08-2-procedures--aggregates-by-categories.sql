@@ -53,7 +53,7 @@ BEGIN
             JOIN Income ex ON ex.ID = e.income
             JOIN COMMODITY cm ON cm.ID = e.comm
             JOIN MONEYTYPE m ON m.ID = ex.moneyType
-            WHERE cm.PARENT = :V_CAT_ID
+			WHERE COALESCE(cm.PARENT, -1) = :V_CAT_ID
             GROUP BY 1, 2, 3
             INTO :V_CURR_ID, :V_CURR_CODE, :V_TX_DATE, :V_DAILY_TOTAL, :V_DAILY_COUNT
         DO
@@ -66,7 +66,7 @@ BEGIN
 
             V_SUM_CONV = :V_SUM_CONV + COALESCE(:V_CONV_DAILY, 0);
         END
-
+        
         NAME = :V_CAT_NAME;
         TOTAL = ROUND(COALESCE(:V_SUM_CONV, 0), 2);
         TXCOUNT = :V_SUM_COUNT;
@@ -130,7 +130,7 @@ BEGIN
             JOIN Expense ex ON ex.ID = e.expense
             JOIN COMMODITY cm ON cm.ID = e.comm
             JOIN MONEYTYPE m ON m.ID = ex.moneyType
-            WHERE cm.PARENT = :V_CAT_ID
+            WHERE COALESCE(cm.PARENT, -1) = :V_CAT_ID
             GROUP BY 1, 2, 3
             INTO :V_CURR_ID, :V_CURR_CODE, :V_TX_DATE, :V_DAILY_TOTAL, :V_DAILY_COUNT
         DO
@@ -143,7 +143,7 @@ BEGIN
 
             V_SUM_CONV = :V_SUM_CONV + COALESCE(:V_CONV_DAILY, 0);
         END
-
+        
         NAME = :V_CAT_NAME;
         TOTAL = ROUND(COALESCE(:V_SUM_CONV, 0), 2);
         TXCOUNT = :V_SUM_COUNT;
