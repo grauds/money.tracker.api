@@ -34,60 +34,63 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
      * @return list of agent/commodity group expense aggregates
      */
     @Query(value = """
-        WITH RECURSIVE CATEGORY_TREE (ID, PARENT, NAME, ANCESTOR_ID, DEPTH) AS (
-            -- Base case: Root categories (Level 1)
+        WITH RECURSIVE CATEGORY_TREE (ID, ANCESTOR_NAME, DEPTH) AS (
             SELECT
                 c1.ID,
-                c1.PARENT,
                 c1.NAME,
-                c1.ID,
                 1
             FROM COMMGROUP c1
             WHERE c1.PARENT IS NULL OR c1.PARENT = 0
         
             UNION ALL
-
-            -- Recursive case: Digging into children while pinning the Level 3 ancestor
-            SELECT 
-                child.ID, 
-                child.PARENT, 
-                child.NAME,
-                CASE WHEN parent_tree.DEPTH >= 2 THEN parent_tree.ANCESTOR_ID ELSE child.ID END,
+        
+            SELECT
+                child.ID,
+                CASE WHEN parent_tree.DEPTH >= 2 THEN parent_tree.ANCESTOR_NAME ELSE child.NAME END,
                 parent_tree.DEPTH + 1
             FROM COMMGROUP child
             JOIN CATEGORY_TREE parent_tree ON child.PARENT = parent_tree.ID
         ),
         
-        COMMODITY_MAPPING AS (
-            SELECT 
-                c.ID AS COMM_ID,
-                cg.NAME AS FINAL_GROUP_NAME
-            FROM COMMODITY c
+        PRE_AGGREGATED AS (
+            SELECT
+                u.NAME AS AGENT,
+                t.ANCESTOR_NAME AS COMMODITYGROUP,
+                m.CODE AS CURRENCY_CODE,
+                e.TRANSFERDATE,
+                EXTRACT(MONTH FROM e.TRANSFERDATE) AS MOIS,
+                EXTRACT(YEAR FROM e.TRANSFERDATE) AS AN,
+                SUM(COALESCE(ex.TOTAL, 0)) AS RAW_TOTAL
+            FROM EXPENSE e
+            INNER JOIN EXPENSEITEM ex ON ex.EXPENSE = e.ID
+            LEFT JOIN MONEYTYPE m ON m.ID = e.MONEYTYPE
+            LEFT JOIN USERMT u ON e.USERMT = u.ID
+            LEFT JOIN COMMODITY c ON ex.COMM = c.ID
             LEFT JOIN CATEGORY_TREE t ON c.PARENT = t.ID
-            LEFT JOIN COMMGROUP cg ON t.ANCESTOR_ID = cg.ID
-        )
+            WHERE e.TRANSFERDATE >= CAST(
+                    CAST(:anStart AS VARCHAR(4)) || '-' ||
+                    LPAD(CAST(CASE WHEN :moisStart < 1 THEN 1 ELSE :moisStart END AS VARCHAR(2)), 2, '0') || '-01'
+                  AS DATE)
+              AND e.TRANSFERDATE < DATEADD(1 MONTH TO CAST(
+                    CAST(:anEnd AS VARCHAR(4)) || '-' ||
+                    LPAD(CAST(CASE WHEN :moisEnd < 1 THEN 1 ELSE :moisEnd END AS VARCHAR(2)), 2, '0') || '-01'
+                  AS DATE))
 
+            GROUP BY 1, 2, 3, 4, 5, 6
+        )
+        
         SELECT
-            u.NAME AS AGENT,
-            cm.FINAL_GROUP_NAME AS COMMODITYGROUP,
-            ROUND(SUM(COALESCE(ex.TOTAL, 0) * COALESCE(
-                    (SELECT FIRST 1 rate FROM CROSS_RATE_2(:code, m.CODE, e.TRANSFERDATE)), 0
+            p.AGENT,
+            p.COMMODITYGROUP,
+            ROUND(SUM(p.RAW_TOTAL * COALESCE(
+                (SELECT FIRST 1 rate FROM CROSS_RATE_2(CAST(:code AS VARCHAR(10)), p.CURRENCY_CODE, p.TRANSFERDATE)), 0
             )), 2) AS TOTAL,
-            EXTRACT(MONTH FROM e.TRANSFERDATE) AS MOIS,
-            EXTRACT(YEAR FROM e.TRANSFERDATE) AS AN
-        FROM EXPENSEITEM ex
-        LEFT JOIN COMMODITY_MAPPING cm ON ex.COMM = cm.COMM_ID
-        LEFT JOIN EXPENSE e ON ex.EXPENSE = e.ID
-        LEFT JOIN MONEYTYPE m ON m.ID = e.MONEYTYPE
-        LEFT JOIN USERMT u ON e.USERMT = u.ID
-        WHERE
-            (EXTRACT(YEAR FROM e.TRANSFERDATE) > :anStart OR (EXTRACT(YEAR FROM e.TRANSFERDATE) = :anStart
-                                                            AND EXTRACT(MONTH FROM e.TRANSFERDATE) >= :moisStart))
-            AND 
-            (EXTRACT(YEAR FROM e.TRANSFERDATE) < :anEnd OR (EXTRACT(YEAR FROM e.TRANSFERDATE) = :anEnd 
-                                                            AND EXTRACT(MONTH FROM e.TRANSFERDATE) <= :moisEnd))
-        GROUP BY u.NAME, cm.FINAL_GROUP_NAME, EXTRACT(MONTH FROM e.TRANSFERDATE), EXTRACT(YEAR FROM e.TRANSFERDATE)
-        ORDER BY AN, MOIS, COMMODITYGROUP ASC
+            p.MOIS,
+            p.AN
+        FROM PRE_AGGREGATED p
+        GROUP BY p.AGENT, p.COMMODITYGROUP, p.MOIS, p.AN
+        ORDER BY p.AN, p.MOIS, p.COMMODITYGROUP ASC
+        
         """,
         nativeQuery = true
     )

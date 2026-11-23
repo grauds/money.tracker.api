@@ -49,3 +49,4 @@ docker/.devcontainer/
 /jenkins/keycloak.pem
 /qodana.yaml
 /.gigacode/
+/src/main/resources/db/schema/.dbeaver/
