@@ -183,16 +183,14 @@ jacocoTestReport {
     }
     executionData fileTree(project.rootDir.absolutePath).include("jacoco/*.exec")
 
-    doFirst {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [
-                    '**/generated/**',          // Generic generated package
-                    '**/org/clematis/mt/model/**', // OpenAPI / Swagger generated models
-                    '**/*MapperImpl.class',      // MapStruct implementations
-                    '**/Q*.class'                // QueryDSL classes
-            ])
-        }))
-    }
+    classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it, exclude: [
+                '**/generated/**',          // Generic generated package
+                '**/org/clematis/mt/model/**', // OpenAPI / Swagger generated models
+                '**/*MapperImpl.class',      // MapStruct implementations
+                '**/Q*.class'                // QueryDSL classes
+        ])
+    }))
 }
 
 // ------------ Spotbugs configuration  ---------
