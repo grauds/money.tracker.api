@@ -12,7 +12,6 @@ import org.springframework.hateoas.server.mvc.TypeConstrainedMappingJackson2Http
 import org.springframework.http.converter.HttpMessageConverter;
 
 import static com.tngtech.keycloakmock.api.ServerConfig.aServerConfig;
-
 import com.tngtech.keycloakmock.junit5.KeycloakMockExtension;
 
 
@@ -22,13 +21,13 @@ import com.tngtech.keycloakmock.junit5.KeycloakMockExtension;
  */
 abstract class HateoasApiTests extends ClematisMoneyTrackerApplicationTests {
 
-    @Autowired
-    private TestRestTemplate testRestTemplate;
-
     @RegisterExtension
     static KeycloakMockExtension mock = new KeycloakMockExtension(
-            aServerConfig().withRealm("clematis").build()
+        aServerConfig().withRealm("clematis").build()
     );
+
+    @Autowired
+    private TestRestTemplate testRestTemplate;
 
     @Autowired
     @Qualifier("halJacksonHttpMessageConverter")
@@ -40,7 +39,8 @@ abstract class HateoasApiTests extends ClematisMoneyTrackerApplicationTests {
      * @return RestTemplate with HAL support
      */
     public TestRestTemplate getRestTemplateWithHalMessageConverter() {
-        List<HttpMessageConverter<?>> existingConverters = testRestTemplate.getRestTemplate().getMessageConverters();
+        List<HttpMessageConverter<?>> existingConverters
+            = testRestTemplate.getRestTemplate().getMessageConverters();
         List<HttpMessageConverter<?>> newConverters = new ArrayList<>();
         newConverters.add(halJacksonHttpMessageConverter);
         newConverters.addAll(existingConverters);

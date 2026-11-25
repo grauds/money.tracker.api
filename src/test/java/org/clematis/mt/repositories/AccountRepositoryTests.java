@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 /**
  * Repository tests for Account and AccountGroup data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class AccountRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -42,7 +43,7 @@ public class AccountRepositoryTests extends ClematisMoneyTrackerApplicationTests
     }
 
     /**
-     * Tests finding accounts using example-based matching with case-insensitive contains.
+     * Tests finding accounts using example-based matching with case-insensitive 'contains'.
      */
     @Test
     @Disabled

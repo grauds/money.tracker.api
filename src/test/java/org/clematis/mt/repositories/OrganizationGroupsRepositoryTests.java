@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 /**
  * Repository tests for OrganizationGroup data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class OrganizationGroupsRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired

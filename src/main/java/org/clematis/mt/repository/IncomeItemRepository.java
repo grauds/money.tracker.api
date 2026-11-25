@@ -2,9 +2,9 @@ package org.clematis.mt.repository;
 
 import java.util.Date;
 
-import org.clematis.mt.dto.IncomeMonthlyReport;
 import org.clematis.mt.model.IncomeItem;
 import org.clematis.mt.model.IncomeItemEntry;
+import org.clematis.mt.projections.IncomeMonthlyProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -304,8 +304,9 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
                      LEFT JOIN MONEYTYPE M on I.MONEYTYPE = M.ID
              GROUP BY AN, MOIS, COMMODITY)""",
         nativeQuery = true)
-    @Deprecated(since = "This won't work: https://github.com/spring-projects/spring-data-rest/issues/1213")
-    @RestResource(path = "report")
-    Page<IncomeMonthlyReport> getIncomeItemReports(@Param("code") String code, Pageable pageable);
+    // Add support for query methods returning a projection
+    // This won't work: https://github.com/spring-projects/spring-data-rest/issues/1213
+    @RestResource(exported = false)
+    Page<IncomeMonthlyProjection> getIncomeItemReports(@Param("code") String code, Pageable pageable);
 
 }

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 /**
  * Repository tests for OperationEntry data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class OperationEntryRepositoryTest extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -22,6 +23,7 @@ public class OperationEntryRepositoryTest extends ClematisMoneyTrackerApplicatio
     /**
      * Verifies sorting of operation entries by amount in descending and ascending order.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     void testSorting() {
         Assertions.assertEquals(1517, operationEntryRepository

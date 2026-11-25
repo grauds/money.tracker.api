@@ -1,9 +1,9 @@
-package org.clematis.mt.dto;
+package org.clematis.mt.projections;
 
 /**
  * Breakdown of income or expense by currency with native and converted amounts.
  */
-public interface MoneyShareInCurrency {
+public interface MoneyShareInCurrencyProjection {
 
     String getCode();
 

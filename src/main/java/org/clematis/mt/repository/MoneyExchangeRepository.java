@@ -1,8 +1,8 @@
 package org.clematis.mt.repository;
 
-import org.clematis.mt.dto.MoneyExchangeReport;
 import org.clematis.mt.model.MoneyExchange;
 import org.clematis.mt.model.MoneyExchangeEntry;
+import org.clematis.mt.projections.MoneyExchangeReportProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -50,5 +50,7 @@ public interface MoneyExchangeRepository extends PagingAndSortingRepository<Mone
             AS a)
          AS b""", nativeQuery = true)
     @RestResource(path = "report")
-    MoneyExchangeReport getExchangeReport(@Param(value = "source") String source, @Param(value = "dest") String dest);
+    MoneyExchangeReportProjection getExchangeReport(@Param(value = "source") String source,
+                                                    @Param(value = "dest") String dest
+    );
 }

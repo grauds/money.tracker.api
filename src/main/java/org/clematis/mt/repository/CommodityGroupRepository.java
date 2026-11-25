@@ -2,8 +2,8 @@ package org.clematis.mt.repository;
 
 import java.util.List;
 
-import org.clematis.mt.dto.NamedEntityLink;
 import org.clematis.mt.model.CommodityGroup;
+import org.clematis.mt.projections.NamedEntityLinkProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -81,9 +81,10 @@ public interface CommodityGroupRepository
             SELECT * FROM w1)""",
         nativeQuery = true
     )
-    @Deprecated(since = "This won't work: https://github.com/spring-projects/spring-data-rest/issues/1213")
-    @RestResource(path = "recursiveWithCommoditiesByParentId")
-    Page<NamedEntityLink> getCommodityGroupChildren(@Param("id") Integer id, Pageable pageable);
+    // todo: Add support for query methods returning a projection
+    // This won't work: https://github.com/spring-projects/spring-data-rest/issues/1213
+    @RestResource(exported = false)
+    Page<NamedEntityLinkProjection> getCommodityGroupChildren(@Param("id") Integer id, Pageable pageable);
 
     /**
      * Find the path of CommodityGroups from root to the given ID.

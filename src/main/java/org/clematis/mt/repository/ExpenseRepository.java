@@ -2,11 +2,11 @@ package org.clematis.mt.repository;
 
 import java.util.List;
 
-import org.clematis.mt.dto.AgentCommodityGroup;
-import org.clematis.mt.dto.DateRange;
-import org.clematis.mt.dto.EntityAmountProjection;
-import org.clematis.mt.dto.MoneyShareInCurrency;
+import org.clematis.mt.dto.DateRangeDTO;
 import org.clematis.mt.model.Expense;
+import org.clematis.mt.projections.AgentCommodityGroupProjection;
+import org.clematis.mt.projections.EntityAmountProjection;
+import org.clematis.mt.projections.MoneyShareInCurrencyProjection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -94,11 +94,11 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
         """,
         nativeQuery = true
     )
-    List<AgentCommodityGroup> getAgentCommodityGroups(@Param(value = "code") String code,
-                                                      @Param(value = "moisStart") int moisStart,
-                                                      @Param(value = "anStart") int anStart,
-                                                      @Param(value = "moisEnd") int moisEnd,
-                                                      @Param(value = "anEnd") int anEnd);
+    List<AgentCommodityGroupProjection> getAgentCommodityGroups(@Param(value = "code") String code,
+                                                                @Param(value = "moisStart") int moisStart,
+                                                                @Param(value = "anStart") int anStart,
+                                                                @Param(value = "moisEnd") int moisEnd,
+                                                                @Param(value = "anEnd") int anEnd);
 
     /**
      * Retrieves the date range (earliest and latest) of recorded expenses.
@@ -107,11 +107,11 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
      */
     @Query(value =
         """
-            SELECT new org.clematis.mt.dto.DateRange(MIN(e.transferdate)
+            SELECT new org.clematis.mt.dto.DateRangeDTO(MIN(e.transferdate)
             AS start, MAX(e.transferdate) AS end) FROM Expense e
         """
     )
-    DateRange getDatesRange();
+    DateRangeDTO getDatesRange();
 
     /**
      * Calculates the total expense amount converted to the specified currency.
@@ -138,7 +138,7 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
             SELECT CODE AS code, TOTAL AS total, TOTALCONVERTED AS totalConverted
             FROM GET_EXPENSE_BY_CURRENCY(:code)
         """, nativeQuery = true)
-    List<MoneyShareInCurrency> getExpensesByCurrency(@Param("code") String code);
+    List<MoneyShareInCurrencyProjection> getExpensesByCurrency(@Param("code") String code);
 
     /**
      * Retrieves expense breakdown by commodity categories

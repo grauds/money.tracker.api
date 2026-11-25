@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 /**
  * Repository tests for Organization data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class OrganizationRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired

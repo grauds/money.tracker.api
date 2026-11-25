@@ -13,13 +13,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @SuppressFBWarnings
-public class DateRange {
+public class DateRangeDTO {
 
     private Date start;
 
     private Date end;
 
-    public DateRange(Date start, Date end) {
+    public DateRangeDTO(Date start, Date end) {
         this.start = new Date(start.getTime());
         this.end = new Date(end.getTime());
     }
@@ -32,7 +32,7 @@ public class DateRange {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        DateRange dateRange = (DateRange) o;
+        DateRangeDTO dateRange = (DateRangeDTO) o;
         return Objects.equals(start, dateRange.start) && Objects.equals(end, dateRange.end);
     }
 

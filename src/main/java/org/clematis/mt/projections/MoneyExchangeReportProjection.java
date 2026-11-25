@@ -1,9 +1,9 @@
-package org.clematis.mt.dto;
+package org.clematis.mt.projections;
 
 /**
- * DTO for money exchange report with rates and amounts.
+ * A projection for a money exchange report with rates and amounts.
  */
-public interface MoneyExchangeReport {
+public interface MoneyExchangeReportProjection {
 
     /**
      * Returns the average exchange rate.

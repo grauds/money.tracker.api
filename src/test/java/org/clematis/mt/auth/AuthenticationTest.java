@@ -38,10 +38,11 @@ class AuthenticationTest extends ClematisMoneyTrackerApplicationTests {
     }
 
     /**
-     * Verifies that requests without authentication return appropriate status code.
+     * Verifies that requests without authentication return the appropriate status code.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Test
-    void no_authentication_fails() {
+    void noAuthenticationFails() {
         // if auth is on RestAssured.given().when().get("/api/hello").then().statusCode(401);
         // if auth is off
         RestAssured.given().when().get("/api/hello").then().statusCode(404);
@@ -50,8 +51,9 @@ class AuthenticationTest extends ClematisMoneyTrackerApplicationTests {
     /**
      * Verifies that requests with valid authentication token succeed.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Test
-    void authentication_works() {
+    void authenticationWorks() {
         RestAssured.given()
                 .auth()
                 .preemptive()

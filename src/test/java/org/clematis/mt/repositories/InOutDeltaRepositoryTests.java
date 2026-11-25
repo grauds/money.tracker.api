@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 /**
  * Repository tests for InOutDelta data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class InOutDeltaRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired

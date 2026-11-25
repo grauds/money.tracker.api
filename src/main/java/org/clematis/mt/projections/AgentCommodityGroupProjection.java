@@ -1,9 +1,9 @@
-package org.clematis.mt.dto;
+package org.clematis.mt.projections;
 
 /**
- * DTO for expense aggregates grouped by agent and commodity group.
+ * A projection for expense aggregates grouped by agent and commodity group.
  */
-public interface AgentCommodityGroup {
+public interface AgentCommodityGroupProjection {
 
     /**
      * Returns the agent name.

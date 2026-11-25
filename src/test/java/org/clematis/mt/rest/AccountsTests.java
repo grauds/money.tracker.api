@@ -2,7 +2,6 @@ package org.clematis.mt.rest;
 
 import java.util.Collection;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.clematis.mt.model.Account;
 import org.clematis.mt.model.AccountGroup;
 import org.clematis.mt.model.AccountTotal;
@@ -20,10 +19,12 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * REST API tests for Accounts endpoints.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AccountsTests extends HateoasApiTests {
 
@@ -31,13 +32,17 @@ public class AccountsTests extends HateoasApiTests {
     /**
      * Verifies retrieving accounts via the REST API with authentication.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testAccounts() {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + mock.getAccessToken(aTokenConfig().build()));
 
         ResponseEntity<PagedModel<Account>> accounts = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/accounts", HttpMethod.GET,  new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+                .exchange("/api/accounts",
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers), new ParameterizedTypeReference<>() {}
+                );
         Assertions.assertEquals(HttpStatus.OK, accounts.getStatusCode());
     }
 

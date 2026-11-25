@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Repository tests for AccountTotal data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class AccountTotalsTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -57,6 +58,7 @@ public class AccountTotalsTests extends ClematisMoneyTrackerApplicationTests {
     /**
      * Verifies account totals are retrieved and converted to the specified currency.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void getBalancesInCode() {
         List<AccountTotal> totals = accountTotalRepository.getAccountTotals("RUB");

@@ -29,6 +29,7 @@ public class MonthlyDeltaTests extends HateoasApiTests {
     /**
      * Verifies retrieving monthly deltas via the REST API with authentication.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testAccountsTotals() {
         HttpHeaders headers = new HttpHeaders();
@@ -44,6 +45,7 @@ public class MonthlyDeltaTests extends HateoasApiTests {
     /**
      * Verifies retrieving the balance for a specific month and year.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testBalances() {
         HttpHeaders headers = new HttpHeaders();
@@ -63,8 +65,6 @@ public class MonthlyDeltaTests extends HateoasApiTests {
                         uriParam);
         Assertions.assertEquals(HttpStatus.OK, balance.getStatusCode());
     }
-
-    // http://192.168.1.2:18081/api/monthlyDeltas/search/balance?an=1997&mois=3&code=RUB
 
     /**
      * Verifies retrieving the balance for an edge case month.

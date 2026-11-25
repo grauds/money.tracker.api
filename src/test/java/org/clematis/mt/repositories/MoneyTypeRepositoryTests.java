@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Repository tests for MoneyType data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class MoneyTypeRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -26,6 +27,7 @@ public class MoneyTypeRepositoryTests extends ClematisMoneyTrackerApplicationTes
     /**
      * Verifies finding a money type by its code.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testFindByCode() {
         Assertions.assertEquals("RUB", this.repository.findMoneyTypeByCode("RUB").getCode());

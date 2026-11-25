@@ -27,6 +27,7 @@ public class InOutDeltaTests extends HateoasApiTests {
     /**
      * Verifies retrieving in/out deltas via the REST API with authentication.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testInOutDeltas() {
         HttpHeaders headers = new HttpHeaders();

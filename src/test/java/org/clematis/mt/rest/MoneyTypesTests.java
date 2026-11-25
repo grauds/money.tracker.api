@@ -1,6 +1,5 @@
 package org.clematis.mt.rest;
 
-import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -16,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
 /**
  * REST API tests for MoneyType endpoints.
@@ -25,6 +25,7 @@ public class MoneyTypesTests extends HateoasApiTests {
     /**
      * Verifies retrieving all money types via the REST API with authentication.
      */
+    @SuppressWarnings({"checkstyle:MultipleStringLiterals", "checkstyle:MagicNumber"})
     @Test
     public void testMoneyTypes() {
         HttpHeaders headers = new HttpHeaders();

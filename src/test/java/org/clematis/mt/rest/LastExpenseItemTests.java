@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.clematis.mt.model.LastExpenseItem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpEntity;
@@ -20,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * REST API tests for LastExpenseItem endpoints.
@@ -29,6 +28,7 @@ public class LastExpenseItemTests extends HateoasApiTests {
     /**
      * Verifies retrieving last expense items via the REST API with authentication.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testLastExpenseItems() {
 
@@ -48,6 +48,7 @@ public class LastExpenseItemTests extends HateoasApiTests {
     /**
      * Verifies searching last expense items by name prefix via the REST API.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     @SuppressFBWarnings
     public void testSearchLastExpenseItems() {
@@ -64,8 +65,8 @@ public class LastExpenseItemTests extends HateoasApiTests {
 
         ResponseEntity<PagedModel<LastExpenseItem>> items
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/lastExpenseItems/search/findByNameStarting?" +
-                                "name={name}&page={page}&size={size}&sort={sort}",
+                .exchange("/api/lastExpenseItems/search/findByNameStarting?"
+                        + "name={name}&page={page}&size={size}&sort={sort}",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {},

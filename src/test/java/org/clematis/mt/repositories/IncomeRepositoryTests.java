@@ -3,14 +3,12 @@ package org.clematis.mt.repositories;
 import java.util.List;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
-import org.clematis.mt.dto.MoneyShareInCurrency;
 import org.clematis.mt.model.MoneyTypeCode;
+import org.clematis.mt.projections.MoneyShareInCurrencyProjection;
 import org.clematis.mt.repository.IncomeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 /**
  * Repository tests for Income data access.
  */
@@ -44,11 +42,12 @@ public class IncomeRepositoryTests extends ClematisMoneyTrackerApplicationTests 
      */
     @Test
     public void testGetIncomeByCurrency() {
-        List<MoneyShareInCurrency> result = incomeRepository.getIncomeByCurrency(String.valueOf(MoneyTypeCode.RUB));
+        List<MoneyShareInCurrencyProjection> result
+            = incomeRepository.getIncomeByCurrency(String.valueOf(MoneyTypeCode.RUB));
         Assertions.assertNotNull(result);
         Assertions.assertFalse(result.isEmpty());
 
-        for (MoneyShareInCurrency row : result) {
+        for (MoneyShareInCurrencyProjection row : result) {
             Assertions.assertNotNull(row.getCode());
             Assertions.assertNotNull(row.getTotal());
             Assertions.assertNotNull(row.getTotalConverted());
@@ -62,11 +61,12 @@ public class IncomeRepositoryTests extends ClematisMoneyTrackerApplicationTests 
      */
     @Test
     public void testGetIncomeByCurrencyUsd() {
-        List<MoneyShareInCurrency> result = incomeRepository.getIncomeByCurrency(String.valueOf(MoneyTypeCode.USD));
+        List<MoneyShareInCurrencyProjection> result
+            = incomeRepository.getIncomeByCurrency(String.valueOf(MoneyTypeCode.USD));
         Assertions.assertNotNull(result);
         Assertions.assertFalse(result.isEmpty());
 
-        for (MoneyShareInCurrency row : result) {
+        for (MoneyShareInCurrencyProjection row : result) {
             Assertions.assertNotNull(row.getCode());
             Assertions.assertNotNull(row.getTotal());
             Assertions.assertNotNull(row.getTotalConverted());

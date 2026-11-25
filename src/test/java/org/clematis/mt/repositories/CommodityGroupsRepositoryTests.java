@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 /**
  * Repository tests for CommodityGroup data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class CommodityGroupsRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired

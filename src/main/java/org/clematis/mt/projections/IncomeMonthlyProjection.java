@@ -1,10 +1,9 @@
-package org.clematis.mt.dto;
+package org.clematis.mt.projections;
 
 /**
- * DTO for monthly income report grouped by commodity.
+ * A projection for the monthly income report grouped by commodity.
  */
-@Deprecated
-public interface IncomeMonthlyReport {
+public interface IncomeMonthlyProjection {
 
     /**
      * Returns the year.

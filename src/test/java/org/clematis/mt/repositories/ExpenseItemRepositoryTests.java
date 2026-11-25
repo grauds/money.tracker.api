@@ -13,10 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-
 /**
  * Repository tests for ExpenseItem data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -25,6 +25,7 @@ public class ExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationT
     /**
      * Verifies the total count of expense items.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testExpenses() {
         Iterable<ExpenseItem> result

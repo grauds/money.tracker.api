@@ -6,7 +6,6 @@ import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
 import org.clematis.mt.model.LastExpenseEntry;
 import org.clematis.mt.model.LastExpenseItem;
 import org.clematis.mt.repository.LastExpenseItemRepository;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 /**
  * Repository tests for LastExpenseItem data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class LastExpenseItemRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired

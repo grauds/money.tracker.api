@@ -2,9 +2,9 @@ package org.clematis.mt.repository;
 
 import java.util.List;
 
-import org.clematis.mt.dto.CurrencySummaryProjection;
 import org.clematis.mt.model.MonthlyDelta;
 import org.clematis.mt.model.MonthlyDeltaKey;
+import org.clematis.mt.projections.AccountSummaryProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -65,7 +65,7 @@ public interface MonthlyDeltaRepository extends PagingAndSortingRepository<Month
             ORDER BY s.AN ASC, s.MOIS ASC, s.ACCOUNT_NAME ASC
         """, nativeQuery = true)
     @RestResource(exported = false)
-    List<CurrencySummaryProjection> getSummaryInCurrency(
+    List<AccountSummaryProjection> getSummaryInCurrency(
         @Param(value = "code") String code,
         @Param(value = "moisStart") int moisStart,
         @Param(value = "anStart") int anStart,

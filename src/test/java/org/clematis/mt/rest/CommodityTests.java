@@ -33,22 +33,31 @@ public class CommodityTests extends HateoasApiTests {
 
         ResponseEntity<PagedModel<CommodityGroup>> groups
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/commodityGroups/search/recursiveByParentId?id=303", HttpMethod.GET,  new HttpEntity<>(headers),
-                        new ParameterizedTypeReference<>() {});
+                .exchange("/api/commodityGroups/search/recursiveByParentId?id=303",
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {}
+                );
 
         Assertions.assertEquals(HttpStatus.OK, groups.getStatusCode());
 
         ResponseEntity<PagedModel<Commodity>> commodities
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/commodities/search/recursiveCommoditiesByGroupId?id=303", HttpMethod.GET,  new HttpEntity<>(headers),
-                        new ParameterizedTypeReference<>() {});
+                .exchange("/api/commodities/search/recursiveCommoditiesByGroupId?id=303",
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {}
+                );
 
         Assertions.assertEquals(HttpStatus.OK, commodities.getStatusCode());
 
         ResponseEntity<PagedModel<CommodityGroup>> path
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/commodityGroups/search/pathById?id=303", HttpMethod.GET,  new HttpEntity<>(headers),
-                        new ParameterizedTypeReference<>() {});
+                .exchange("/api/commodityGroups/search/pathById?id=303",
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {}
+                );
 
         Assertions.assertEquals(HttpStatus.OK, path.getStatusCode());
     }

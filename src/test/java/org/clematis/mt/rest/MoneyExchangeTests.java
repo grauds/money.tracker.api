@@ -25,6 +25,7 @@ public class MoneyExchangeTests extends HateoasApiTests {
     /**
      * Verifies retrieving the average exchange rate via the REST API.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testAverageExhangeRate() {
         HttpHeaders headers = new HttpHeaders();

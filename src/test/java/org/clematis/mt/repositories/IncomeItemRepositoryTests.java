@@ -4,10 +4,10 @@ import java.sql.Date;
 import java.util.List;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
-import org.clematis.mt.dto.IncomeMonthlyReport;
 import org.clematis.mt.model.IncomeItem;
 import org.clematis.mt.model.IncomeMonthly;
 import org.clematis.mt.model.MoneyTypeCode;
+import org.clematis.mt.projections.IncomeMonthlyProjection;
 import org.clematis.mt.repository.IncomeItemRepository;
 import org.clematis.mt.repository.IncomeMonthlyRepository;
 import org.junit.jupiter.api.Assertions;
@@ -22,6 +22,7 @@ import org.springframework.data.domain.Sort;
 /**
  * Repository tests for IncomeItem data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -33,6 +34,7 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
     /**
      * Verifies the total count of income items.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testIncome() {
         Iterable<IncomeItem> result
@@ -124,6 +126,7 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
     /**
      * Verifies filtering income items by account ID and summing income with currency conversion.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testAccountIncome() {
         Page<IncomeItem> result = incomeItemRepository
@@ -201,7 +204,7 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
      */
     @Test
     public void testIncomeReports() {
-        Page<IncomeMonthlyReport> reports
+        Page<IncomeMonthlyProjection> reports
             = incomeItemRepository.getIncomeItemReports("EUR", Pageable.ofSize(400));
 
         Assertions.assertEquals(61, reports.getTotalElements());

@@ -1,10 +1,9 @@
 package org.clematis.mt.rest;
 
-import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.clematis.mt.dto.NamedEntityLink;
+import org.clematis.mt.projections.NamedEntityLinkProjection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-
+import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 /**
  * REST API tests for CommodityGroup endpoints.
  */
@@ -39,16 +38,16 @@ public class CommodityGroupTests extends HateoasApiTests {
         uriParam.put("sort", "name,DESC");
         uriParam.put("id", "303");
 
-        ResponseEntity<PagedModel<NamedEntityLink>> all
+        ResponseEntity<PagedModel<NamedEntityLinkProjection>> all
             = getRestTemplateWithHalMessageConverter()
-            .exchange("/api/commodityGroups/search/" +
-                    "recursiveWithCommoditiesByParentId?page={page}&size={size}&sort={sort}&id={id}",
+            .exchange("/api/commodityGroups/search/"
+                    + "recursiveWithCommoditiesByParentId?page={page}&size={size}&sort={sort}&id={id}",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 new ParameterizedTypeReference<>() {},
                 uriParam);
 
-        // see https://github.com/spring-projects/spring-data-rest/issues/1213
-        Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, all.getStatusCode());
+        // todo: implement, see https://github.com/spring-projects/spring-data-rest/issues/1213
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, all.getStatusCode());
     }
 }

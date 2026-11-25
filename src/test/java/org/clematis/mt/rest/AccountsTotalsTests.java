@@ -27,6 +27,7 @@ public class AccountsTotalsTests extends HateoasApiTests {
     /**
      * Verifies retrieving account totals via the REST API with authentication.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testAccountsTotals() {
         HttpHeaders headers = new HttpHeaders();
@@ -44,6 +45,7 @@ public class AccountsTotalsTests extends HateoasApiTests {
     /**
      * Verifies retrieving account totals filtered by currency code.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testTotalsBalanceInCode() {
         HttpHeaders headers = new HttpHeaders();

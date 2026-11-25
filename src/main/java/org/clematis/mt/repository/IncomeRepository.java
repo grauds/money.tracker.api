@@ -2,9 +2,9 @@ package org.clematis.mt.repository;
 
 import java.util.List;
 
-import org.clematis.mt.dto.EntityAmountProjection;
-import org.clematis.mt.dto.MoneyShareInCurrency;
 import org.clematis.mt.model.Income;
+import org.clematis.mt.projections.EntityAmountProjection;
+import org.clematis.mt.projections.MoneyShareInCurrencyProjection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -53,7 +53,7 @@ public interface IncomeRepository extends PagingAndSortingRepository<Income, Int
             SELECT CODE AS code, TOTAL AS total, TOTALCONVERTED AS totalConverted
             FROM GET_INCOME_BY_CURRENCY(:code)
         """, nativeQuery = true)
-    List<MoneyShareInCurrency> getIncomeByCurrency(@Param("code") String code);
+    List<MoneyShareInCurrencyProjection> getIncomeByCurrency(@Param("code") String code);
 
     /**
      * Retrieves income breakdown by organizations.

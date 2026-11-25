@@ -1,6 +1,6 @@
 package org.clematis.mt.web;
 
-import org.clematis.mt.dto.InfoAbout;
+import org.clematis.mt.dto.GeneralStatsDTO;
 import org.clematis.mt.repository.AccountRepository;
 import org.clematis.mt.repository.ExpenseItemRepository;
 import org.clematis.mt.repository.ExpenseRepository;
@@ -44,20 +44,20 @@ public class AboutController {
      * @return response entity with statistics
      */
     @GetMapping("/about")
-    public ResponseEntity<InfoAbout> getInfoAbout() {
-        InfoAbout infoAbout = new InfoAbout();
+    public ResponseEntity<GeneralStatsDTO> getInfoAbout() {
+        GeneralStatsDTO generalStatsDTO = new GeneralStatsDTO();
 
-        infoAbout.setExpenses(expenseRepository.count());
-        infoAbout.setIncome(incomeRepository.count());
-        infoAbout.setOrganizations(organizationRepository.count());
-        infoAbout.setAccounts(accountRepository.count());
-        infoAbout.setDates(expenseRepository.getDatesRange());
-        infoAbout.setExpensesNoCommodity(expenseItemRepository.countItemsWithNoCommodity());
-        infoAbout.setExpensesNoTradeplace(expenseItemRepository.countItemsWithNoTradeplace());
-        infoAbout.setExpensesTradeplace(expenseItemRepository.countItemsWithTradeplace());
+        generalStatsDTO.setExpenses(expenseRepository.count());
+        generalStatsDTO.setIncome(incomeRepository.count());
+        generalStatsDTO.setOrganizations(organizationRepository.count());
+        generalStatsDTO.setAccounts(accountRepository.count());
+        generalStatsDTO.setDates(expenseRepository.getDatesRange());
+        generalStatsDTO.setExpensesNoCommodity(expenseItemRepository.countItemsWithNoCommodity());
+        generalStatsDTO.setExpensesNoTradeplace(expenseItemRepository.countItemsWithNoTradeplace());
+        generalStatsDTO.setExpensesTradeplace(expenseItemRepository.countItemsWithTradeplace());
 
         return ResponseEntity
             .ok()
-            .body(infoAbout);
+            .body(generalStatsDTO);
     }
 }

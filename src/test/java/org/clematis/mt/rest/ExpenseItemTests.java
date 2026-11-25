@@ -25,6 +25,7 @@ public class ExpenseItemTests extends HateoasApiTests {
     /**
      * Verifies retrieving expense items via the REST API with authentication and pagination.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testExpenseItems() {
 
@@ -166,8 +167,8 @@ public class ExpenseItemTests extends HateoasApiTests {
         uriParam.put("code", "RUB");
 
         ResponseEntity<?> response = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/agentCommodityGroupExpenses?code={code}" +
-                        "&moisStart={moisStart}&anStart={anStart}&moisEnd={moisEnd}&anEnd={anEnd}",
+                .exchange("/api/agentCommodityGroupExpenses?code={code}"
+                        + "&moisStart={moisStart}&anStart={anStart}&moisEnd={moisEnd}&anEnd={anEnd}",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {},

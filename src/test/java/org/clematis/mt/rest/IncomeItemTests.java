@@ -1,6 +1,5 @@
 package org.clematis.mt.rest;
 
-import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static com.tngtech.keycloakmock.api.TokenConfig.aTokenConfig;
 
 /**
  * REST API tests for IncomeItem endpoints.
@@ -24,6 +24,7 @@ public class IncomeItemTests extends HateoasApiTests {
     /**
      * Verifies retrieving income items via the REST API with authentication and pagination.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     public void testIncomeItems() {
 
@@ -129,7 +130,7 @@ public class IncomeItemTests extends HateoasApiTests {
     }
 
     /**
-     * Verifies retrieving income monthly report via the REST API.
+     * Verifies retrieving the income monthly report via the REST API.
      */
     @Test
     public void testIncomeIncomeItems() {
@@ -147,8 +148,8 @@ public class IncomeItemTests extends HateoasApiTests {
 
         ResponseEntity<?> items
                 = getRestTemplateWithHalMessageConverter()
-                .exchange("/api/incomeMonthly/search/report?code={code}" +
-                                "&moisStart={moisStart}&anStart={anStart}&moisEnd={moisEnd}&anEnd={anEnd}",
+                .exchange("/api/incomeMonthly/search/report?code={code}"
+                        + "&moisStart={moisStart}&anStart={anStart}&moisEnd={moisEnd}&anEnd={anEnd}",
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         new ParameterizedTypeReference<>() {},

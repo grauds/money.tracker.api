@@ -22,9 +22,10 @@ import lombok.extern.java.Log;
 
 
 /**
- * Base integration test class with Testcontainers setup for Firebird database.
+ * Base integration test class with Testcontainers setup for the Firebird database.
  * Provides a shared Firebird database container for all tests.
  */
+@SuppressWarnings("checkstyle:MultipleStringLiterals")
 @Testcontainers
 @SpringBootTest(
         classes = ClematisMoneyTrackerApplication.class,
@@ -36,24 +37,27 @@ public class ClematisMoneyTrackerApplicationTests {
     private static final DockerImageName IMAGE =
             DockerImageName.parse(FirebirdContainer.IMAGE).withTag("2.5.9-sc");
 
-    private static final FirebirdContainer<?> container;
+    private static final FirebirdContainer<?> FIREBIRD_CONTAINER;
 
     static {
-        container = new FirebirdContainer<>(IMAGE)
+        FIREBIRD_CONTAINER = new FirebirdContainer<>(IMAGE)
                 .withDatabaseName("mt.fdb")
                 .withUsername("SYSDBA")
                 .withCopyFileToContainer(
                         MountableFile.forClasspathResource("mt.fdb"), "/firebird/data/mt.fdb"
                 )
                 .withUrlParam("encoding", "win1251");
-        container.start();
+        FIREBIRD_CONTAINER.start();
     }
+
+    @MockBean
+    private StorageApiClient storageApiClient;
 
     @DynamicPropertySource
     static void init(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", container::getJdbcUrl);
-        registry.add("spring.datasource.password", container::getPassword);
-        registry.add("spring.datasource.username", container::getUsername);
+        registry.add("spring.datasource.url", FIREBIRD_CONTAINER::getJdbcUrl);
+        registry.add("spring.datasource.password", FIREBIRD_CONTAINER::getPassword);
+        registry.add("spring.datasource.username", FIREBIRD_CONTAINER::getUsername);
     }
 
     /**
@@ -64,14 +68,17 @@ public class ClematisMoneyTrackerApplicationTests {
     @Test
     public void canConnectToContainer() throws Exception {
         try (Connection connection = DriverManager
-                .getConnection(container.getJdbcUrl(), container.getUsername(), container.getPassword());
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("select CURRENT_USER from RDB$DATABASE")) {
-                 Assertions.assertTrue(rs.next(), "has row");
-                 Assertions.assertEquals("SYSDBA", rs.getString(1), "user name");
+                .getConnection(
+                    FIREBIRD_CONTAINER.getJdbcUrl(),
+                    FIREBIRD_CONTAINER.getUsername(),
+                    FIREBIRD_CONTAINER.getPassword()
+                );
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("select CURRENT_USER from RDB$DATABASE")
+        ) {
+            Assertions.assertTrue(rs.next(), "has row");
+            Assertions.assertEquals("SYSDBA", rs.getString(1), "user name");
         }
     }
 
-    @MockBean
-    private StorageApiClient storageApiClient;
 }

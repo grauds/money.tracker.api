@@ -141,14 +141,12 @@ tasks.register('checkstyleReport') {
         if (file("${layout.buildDirectory.asFile.get()}/reports/checkstyle/${project.ext.checkType}.xml").exists()) {
             ant.xslt(in: "${layout.buildDirectory.asFile.get()}/reports/checkstyle/${project.ext.checkType}.xml",
                     style: "${project.rootDir}/config/checkstyle/checkstyle.xsl",
-                    out: "${layout.buildDirectory.asFile.get()}/reports/checkstyle/checkstyle_${project.ext.checkType}.html")
+                    out: "${layout.buildDirectory.asFile.get()}" +
+                            "/reports/checkstyle/checkstyle_${project.ext.checkType}.html")
         }
     }
 }
 
-tasks.withType(Checkstyle).configureEach {
-    exclude '**/*Test*'
-}
 
 // ------------ Open API configuration  ---------
 

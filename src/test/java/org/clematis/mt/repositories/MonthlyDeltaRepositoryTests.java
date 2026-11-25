@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 /**
  * Repository tests for MonthlyDelta data access.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class MonthlyDeltaRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -30,6 +31,7 @@ public class MonthlyDeltaRepositoryTests extends ClematisMoneyTrackerApplication
     /**
      * Verifies the balance calculation for a specific month and year.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     void countBalances() {
         Assertions.assertEquals(474100,
@@ -48,6 +50,7 @@ public class MonthlyDeltaRepositoryTests extends ClematisMoneyTrackerApplication
     /**
      * Verifies sorting of monthly deltas by year in descending and ascending order.
      */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Test
     void sortByYear() {
         Page<MonthlyDelta> page

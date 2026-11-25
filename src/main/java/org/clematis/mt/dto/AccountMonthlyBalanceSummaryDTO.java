@@ -2,14 +2,18 @@ package org.clematis.mt.dto;
 
 import java.math.BigDecimal;
 
+import org.clematis.mt.projections.AccountSummaryProjection;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 import lombok.Getter;
 
+/**
+ * DTO for monthly balance summary.
+ */
 @Relation(collectionRelation = "monthlyDeltas", itemRelation = "monthlyDelta")
 @Getter
-public class MonthlyBalanceSummaryDto extends RepresentationModel<MonthlyBalanceSummaryDto> {
+public class AccountMonthlyBalanceSummaryDTO extends RepresentationModel<AccountMonthlyBalanceSummaryDTO> {
 
     private final Integer accountId;
     private final String accountName;
@@ -23,7 +27,7 @@ public class MonthlyBalanceSummaryDto extends RepresentationModel<MonthlyBalance
     private final BigDecimal monthTotalDeltaTarget;
     private final BigDecimal monthTotalBalanceTarget;
 
-    public MonthlyBalanceSummaryDto(CurrencySummaryProjection p) {
+    public AccountMonthlyBalanceSummaryDTO(AccountSummaryProjection p) {
         this.accountId = p.getAccountId();
         this.accountName = p.getAccountName();
         this.year = p.getYear();

@@ -2,8 +2,8 @@ package org.clematis.mt.web;
 
 import java.util.List;
 
-import org.clematis.mt.dto.EntityAmountProjection;
-import org.clematis.mt.dto.MoneyShareInCurrency;
+import org.clematis.mt.projections.EntityAmountProjection;
+import org.clematis.mt.projections.MoneyShareInCurrencyProjection;
 import org.clematis.mt.repository.ExpenseRepository;
 import org.clematis.mt.repository.IncomeRepository;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Provides methods for retrieving income and expense totals and breakdowns by currency.
  */
 @RepositoryRestController
-public class StatsCurrencyController {
+public class IncomeExpenseController {
 
     private final IncomeRepository incomeRepository;
     private final ExpenseRepository expenseRepository;
 
-    public StatsCurrencyController(
+    public IncomeExpenseController(
         IncomeRepository incomeRepository,
         ExpenseRepository expenseRepository
     ) {
@@ -48,7 +48,7 @@ public class StatsCurrencyController {
      * @return response containing income shares per category
      */
     @GetMapping("/income/search/totalByCurrency")
-    public ResponseEntity<List<MoneyShareInCurrency>> getIncomeByCurrency(
+    public ResponseEntity<List<MoneyShareInCurrencyProjection>> getIncomeByCurrency(
         @RequestParam("code") String code
     ) {
         return ResponseEntity.ok(incomeRepository.getIncomeByCurrency(code));
@@ -97,7 +97,7 @@ public class StatsCurrencyController {
      * @return response containing expense shares per currency
      */
     @GetMapping("/expenses/search/totalByCurrency")
-    public ResponseEntity<List<MoneyShareInCurrency>> getExpenseByCurrency(
+    public ResponseEntity<List<MoneyShareInCurrencyProjection>> getExpenseByCurrency(
         @RequestParam("code") String code
     ) {
         return ResponseEntity.ok(expenseRepository.getExpensesByCurrency(code));

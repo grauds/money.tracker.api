@@ -8,12 +8,12 @@ import lombok.Data;
  */
 @Data
 @SuppressFBWarnings
-public class InfoAbout {
+public class GeneralStatsDTO {
     long expenses;
     long income;
     long organizations;
     long accounts;
-    DateRange dates;
+    DateRangeDTO dates;
     Long expensesNoCommodity;
     Long expensesNoTradeplace;
     Long expensesTradeplace;
