@@ -183,7 +183,7 @@ jacocoTestReport {
     }
     executionData fileTree(project.rootDir.absolutePath).include("jacoco/*.exec")
 
-    afterEvaluate {
+    doFirst {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     '**/generated/**',          // Generic generated package
