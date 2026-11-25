@@ -25,7 +25,7 @@ public class MonthlyDeltaSummaryController {
         this.repository = repository;
     }
 
-    @GetMapping("/monthlyDeltas/search/summary")
+    @GetMapping("/api/monthlyDeltas/search/summary")
     @ResponseBody
     public ResponseEntity<CollectionModel<MonthlyBalanceSummaryDto>> getSummaryInCurrency(
         @RequestParam("code") String code,
