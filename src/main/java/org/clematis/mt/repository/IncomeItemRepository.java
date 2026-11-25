@@ -99,11 +99,25 @@ public interface IncomeItemRepository extends JpaRepository<IncomeItem, Integer>
      * @return total income for the commodity converted to the target currency
      */
     @Query(value = """
-        SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
-            FROM IncomeItem as ei
-                JOIN Income as e ON e.id=ei.income
-                JOIN MoneyType m ON m.id = e.moneyType
-                WHERE ei.COMM=:id
+            SELECT ROUND(
+                SUM(
+                    d.daily_total / COALESCE(
+                        (SELECT RATE FROM CROSS_RATE_2(d.code, :moneyCode, d.tx_date)),
+                        1
+                    )
+                ),
+                6
+            )
+            FROM (
+                SELECT m.code AS code,
+                       CAST(e.TRANSFERDATE AS DATE) AS tx_date,
+                       SUM(ei.total) AS daily_total
+                FROM IncomeItem as ei
+                    JOIN Income as e ON e.id = ei.income
+                    JOIN MoneyType m ON m.id = e.moneyType
+                WHERE ei.COMM = :id
+                GROUP BY 1, 2
+            ) d
         """, nativeQuery = true)
     @RestResource(path = "sumCommodityIncome")
     Double sumCommodityIncome(

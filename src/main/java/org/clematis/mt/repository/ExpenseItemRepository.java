@@ -96,11 +96,22 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Intege
      * @return total expenses for the commodity converted to the target currency
      */
     @Query(value = """
-        SELECT SUM(ei.total /  NULLIF((SELECT * FROM CROSS_RATE_2(m.code, :moneyCode, e.TRANSFERDATE)), 0))
-            FROM ExpenseItem as ei
-                JOIN Expense as e ON e.id=ei.expense
+        SELECT SUM(
+            d.daily_total / COALESCE(
+                (SELECT RATE FROM CROSS_RATE_2(d.code, :moneyCode, d.tx_date)),
+                1
+            )
+        )
+        FROM (
+            SELECT m.code AS code,
+                   CAST(e.TRANSFERDATE AS DATE) AS tx_date,
+                   SUM(ei.total) AS daily_total
+            FROM ExpenseItem ei
+                JOIN Expense e ON e.id = ei.expense
                 JOIN MoneyType m ON m.id = e.moneyType
-            WHERE ei.COMM=:id
+            WHERE ei.COMM = :id
+            GROUP BY 1, 2
+        ) d
         """, nativeQuery = true)
     @RestResource(path = "sumCommodityExpenses")
     Double sumCommodityExpenses(

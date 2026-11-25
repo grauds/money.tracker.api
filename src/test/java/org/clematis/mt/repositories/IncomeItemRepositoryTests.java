@@ -89,7 +89,7 @@ public class IncomeItemRepositoryTests extends ClematisMoneyTrackerApplicationTe
     @Test
     public void testCommodityTotalSum() {
         Double result = incomeItemRepository.sumCommodityIncome(654, String.valueOf(MoneyTypeCode.RUB));
-        Assertions.assertEquals(246436.45805304602, result);
+        Assertions.assertEquals(246436.458053, result);
     }
 
     /**
