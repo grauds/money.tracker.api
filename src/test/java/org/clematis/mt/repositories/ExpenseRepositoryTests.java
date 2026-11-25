@@ -8,6 +8,7 @@ import org.clematis.mt.dto.DateRangeDTO;
 import org.clematis.mt.model.Expense;
 import org.clematis.mt.model.MoneyTypeCode;
 import org.clematis.mt.projections.AgentCommodityGroupProjection;
+import org.clematis.mt.projections.EntityAmountProjection;
 import org.clematis.mt.projections.MoneyShareInCurrencyProjection;
 import org.clematis.mt.repository.ExpenseRepository;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Repository tests for Expense data access.
  */
-@SuppressWarnings("checkstyle:MagicNumber")
+@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:MultipleStringLiterals"})
 public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests {
 
     @Autowired
@@ -106,8 +107,7 @@ public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests
     @Test
     public void testSumTotalInCurrency() {
         Double result = expenseRepository.sumTotalInCurrency(String.valueOf(MoneyTypeCode.RUB));
-        Assertions.assertNotNull(result);
-        Assertions.assertTrue(result > 0);
+        Assertions.assertEquals(1060524.75, result);
     }
 
     /**
@@ -116,8 +116,91 @@ public class ExpenseRepositoryTests extends ClematisMoneyTrackerApplicationTests
     @Test
     public void testSumTotalInCurrencyUsd() {
         Double result = expenseRepository.sumTotalInCurrency(String.valueOf(MoneyTypeCode.USD));
+        Assertions.assertEquals(32021.39, result);
+    }
+
+    /**
+     * Verifies expense breakdown by categories in RUB returns 34 items.
+     */
+    @Test
+    public void testGetExpenseByCategories() {
+        List<EntityAmountProjection> result = expenseRepository.getExpenseByCategories("RUB");
+        Assertions.assertEquals(34, result.size());
+
+        Assertions.assertEquals("Квартира", result.get(0).getName());
+        Assertions.assertEquals(872646.0, result.get(0).getTotal(), 0.01);
+        Assertions.assertEquals(14, result.get(0).getTxCount());
+
+        Assertions.assertEquals("Разное", result.get(1).getName());
+        Assertions.assertEquals(34797.36, result.get(1).getTotal(), 0.01);
+        Assertions.assertEquals(105, result.get(1).getTxCount());
+    }
+
+    /**
+     * Verifies expense breakdown by categories in USD returns 34 items.
+     */
+    @Test
+    public void testGetExpenseByCategoriesUsd() {
+        List<EntityAmountProjection> result = expenseRepository.getExpenseByCategories("USD");
+        Assertions.assertEquals(34, result.size());
+
+        Assertions.assertEquals("Квартира", result.get(0).getName());
+        Assertions.assertEquals(25794.17, result.get(0).getTotal(), 0.01);
+        Assertions.assertEquals(14, result.get(0).getTxCount());
+    }
+
+    /**
+     * Verifies expense breakdown by trade place in RUB returns 56 items.
+     */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
+    @Test
+    public void testGetExpenseByTradePlace() {
+        List<EntityAmountProjection> result = expenseRepository.getExpenseByTradePlace("RUB");
+        Assertions.assertEquals(56, result.size());
+
+        Assertions.assertEquals("Обычное", result.get(0).getName());
+        Assertions.assertEquals(930058.4, result.get(0).getTotal(), 0.01);
+        Assertions.assertEquals(409, result.get(0).getTxCount());
+
+        Assertions.assertEquals("ДНС", result.get(1).getName());
+        Assertions.assertEquals(19385.0, result.get(1).getTotal(), 0.01);
+        Assertions.assertEquals(12, result.get(1).getTxCount());
+    }
+
+    /**
+     * Verifies expense breakdown by trade place in USD returns 56 items.
+     */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
+    @Test
+    public void testGetExpenseByTradePlaceUsd() {
+        List<EntityAmountProjection> result = expenseRepository.getExpenseByTradePlace("USD");
+        Assertions.assertEquals(56, result.size());
+
+        Assertions.assertEquals("Обычное", result.get(0).getName());
+        Assertions.assertEquals(27653.24, result.get(0).getTotal(), 0.01);
+        Assertions.assertEquals(409, result.get(0).getTxCount());
+    }
+
+    /**
+     * Verifies expense breakdown by categories for non-existent currency.
+     */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
+    @Test
+    public void testGetExpenseByCategoriesNonExistentCurrency() {
+        List<EntityAmountProjection> result = expenseRepository.getExpenseByCategories("XXX");
         Assertions.assertNotNull(result);
-        Assertions.assertTrue(result > 0);
+        Assertions.assertEquals(34, result.size());
+    }
+
+    /**
+     * Verifies expense breakdown by trade place for non-existent currency.
+     */
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
+    @Test
+    public void testGetExpenseByTradePlaceNonExistentCurrency() {
+        List<EntityAmountProjection> result = expenseRepository.getExpenseByTradePlace("XXX");
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(56, result.size());
     }
 
 }

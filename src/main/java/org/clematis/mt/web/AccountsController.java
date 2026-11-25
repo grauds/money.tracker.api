@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AccountsController {
 
-    private static final String DELIM = "-";
     private final MonthlyDeltaRepository repository;
 
     public AccountsController(MonthlyDeltaRepository repository) {

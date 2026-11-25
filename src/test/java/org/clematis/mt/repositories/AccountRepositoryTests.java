@@ -59,4 +59,37 @@ public class AccountRepositoryTests extends ClematisMoneyTrackerApplicationTests
         );
         Assertions.assertEquals(6, page.getTotalElements());
     }
+
+    /**
+     * Verifies finding accounts recursively by group ID 1 returns 0 accounts.
+     */
+    @Test
+    void testFindAccountsRecursiveByGroupId() {
+        Page<Account> result = accountRepository
+                .findAccountsRecursiveByGroupId(1, PageRequest.of(0, 100));
+        Assertions.assertEquals(0, result.getTotalElements());
+    }
+
+    /**
+     * Verifies finding accounts recursively by group ID with pagination.
+     */
+    @Test
+    void testFindAccountsRecursiveByGroupIdPagination() {
+        Page<Account> page = accountRepository
+                .findAccountsRecursiveByGroupId(258, PageRequest.of(0, 5));
+        Assertions.assertEquals(4, page.getContent().size());
+        Assertions.assertEquals(4, page.getTotalElements());
+        Assertions.assertFalse(page.hasNext());
+    }
+
+    /**
+     * Verifies finding accounts recursively by non-existent group ID returns empty page.
+     */
+    @Test
+    void testFindAccountsRecursiveByGroupIdNonExistent() {
+        Page<Account> result = accountRepository
+                .findAccountsRecursiveByGroupId(9999, PageRequest.of(0, 100));
+        Assertions.assertEquals(0, result.getTotalElements());
+    }
+
 }

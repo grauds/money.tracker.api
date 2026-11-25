@@ -1,11 +1,14 @@
 package org.clematis.mt.repositories;
 
 import org.clematis.mt.ClematisMoneyTrackerApplicationTests;
+import org.clematis.mt.model.MoneyExchange;
 import org.clematis.mt.projections.MoneyExchangeReportProjection;
 import org.clematis.mt.repository.MoneyExchangeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 
 /**
@@ -52,4 +55,48 @@ public class MoneyExchangeRepositoryTests extends ClematisMoneyTrackerApplicatio
         Assertions.assertEquals(8385.19,  report.getDestAmount());
         Assertions.assertEquals(334.4599981117249,  report.getSourceAmount());
     }
+
+    /**
+     * Verifies finding money exchanges by source and destination currency codes (USD to RUB).
+     */
+    @Test
+    void testFindAllBySourceAndDestCurrencyUsdToRub() {
+        Page<MoneyExchange> result = moneyExchangeRepository
+                .findAllBySourcemoneytype_CodeAndDestmoneytype_Code("USD", "RUB", PageRequest.of(0, 100));
+        Assertions.assertEquals(4, result.getTotalElements());
+    }
+
+    /**
+     * Verifies finding money exchanges by source and destination currency codes (EUR to RUB).
+     */
+    @Test
+    void testFindAllBySourceAndDestCurrencyEurToRub() {
+        Page<MoneyExchange> result = moneyExchangeRepository
+                .findAllBySourcemoneytype_CodeAndDestmoneytype_Code("EUR", "RUB", PageRequest.of(0, 100));
+        Assertions.assertEquals(1, result.getTotalElements());
+    }
+
+    /**
+     * Verifies finding money exchanges for a non-existent currency pair returns an empty page.
+     */
+    @Test
+    void testFindAllBySourceAndDestCurrencyNonExistent() {
+        Page<MoneyExchange> result = moneyExchangeRepository
+                .findAllBySourcemoneytype_CodeAndDestmoneytype_Code("XXX", "YYY", PageRequest.of(0, 100));
+        Assertions.assertEquals(0, result.getTotalElements());
+    }
+
+    /**
+     * Verifies finding money exchanges with pagination (page 1).
+     */
+    @Test
+    void testFindAllBySourceAndDestCurrencyPagination() {
+        Page<MoneyExchange> page0 = moneyExchangeRepository
+                .findAllBySourcemoneytype_CodeAndDestmoneytype_Code("USD", "RUB", PageRequest.of(0, 2));
+        Page<MoneyExchange> page1 = moneyExchangeRepository
+                .findAllBySourcemoneytype_CodeAndDestmoneytype_Code("USD", "RUB", PageRequest.of(1, 2));
+        Assertions.assertEquals(4, page0.getTotalElements());
+        Assertions.assertEquals(2, page1.getContent().size());
+    }
+
 }
