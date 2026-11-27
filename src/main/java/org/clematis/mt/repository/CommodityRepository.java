@@ -68,6 +68,15 @@ public interface CommodityRepository extends PagingAndSortingAndFilteringByNameR
             ) latest ON latest.COMM = item.COMM
                      AND latest.TRADEPLACE = item.TRADEPLACE
                      AND latest.maxDate = item.TRANSFERDATE
+            JOIN (
+                SELECT COMM, TRADEPLACE, TRANSFERDATE, MAX(ID) AS maxId
+                FROM EXPENSEITEM
+                WHERE COMM = :commodityId
+                GROUP BY COMM, TRADEPLACE, TRANSFERDATE
+            ) dedup ON dedup.COMM = item.COMM
+                     AND dedup.TRADEPLACE = item.TRADEPLACE
+                     AND dedup.TRANSFERDATE = item.TRANSFERDATE
+                     AND dedup.maxId = item.ID
             WHERE c.ID = :commodityId
             ORDER BY o.NAME ASC
             """,
