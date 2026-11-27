@@ -1,5 +1,7 @@
 package org.clematis.mt.repository;
 
+import java.util.List;
+
 import org.clematis.mt.model.Commodity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,4 +42,37 @@ public interface CommodityRepository extends PagingAndSortingAndFilteringByNameR
         nativeQuery = true)
     @RestResource(path = "recursiveCommoditiesByGroupId")
     Page<Commodity> findCommoditiesRecursiveByGroupId(@Param("id") Integer id, Pageable pageable);
+
+    /**
+     * Retrieves the latest purchase price point for each organization
+     * for a given commodity.
+     */
+    @RestResource(exported = false)
+    @Query(
+        value = """
+            SELECT o.NAME AS tradeplaceName,
+                   o.ID AS tradeplaceId,
+                   item.TRANSFERDATE AS transferDate,
+                   item.PRICE AS price,
+                   m.CODE AS currencyCode
+            FROM EXPENSEITEM item
+            JOIN COMMODITY c ON c.ID = item.COMM
+            JOIN ORGANIZATION o ON o.ID = item.TRADEPLACE
+            JOIN EXPENSE ex ON ex.ID = item.EXPENSE
+            JOIN MONEYTYPE m ON m.ID = ex.MONEYTYPE
+            JOIN (
+                SELECT COMM, TRADEPLACE, MAX(TRANSFERDATE) AS maxDate
+                FROM EXPENSEITEM
+                WHERE COMM = :commodityId
+                GROUP BY COMM, TRADEPLACE
+            ) latest ON latest.COMM = item.COMM
+                     AND latest.TRADEPLACE = item.TRADEPLACE
+                     AND latest.maxDate = item.TRANSFERDATE
+            WHERE c.ID = :commodityId
+            ORDER BY o.NAME ASC
+            """,
+        nativeQuery = true)
+    List<Object[]> findPurchasePricePointsByCommodityId(@Param("commodityId") Integer commodityId);
+
+
 }
