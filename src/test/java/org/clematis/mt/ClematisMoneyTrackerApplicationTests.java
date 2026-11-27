@@ -51,7 +51,7 @@ public class ClematisMoneyTrackerApplicationTests {
     }
 
     @MockBean
-    private StorageApiClient storageApiClient;
+    protected StorageApiClient storageApiClient;
 
     @DynamicPropertySource
     static void init(DynamicPropertyRegistry registry) {
