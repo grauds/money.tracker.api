@@ -13,9 +13,9 @@ on:
         default: 'warning'
         type: choice
         options:
-        - info
-        - warning
-        - debug    
+          - info
+          - warning
+          - debug
 
 jobs:
 
@@ -24,19 +24,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up JDK 17 for x64
-      uses: actions/setup-java@v1
-      with:
-        java-version: '17'
-        architecture: x64
+      - name: Set up JDK 17 for x64
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+          architecture: x64
 
-    - name: Build with Gradle
-      run: chmod +x ./gradlew && chmod +x gradle/wrapper/gradle-wrapper.jar && ./gradlew build
-      env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.JENKINS_GITHUB }}
+      - name: Build with Gradle
+        run: chmod +x ./gradlew && chmod +x gradle/wrapper/gradle-wrapper.jar && ./gradlew build
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ secrets.JENKINS_GITHUB }}
 
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag clematis-mt-api:$(date +%s)
+      - name: Generate dummy Keycloak certificate if missing
+        run: |
+          if [ ! -f jenkins/keycloak.pem ]; then
+            mkdir -p jenkins
+            openssl req -x509 -newkey rsa:2048 -nodes -keyout /tmp/dummy.key -out jenkins/keycloak.pem -days 1 -subj "/CN=keycloak-dummy"
+          fi
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag clematis-mt-api:$(date +%s)
