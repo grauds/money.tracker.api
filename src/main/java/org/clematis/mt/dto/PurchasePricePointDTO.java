@@ -5,13 +5,15 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * DTO representing a purchase price point for a commodity.
  * Contains price information along with the tradeplace (organization) details.
  */
-@Data
+@Getter
+@Setter
 @SuppressFBWarnings
 public class PurchasePricePointDTO {
 
